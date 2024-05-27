@@ -1,28 +1,116 @@
+:root {
+--color-white: rgb(255,255,250);
+--color-main: rgb(121, 197, 186);
+--color-alt1: rgb(109, 155, 148);
+--color-alt2: rgb(192, 237, 230);
+--color-dark: rgb(13,5,77);
+--color-contrast: rgb(160, 102, 131);
+--color-grey: rgb(220,220,220);
+
+--color-black: rgb(0,0,0);
+}
+
+body {
+max-width: 800pt;
+margin-top: 20pt;
+margin-bottom: 10pt;
+margin-left: 10%;
+font-family: Copperplate, Verdana, sans-serif;
+font-size: 11pt;
+background-color: var(--color-white);
+}
+
+article {
+font-size: 12pt;
+/*border-left: solid 8pt var(--color-grey);*/
+padding-bottom: 80pt;
+}
+
+section {
+clear: left;
+margin: 10pt 0pt;
+}
+
+h2 {
+margin: 20pt 0pt 12pt 0pt;
+color: var(--color-dark);
+font-size: 16pt;
+}
+
+h3 {
+margin: 20pt 0pt 12pt 0pt;
+font-size: 14pt;
+}
+
+p, li{
+text-indent: 0cm;
+text-align: justify;
+}
+
+a {
+color: var(--color-dark);
+}
+
+a:hover {
+color: var(--color-main);
+}
+
+/* Header */
+header{
+min-height: 80pt;
+padding: 10pt 10pt;
+background-color: var(--color-grey);
+}
+
+header img {
+height: 80pt;
+float: left;
+}
+
+header h2 {
+font-size: 22pt;
+font-variant: small-caps;
+margin: 10pt;
+float: left;
+}
+
+header h1 {
+font-size: 22pt;
+font-variant: small-caps;
+margin: 0pt;
+margin-top: 10pt;
+text-align: right;
+}
+
+header p {
+margin: 0pt;
+text-align: right;
+}
+/* Boxes */
 .box {
-    display: block;
-    float: left;
-    width: 260pt; /* three boxes (use 25% for four, and 50% for two, etc) */
-    height: 140pt; /* three boxes (use 25% for four, and 50% for two, etc) */
-    padding: 10pt; /* if you want space between the images */
-    border: solid 1px black;
-    background-color: rgb(99, 157, 205);
-    text-decoration: none;
+display: block;
+float: left;
+width: 260pt;
+height: 140pt;
+padding: 10pt;
+background-color: var(--color-main);
+text-decoration: none;
 }
 .box:nth-child(2n){
-    background-color: rgb(93, 115, 140);
+background-color: var(--color-alt1);
 }
 .box:nth-child(3n+3){
-    background-color: rgb(169, 194, 222);
+background-color: var(--color-alt2);
 }
 .box:nth-child(5n+2){
-    background-color: rgb(201, 76, 76);
+background-color: var(--color-contrast);
 }
 .box:hover {
-    background-color: rgb(190, 190, 190);
+background-color: var(--color-grey);
 }
 .box h3{
-    color: black;
+color: var(--color-black);
 }
 .box p{
-    color: black;
+color: var(--color-black);
 }
