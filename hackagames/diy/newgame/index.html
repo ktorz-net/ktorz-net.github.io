@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>New Game - HackaGames</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../../style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">HackaGames</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../journeys/" class="nav-link">Journeys</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../hello/00-install/" class="dropdown-item">Install</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/01-first-bot/" class="dropdown-item">First Bot</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/02-api/" class="dropdown-item">Protocol API</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/03-pod/" class="dropdown-item">Pod Class</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../games/py421-solo/" class="dropdown-item">4.2.1 Solo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/py421-duo/" class="dropdown-item">4.2.1 Duo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
+                                    
+<li>
+    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
+</li>
+                                    
+<li>
+    <a href="../../games/moveIt/" class="dropdown-item">MoveIt</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../testdriven/" class="dropdown-item">Test-Driven</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../f.a.q/" class="nav-link">F.A.Q</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../learn-ai/scale-up/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../testdriven/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#game-creation-in-python" class="nav-link">Game Creation in Python</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#directory-structure" class="nav-link">Directory structure</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#game-engine" class="nav-link">Game Engine</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#example-of-of-the-simple-hello-games" class="nav-link">Example of of the simple hello games:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#lets-play" class="nav-link">Lets play</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#game-initialization" class="nav-link">Game initialization:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#going-futher-command-interpreter" class="nav-link">Going futher: Command Interpreter:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#going-futher-test-driven" class="nav-link">Going futher: Test-Driven:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="game-creation-in-python">Game Creation in Python</h1>
+<p>The ideas here is to present step by step the game creation in python with <code>hackapy</code>.</p>
+<p>Reminder, <code>hackapy</code> is the HackaGames python librairy helping for the game and players to communicate together.</p>
+<h2 id="directory-structure">Directory structure</h2>
+<p>In your workspace directory create a subdirectory <code>gameXyz</code> where <code>Xyz</code> identify your new game (<code>gameHello</code> for instance).
+This new subdirectory (your working directory) will also include another subdirectory <code>gameEngine</code> regrouping the source code making your game working.</p>
+<p>Directory squeletom: </p>
+<pre><code>gameHello                # your game folder
+  - gameEngine              # sourcecode of the game
+</code></pre>
+<p>Then we start with 3 files:</p>
+<ul>
+<li><code>README.md</code> : a Markdown readme first file presenting the game and the rules.</li>
+<li><code>gameEngine/__init__.py</code> : a classical python files marking the entrance of your gameEngine package.</li>
+<li><code>start-server</code> : a start script, lauching the game server.</li>
+</ul>
+<h2 id="game-engine">Game Engine</h2>
+<p>At minima <code>gameEngine</code> python package include a Game class deriving from <code>hackapy.AbsGame</code> in the  <code>__init__.py</code> file. 
+It is suppozed that the new Game class implement the abstract methods of <code>AbsGame</code>:</p>
+<pre><code class="language-python">class AbsGame():
+
+    # Game interface :
+    def initialize(self):
+        # Initialize a new game
+        # Return the game configuration (as a PodInterface)
+        # the returned Pod is given to player's wake-up method.
+        pass
+
+    def playerHand( self, iPlayer ):
+        # Return the game elements in the player vision (a PodInterface)
+        # the returned pod feed the player's perception method.
+        pass
+
+    def applyPlayerAction( self, iPlayer, action ):
+        # Apply the action choosen by the player iPlayer.
+        # Return a boolean at True if the player terminate its actions for the current turn.
+        # False means player need to be activated again before step to another player or another game turn.
+        pass
+
+    def tic( self ):
+        # called function at turn end, after all player played its actions. 
+        pass
+
+    def isEnded( self ):
+        # must return True when the game end, and False else.
+        pass
+
+    def playerScore( self, iPlayer ):
+        # return the player score for the current game (usefull at game ending)
+        pass
+</code></pre>
+<p>A last abstract method is defined: <code>play</code>.
+This method is more an inside method re-defined in function of how the players are managed. 
+Actually, two strategies are proposed:</p>
+<ul>
+<li><strong>AbsSequentialGame:</strong> Players are activated at turns. The perception of the game for the $i$-th player and a call to <code>decide</code> are sent after the $(i-1)$-th player terminates its actions (<code>applyPlayerAction( (i-1), "action" )</code> returns <em>True</em>).</li>
+<li><strong>AbsSimultaneousGame:</strong> (Work In Progress) Players are activated in a simultaneous way. All the players receive their perception of the game then all the players are requested for their actions. Generally action resolution in these kinds of games are resolved in the <code>tic</code> method.</li>
+</ul>
+<h2 id="example-of-of-the-simple-hello-games">Example of of the simple hello games:</h2>
+<p>First, initialize python file and import the <code>hackapy</code> package.</p>
+<pre><code class="language-python">#!env python3
+&quot;&quot;&quot;
+HackaGame - Game - Hello 
+&quot;&quot;&quot;
+import sys
+
+sys.path.insert( 1, __file__.split('gameHello')[0] )
+import hackapy as hg
+</code></pre>
+<p>Then, the Game implement an abstract sequential game (each player play at turns).
+The Game methods to implemented are: <code>initialize</code>, <code>playerHand</code>, <code>applyPlayerAction</code>, <code>isEnded</code> and <code>playerScore</code>.
+Here the Hello game simply echo the player action in a terminal $3$ times (method <code>applyPlayerAction</code>).</p>
+<pre><code class="language-python">class GameHello( hg.AbsSequentialGame ) :
+
+    # Game interface :
+    def initialize(self):
+        # initialize the counter and only say hello.
+        self.counter= 0
+        return hg.Pod( 'hello' )
+
+    def playerHand( self, iPlayer ):
+        # ping with the increasing counter
+        return hg.Pod( 'hi', flags=[ self.counter ] )  
+
+    def applyPlayerAction( self, iPlayer, action ):
+        # print the receive action message. And that all.
+        print( f&quot;Player-{iPlayer} say &lt; {action} &gt;&quot; )
+        return True
+
+    def tic( self ):
+        # step on the counter.
+        self.counter= min( self.counter+1, 3 )
+
+    def isEnded( self ):
+        # if the counter reach it final value
+        return self.counter == 3
+
+    def playerScore( self, iPlayer ):
+        # All players are winners.
+        return 1
+</code></pre>
+<p>A counter initialized in <code>initialize</code> method, count $3$ game turn (i.e. after each player play at-turn) in <code>tic</code> method. 
+Then the <code>isEnded</code> method will return <em>True</em>.
+The method <code>playerHand</code> informs the player about the counter status.
+Finaly, there is no winner and all player will end with a result at $1$ (method <code>playerScore</code>).</p>
+<h2 id="lets-play">Lets play</h2>
+<p>The <code>start-server</code> script will permit to lauch the game server.
+It only instancate a Game with a determined number of players then call the <code>AbsGame</code> <code>start</code> method.</p>
+<pre><code class="language-python">#!env python3
+&quot;&quot;&quot;
+HackaGame - Game - Hello 
+&quot;&quot;&quot;
+from gameEngine import GameHello
+
+game= GameHello()
+game.start()
+</code></pre>
+<p>That it. </p>
+<p>You can set your script executable (<code>chmod +x ./gameHello/start-server</code>) and play with your new game:</p>
+<pre><code class="language-sh"># In a first shell:
+./gameHello/start-server
+
+# In a second shell:
+./hackagames/connect-shell
+</code></pre>
+<h2 id="game-initialization">Game initialization:</h2>
+<p><code>AbsGame</code> initialization need a number of players.
+By default the value is on <code>1</code>.
+However, if you want to fix this number or if you want to add extrat initialization, you need to call the parent initialization in your own.</p>
+<p>As reminder in <em>Python</em>, initialization method is named <code>__init__</code> and <code>super()</code> function provides an access to parent methods.</p>
+<p>For instance, for a 2 player game:</p>
+<pre><code class="language-python">class MyGame( hg.AbsSequentialGame ) :
+    # Initialization:
+    def __init__(self) :
+        super().__init__( numberOfPlayers=2 )
+        self._myAttribut= &quot;Some initializations&quot;
+</code></pre>
+<h2 id="going-futher-command-interpreter">Going futher: Command Interpreter:</h2>
+<pre><code class="language-python">from hackapy.command import Command, Option
+
+# Define a command interpreter: 2 options: host address and port:
+cmd= Command(
+        &quot;start-server&quot;,
+        [
+            Option( &quot;port&quot;, &quot;p&quot;, default=1400 ),
+            Option( &quot;number&quot;, &quot;n&quot;, 2, &quot;number of games&quot; )
+        ],
+        (
+            &quot;star a server fo gameConnect4 on your machine. &quot;
+            &quot;gameConnect4 do not take ARGUMENT.&quot;
+        ))
+# Process the command line: 
+cmd.process()
+if not cmd.ready() :
+    print( cmd.help() )
+    exit()
+
+...
+
+game.start( cmd.option(&quot;number&quot;), cmd.option(&quot;port&quot;) )
+</code></pre>
+<h2 id="going-futher-test-driven">Going futher: Test-Driven:</h2>
+<p>You can start with a first : <code>test_01_AbsGame</code> script in a <code>test</code> directory.</p>
+<p>to verify the call to HackaGames Games methods...</p>
+<pre><code class="language-python">&quot;&quot;&quot;
+Test - Hello Games Class
+&quot;&quot;&quot;
+import sys
+
+sys.path.insert( 1, __file__.split('gameHello')[0] )
+import hackapy as hg
+import gameHello.gameEngine as ge
+
+def test_gameMethod():
+    game= ge.GameHello()
+
+    assert( type( game.initialize().asPod() ) is hg.Pod  )
+    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
+    assert( game.applyPlayerAction( 1, &quot;sleep&quot; )  )
+    game.tic()
+    assert( not game.isEnded() )
+    assert( game.playerScore(1) == 1 )
+</code></pre>
+<p>...</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

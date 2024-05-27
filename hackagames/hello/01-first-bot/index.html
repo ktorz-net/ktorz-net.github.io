@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>First Bot - HackaGames</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../../style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">HackaGames</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../journeys/" class="nav-link">Journeys</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../00-install/" class="dropdown-item">Install</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">First Bot</a>
+</li>
+                                    
+<li>
+    <a href="../02-api/" class="dropdown-item">Protocol API</a>
+</li>
+                                    
+<li>
+    <a href="../03-pod/" class="dropdown-item">Pod Class</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../games/py421-solo/" class="dropdown-item">4.2.1 Solo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/py421-duo/" class="dropdown-item">4.2.1 Duo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
+                                    
+<li>
+    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
+</li>
+                                    
+<li>
+    <a href="../../games/moveIt/" class="dropdown-item">MoveIt</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../diy/testdriven/" class="dropdown-item">Test-Driven</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../f.a.q/" class="nav-link">F.A.Q</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../00-install/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../02-api/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#a-first-bot" class="nav-link">A first Bot</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot-environment" class="nav-link">Initialize a Bot environment</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot-ie-an-autonomous-player" class="nav-link">Initialize a Bot, i.e. an Autonomous Player</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#understand-player-methods" class="nav-link">Understand Player methods :</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#example-with-pybot" class="nav-link">Example With Pybot :</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="a-first-bot">A first Bot</h1>
+<p>In this tutorial, we will learn about how the games and the players communicate together. 
+In Hackagames several players can play simultaneously to games. </p>
+<p>That for, the loop control to the program is handled by the game.
+Then, the player bots have to generate the appropriate responses (string formed actions) to situations.
+To do so, a player bot can re-implement the 4 expected methods: <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code>.</p>
+<h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
+<p>First let implement a simple script, instantiating a game and a player.</p>
+<p>Put the next code into a file <code>launch-py421.py</code> aside of <code>hackagames</code> cloned directory: </p>
+<pre><code class="language-python"># Setup a game:
+from hackagames.gamePy421.gameEngine import GameSolo as Game
+
+# Setup a player:
+from hackagames.gamePy421.playerFirstAI import AutonomousPlayer as Bot
+
+# Instanciate and start 100 games
+game= Game()
+player= Bot()
+results= game.testPlayer( player, 1000 )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>This script import <code>py421</code> game, a player and start $1000$ games.</p>
+<p>Test it in a terminal:</p>
+<pre><code class="language-sh">python3 launch-py421.py
+</code></pre>
+<h2 id="initialize-a-bot-ie-an-autonomous-player">Initialize a Bot, i.e. an Autonomous Player</h2>
+<p>Then our script must implement an <code>hackagames</code> formatted <code>Player</code>.</p>
+<p>To do that we will create our own "Bot" class in the <code># Setup a player:</code> section of the code.
+For compliance with <code>HackaGames</code> our new class should implement player method with parameters exactly as expected.</p>
+<p>The minimal <code>Bot</code> class for <code>Py421</code> is as follow:</p>
+<pre><code class="language-python"># Setup a player:
+class Bot() :
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        pass
+
+    def perceive(self, gameState):
+        pass
+
+    def decide(self):
+        return &quot;keep-keep-keep&quot;
+
+    def sleep(self, result):
+        pass
+</code></pre>
+<p>The <code>wakeUp</code>, <code>perceive</code>, <code>sleep</code> are informative and do not need to return anything.
+Only the <code>decide</code> method must return an action valid considering the targeted game.
+An action as <code>"keep-keep-keep"</code> for <code>Py421</code> in this example.</p>
+<p>Replace the <code># Setup a player:</code> section and try your bot. </p>
+<pre><code class="language-sh">python3 launch-py421.py
+</code></pre>
+<h2 id="understand-player-methods">Understand Player methods :</h2>
+<p>Games and Players rely on <code>hackapy</code> python library.
+A Game can start several games sequentially. 
+That for, the method <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. <code>1000</code> times in our script.
+During a Game's game, players are activated at turn with <code>perceive</code> and <code>decide</code> method to update the information about the game and ask for player action.</p>
+<p>The <code>wakeUp</code> has $3$ parameters: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
+There is no information to get from <code>gameConf</code> in <code>Py421</code>.</p>
+<p>The <code>perceive</code> has $1$ parameter: <code>gameState</code>, the current game state from the point of view of the player. In fact <code>gameState</code> can be different from a player to another in multiplayer games with partial observation (typically: card games).
+In the basic configuration of <code>Py421</code>, there is only one player.
+The <code>gameConf</code> inform about the dice value and the horizon counter (the number of remaining roll again possibilities).</p>
+<p>The <code>decide</code> method do not take parameters, but should return the player action. 
+<code>decide</code> is always triggered after one or several <code>perceive</code>.
+The action is formatted as a string.</p>
+<p>Finally, the <code>sleep</code> inform about the obtained score with it parameters <code>result</code>. 
+The score is computed for the player regarding the ending game.</p>
+<p>The parameters <code>gameConf</code> and <code>gameState</code> are formated as <code>hackapy.Pod</code> (Piece Of Data), a tree data structure.
+It is not required to understand Pod. Examples are always provided to get the game information from Pod.
+However, you can go on <strong>Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p>
+<h2 id="example-with-pybot">Example With Pybot :</h2>
+<p>As an example, this next Bot is a verbose version for "Py421" playing randomly:</p>
+<pre><code class="language-python"># Setup a player:
+import random 
+class Bot() :
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        print( f'---\nWake-up player-{playerId} ({numberOfPlayers} players)')
+        print( gameConf )
+
+    def perceive(self, gameState):
+        self.horizon= gameState.child(1).flag(1)
+        self.dices= gameState.child(2).flags()
+        print( f'H: {self.horizon} DICES: {self.dices}' )
+
+    def decide(self):
+        actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
+        action= random.choice( actions )
+        print( f'Action: {action}' )
+        return action
+
+    def sleep(self, result):
+        print( f'--- Results: {str(result)}' )
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

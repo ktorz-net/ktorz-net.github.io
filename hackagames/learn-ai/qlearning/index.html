@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Q Learning - HackaGames</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../../style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">HackaGames</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../journeys/" class="nav-link">Journeys</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../hello/00-install/" class="dropdown-item">Install</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/01-first-bot/" class="dropdown-item">First Bot</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/02-api/" class="dropdown-item">Protocol API</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/03-pod/" class="dropdown-item">Pod Class</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../games/py421-solo/" class="dropdown-item">4.2.1 Solo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/py421-duo/" class="dropdown-item">4.2.1 Duo</a>
+</li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
+                                    
+<li>
+    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
+</li>
+                                    
+<li>
+    <a href="../../games/moveIt/" class="dropdown-item">MoveIt</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../policy/" class="dropdown-item">Policy</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Q Learning</a>
+</li>
+                                    
+<li>
+    <a href="../learn-model/" class="dropdown-item">Learn Model</a>
+</li>
+                                    
+<li>
+    <a href="../scale-up/" class="dropdown-item">Scale-Up</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../diy/testdriven/" class="dropdown-item">Test-Driven</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../f.a.q/" class="nav-link">F.A.Q</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../policy/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../learn-model/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#basic-reinforcement-learning-q-learning" class="nav-link">Basic Reinforcement Learning: Q-Learning</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#qvalues-equation" class="nav-link">qvalues equation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#implementing-qvalues" class="nav-link">Implementing qvalues</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#when-to-update-qvalues" class="nav-link">When to update qvalues?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#exploration-exploitation-dilemma" class="nav-link">Exploration-Exploitation Dilemma</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#experiments" class="nav-link">Experiments</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="basic-reinforcement-learning-q-learning">Basic Reinforcement Learning: Q-Learning</h1>
+<p>Reinforcement Learning is a family of approaches and algorithms that enhance an autonomous system (an agent) to learn from it successful tries and failures [Cf. <a href="https://en.wikipedia.org/wiki/Reinforcement_learning">Wikipedia</a>].
+Technically, at the beginning, the agent is capable of acting in it environment (with default pure random action for instance) 
+and by acting it gets feedback.
+Accumulating feedback, it will be capable of evaluating the interest of actions in a given context.</p>
+<p>In reinforcement Learning family, <strong>Q-Learning</strong> is quite a simple and apply pretty well for learning to play <strong>421</strong>.</p>
+<p>The goal of the tutorial: </p>
+<ol>
+<li>Implement a new <code>QLearnerBot</code> player from random player.</li>
+<li>At initialization <code>qvalues</code> is created empty with the other required variables.</li>
+<li>At decision steps the player updates its <code>qvalues</code> and choose a new action to perform.</li>
+</ol>
+<p>And do not forget: you ~~can~~ must test your code at each development step by executing the code for a few games and validate that the output is as expected (also a good python tool to make test: <code>pytest</code>).</p>
+<h2 id="qvalues-equation">qvalues equation</h2>
+<p>The <strong>Q-Learning</strong> algorithm ([Cf. <a href="https://en.wikipedia.org/wiki/Q-learning">Wikipedia</a>]) consists in computing <code>qvalues</code>, a dictionary of the interest or value of executing a given action from a given state.</p>
+<p>$$ \mathit{qvalues}(s, a) \in \mathbb{R} $$ </p>
+<p>A qvalue is equal to the immediate reward of doing action $a$ in a state $s$ plus the future rewards modeled as $\mathit{qvalues}(s', a')$.
+$s'$ is the state reached from (s, a) and $a'$ the next action that will be performed.
+In other terms, $\mathit{qvalues}(s, a)$ is the cumulative reward from $s$, knowing that the next action is $a$.
+However, the resulting experiment of doing $a$ from $s$ need to be computed as an average.</p>
+<p>Finally, one of the ways to formalize updates on $\mathit{qvalues}(s, a)$ is:</p>
+<p>$$ \mathit{qvalues}(s, a) = \alpha(\ r(s, a, s') + \mathit{qvalues}(s', a')\ ) + (1-\alpha)(\ \mathit{qvalues}(s, a)\ ) $$ </p>
+<p>The learning rate $\alpha$ is the speed that incoming experiences erase the oldest (can be initialized at $0.1$ as a first approximation).</p>
+<h2 id="implementing-qvalues">Implementing qvalues</h2>
+<p>At some point, our new player will require to update its <code>qvalues</code> from its experiments.
+So let's start with a method:</p>
+<pre><code class="language-python">def updateQvalues(self, previous_state, previous_action, reward, current_state, current_action):
+    ...
+</code></pre>
+<p>A simple way to implement <code>qvalues</code> in python language is to implement it as a Dictionnary of dictionaries
+(expected result: <code>qvalues['state']['action'] -&gt; the interest of doing 'action' in 'state'</code>).</p>
+<p>But first: initializing empty <code>qvalues</code> will look like:</p>
+<pre><code class="language-python">qvalues= {}
+</code></pre>
+<p>Typically in the constructor method <code>__init__</code> in python (and with Q-Learning attributes):</p>
+<pre><code class="language-python">class QPlayer :
+    def __init__(self):
+        self.alpha= 0.1 # learning rate, speed that an incoming experience erases the oldest.
+        self.qvalues= {} #
+</code></pre>
+<p>Returning to the <code>updateQvalues</code> method,
+initializing action values for a given state will look like:</p>
+<pre><code class="language-python">state= &quot;4-2-1&quot;
+if state not in self.qvalues.keys() :
+    self.qvalues[state]= {
+            &quot;keep-keep-keep&quot;:0.0, &quot;roll-keep-keep&quot;:0.0, &quot;keep-roll-keep&quot;:0.0,
+            &quot;roll-roll-keep&quot;:0.0, &quot;keep-keep-roll&quot;:0.0, &quot;roll-keep-roll&quot;:0.0,
+            &quot;keep-roll-roll&quot;:0.0, &quot;roll-roll-roll&quot;:0.0 }
+</code></pre>
+<p>Finally, modifying a value in <strong>qvalues</strong> will look like:</p>
+<pre><code class="language-python">self.qvalues[&quot;4-2-1&quot;][&quot;roll-roll-roll&quot;]= ...
+</code></pre>
+<h2 id="when-to-update-qvalues">When to update qvalues?</h2>
+<p>The <code>updateQvalues</code> method requires to confront current state and action with memorized previous state and action.
+It can be performed while a new state is reaches.</p>
+<p>So a first call to <code>updateQvalues</code> can be implemented into <code>perception</code> method. 
+At this time, we consider that we have no idea about the value of doing this or that action or of reaching a specific state.
+The reward is set to $0$.</p>
+<p>However, a last call to the <code>updateQvalues</code> need to be set-up into the <code>sleep</code> method.
+At sleep step, the reward matches the game score, and a special state <code>"end"</code> with a fix action <code>"sleep"</code> need to be added to the qValues.</p>
+<h2 id="exploration-exploitation-dilemma">Exploration-Exploitation Dilemma</h2>
+<p>Until now we just compute and record statistical rewards. 
+The idea is to use-it on to take <em>decision</em> at some time (i.e. when we record a good knowledge).
+However the first difficulty in reinforcement learning result on the definition of this "at some time".
+In other terms, when to stop the computation of statistical kwonledge by exploring actions and to start the exploitation of computed statistics to make decisions.
+It is known as the exploration versus exploitation trade-off [cf. <a href="https://en.wikipedia.org/wiki/Reinforcement_learning#Exploration">wikipedia</a>].</p>
+<p>One way to overpass the trade-off is to put it random. 
+The <em>ε-greedy</em> heuristic suppose that you will choose an exploration action (i.e. a random action for instance) a few times in a given time step.
+More technically, at each time step the AI randomly choose to get a random action or to get the best one accordingly to the current knowledge.
+The random chose of explore versus exploit is weighted by <code>ε</code> and <code>1-ε</code> with <code>ε</code> between 1 and 0.</p>
+<p>Do not forget to initialize the <code>self.epsilon</code> in the constructor method (<code>self.epsilon= 0.1</code> is generally a good first value, it states that a random action would be chosen 1 time over 10).</p>
+<h2 id="experiments">Experiments</h2>
+<p>You can now try to answer the question: how many episodes are required to learn a good enough policy.</p>
+<p>One way to do that is to plot the evolution of the strategy during the learning.
+The package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools for instance to do that.
+At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.
+Generate a plot with one point every $500$ games for instance. </p>
+<p>Typically after playing <em>X</em> games:</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+scores= []
+size= len(results)
+for i in range(0, size, 500) :
+    s= min(i+500, size)
+    scores.append( sum([ x for x in results[i:s] ]) / (s-i) )
+plt.plot( [ 500*i for i in range(len(scores)) ], scores )
+plt.show()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

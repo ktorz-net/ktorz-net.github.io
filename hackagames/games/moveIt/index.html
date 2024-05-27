@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>MoveIt - HackaGames</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link href="../../style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">HackaGames</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../journeys/" class="nav-link">Journeys</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../hello/00-install/" class="dropdown-item">Install</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/01-first-bot/" class="dropdown-item">First Bot</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/02-api/" class="dropdown-item">Protocol API</a>
+</li>
+                                    
+<li>
+    <a href="../../hello/03-pod/" class="dropdown-item">Pod Class</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../py421-solo/" class="dropdown-item">4.2.1 Solo</a>
+</li>
+                                    
+<li>
+    <a href="../py421-duo/" class="dropdown-item">4.2.1 Duo</a>
+</li>
+                                    
+<li>
+    <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
+                                    
+<li>
+    <a href="../connect4/" class="dropdown-item">Connect4</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">MoveIt</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+</li>
+                                    
+<li>
+    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../diy/testdriven/" class="dropdown-item">Test-Driven</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../f.a.q/" class="nav-link">F.A.Q</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../connect4/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../learn-ai/policy/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#moveit" class="nav-link">MoveIt</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#try-the-game" class="nav-link">Try the game:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot-environment" class="nav-link">Initialize a Bot environment</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#a-first-basic-bot" class="nav-link">A first Basic Bot:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#a-more-social-bot" class="nav-link">A more Social Bot:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#moveit-class-accessors" class="nav-link">MoveIt Class Accessors :</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="moveit">MoveIt</h1>
+<p><strong>MoveIt</strong> is a <em>HackaGames</em> game.</p>
+<p><strong>MoveIt</strong> is a based on collision-free path planning problems, where several mobiles has each a position reach in a clustered environment.
+In the simplest form, you control a robot in an environment with humans.</p>
+<p>This tutorial is based only on <strong>Python3</strong>.</p>
+<h2 id="try-the-game">Try the game:</h2>
+<p>The <code>start-interactive</code> script starts the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/gameMoveIt/start-interactive
+</code></pre>
+<p><em>Example of game configuration:</em></p>
+<pre><code>          ▁         ▁         ▁         ▁         ▁         ▁     
+       ▖▝▁▁▁▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▄▟███▙▄  
+     █  ⎛H  ⎞  █         █         █         █         ███████████
+     █  ⎝  2⎠  █         █         █         █         ███████████
+  ▄▟███▙▄▔▔▔▖▝▁▁▁▘▗   ▄▟███▙▄   ▄▟███▙▄   ▄▟███▙▄   ▖▝   ▀▜███▛▀  
+███████████  ⎛H  ⎞  ███████████████████████████████ ⎡     ⎤ █     
+███████████  ⎝  3⎠  ███████████████████████████████ ⎣     ⎦1█     
+  ▀▜███▛▀   ▘▗▔▔▔▖▝   ▀▜███▛▀   ▀▜███▛▀▁▁▁▀▜███▛▀   ▘▗   ▖▝   ▘▗  
+     █         █         █         █  ⎛R  ⎞  █         █         █
+     █         █         █         █  ⎝  1⎠  █         █         █
+  ▄▟███▙▄   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗▔▔▔▖▝   ▘▗   ▖▝   ▘▗   ▖▝  
+███████████         █         █         █         █         █     
+███████████         █         █         █         █         █     
+  ▀▜███▛▀   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝       
+     ▔         ▔         ▔         ▔         ▔         ▔          
+</code></pre>
+<p>The controlled robot is modeled as <code>R 1</code>  and want to reach the position labialized has <code>1</code>.
+The environment also includes 2 humans <code>H 1</code> and <code>H 2</code> with unknown goals position.</p>
+<p>The robot can move to one of the 6 cells next to its own position: <code>move X</code> with $X \in [0, 1, 2, 3, 4, 5, 6]$ (<code>0</code> means the robots stay on it position). The robot can also <code>pass</code>. This special action makes it abandon the mission and trigger a new task to fulfill.</p>
+<pre><code>          ▁         ▁     
+       ▖▝   ▘▗   ▖▝   ▘▗   
+     █         █         █    
+     █     6   █     1   █    
+ ▖▝   ▘▗    ▖▝    ▘▗   ▖▝   ▘▗
+█         █  ⎛R  ⎞  █         █
+█     5   █  ⎝  1⎠  █     2   █
+  ▘▗   ▖▝   ▘▗   ▖▝   ▘▗   ▖▝ 
+     █         █         █
+     █     4   █      3  █
+       ▘▗   ▖▝   ▘▗   ▖▝
+          ▔         ▔ 
+</code></pre>
+<p>The robot has to reach a maximum of tasks before the end of the counter while avoiding any collisions with the humans.</p>
+<h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
+<p>First we can prepare a launcher for <em>MoveIt</em> game.
+Put the next code into a file <code>launch-moveIt.py</code> aside <code>hackagames</code> directory: </p>
+<pre><code class="language-python">from hackagames.gameMoveIt.gameEngine import GameMoveIt
+from tutos.basicBot import Bot
+
+game= GameMoveIt()
+results= game.testPlayer( Bot(), 4 )
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>This script import <code>moveIt</code> game, a player and start $4$ games.
+It requires that you instantiate a <code>MoveIt</code> bot on a <code>tutos/basicBot.py</code> file. 
+This class <em>Bot</em> should implement the <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code> methods.</p>
+<p>To simplify the development, the bot can rely on <em>MoveIt</em> <em>Hexaboard</em> and <em>Mobile</em> classes to model the world and the mobile elements (the robot and the $2$ humans). </p>
+<p>First you have to import access to those elements: </p>
+<pre><code class="language-python">#!env python3
+&quot;&quot;&quot;
+HackaGame player interface 
+&quot;&quot;&quot;
+import sys, os
+sys.path.insert( 1, __file__.split('tutos')[0] )
+import hackagames.gameMoveIt.gameEngine as ge
+</code></pre>
+<h2 id="a-first-basic-bot">A first Basic Bot:</h2>
+<p>Then you have to create the require Bot attributes in the <code>wakeUp</code> method:</p>
+<pre><code class="language-python"># Player interface :
+def wakeUp(self, playerId, numberOfPlayers, gamePod):
+    # Initialize from gamePod:
+    self._board= ge.Hexaboard()
+    self._board.fromPod( gamePod )
+    nbRobots, nbMobiles= gamePod.flag(3), gamePod.flag(4)
+    self._mobiles= ge.defineMobiles( nbRobots, nbMobiles )
+    self._board.setupMobiles( self._mobiles )
+
+    # Initialize state variable:
+    self._countTic= 0
+    self._countCycle= 0
+    self._score= 0
+</code></pre>
+<p>This way the update of the game state and the computation of a path in the environment will be very simple: </p>
+<pre><code class="language-python">def perceive(self, statePod):
+    # update the game state:
+    self._board.mobilesFromPod( statePod )
+    self._countTic= statePod.flag(1)
+    self._countCycle= statePod.flag(2)
+    self._score= statePod.value(1)
+
+def decide(self):
+    action= &quot;move&quot;
+    robot= self._mobiles[0]
+    path= self._board.path( robot.x(), robot.y(), robot.goalx(), robot.goaly() )
+    dir= path[0]
+    action+= &quot; &quot; + str(dir)
+    return action
+</code></pre>
+<p>For debugging purpose you can add print based on board method.
+For instance, before to return the action:</p>
+<pre><code class="language-python">print( self._board.shell() )
+print( f&quot;counters{(self._countTic, self._countCycle)}, score({self._score})&quot; )
+print( f&quot;Action: {action}&quot; )
+</code></pre>
+<h2 id="a-more-social-bot">A more Social Bot:</h2>
+<p>You can now explore the state information to better control the robot.
+i.e: at least do not enter a cell already occupied by a human...</p>
+<h2 id="moveit-class-accessors">MoveIt Class Accessors :</h2>
+<p>Source code: <a href="https://bitbucket.org/imt-mobisyst/hackagames/src/master/gameMoveIt/gameEngine/">bitbucket.org/imt-mobisyst/hackagames</a></p>
+<p><em>Mobile</em>:</p>
+<pre><code class="language-python"># Accessor: 
+def number(self):
+def x(self):
+def y(self):
+def position(self):
+def direction(self):
+def goal(self):
+def goalx(self):
+def goaly(self):
+def isRobot(self):
+def isHuman(self):
+</code></pre>
+<p><em>Hexaboard</em>:</p>
+<pre><code class="language-python"># Accessors: 
+def size(self):              # return a tuple. The number of cells in a  lines and the number of lines
+def at(self, x, y):          # return the Cell at position x, y
+def at_dir(self, x, y, i):   # return the coordinates in the direction `dir` from the position x, y
+                             # dirx, diry= board.at_dir( x, y, dir )
+def movesFrom(self, x, y):   # return the possible move direction from position x, y
+def isCoordinate(self, x, y):# return TRUE if x, y is on the board.
+def cellsType(self, aType ): # return all the list of coordinates 
+                                #    of all the cells of a given type (Cell.TYPE_FREE or Cell.TYPE_OBSTACLES) 
+def cellsEmpty( self ):      # return all the list of coordinates 
+                                #    Cell.TYPE_FREE and empty cells 
+def isObstacleOkAt(self, x, y): # return TRUE if cell at x, y is an obstacle
+def teleportMobile(self, x, y, tx, ty): # teleport a mobile
+def moveMobileAt_dir(self, x, y, dir):  # move a mobile in a given direction
+def path(self, x1, y1, x2, y2):  # compute a obstacle free path betwen a start and a target positions
+def shell(self):  # Generate shell drawing of the game
+</code></pre>
+<p><em>Cells</em>:</p>
+<pre><code class="language-Python">TYPE_FREE= 0
+TYPE_OBSTACLE= 1
+# Accessors: 
+def mobile(self):     # return the mobile in the board cell (False if no mobile present)
+def isObstacle(self): # if the cell is an obstacle
+def isAvailable(self):# if the cell is free and without a mobile present
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
