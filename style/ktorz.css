@@ -1,0 +1,28 @@
+.box {
+    display: block;
+    float: left;
+    width: 260pt; /* three boxes (use 25% for four, and 50% for two, etc) */
+    height: 140pt; /* three boxes (use 25% for four, and 50% for two, etc) */
+    padding: 10pt; /* if you want space between the images */
+    border: solid 1px black;
+    background-color: rgb(99, 157, 205);
+    text-decoration: none;
+}
+.box:nth-child(2n){
+    background-color: rgb(93, 115, 140);
+}
+.box:nth-child(3n+3){
+    background-color: rgb(169, 194, 222);
+}
+.box:nth-child(5n+2){
+    background-color: rgb(201, 76, 76);
+}
+.box:hover {
+    background-color: rgb(190, 190, 190);
+}
+.box h3{
+    color: black;
+}
+.box p{
+    color: black;
+}
