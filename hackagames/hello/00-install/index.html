@@ -161,11 +161,11 @@
             
             <li class="nav-item" data-level="1"><a href="#install-process" class="nav-link">Install Process</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
+            <li class="nav-item" data-level="2"><a href="#install" class="nav-link">Install</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#install" class="nav-link">Install</a>
+            <li class="nav-item" data-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -189,33 +189,25 @@ Documentation is built regarding Ubuntu-like distributions.
 Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntaxe.</li>
 <li><strong>On Windows:</strong> You can use <a href="https://git-scm.com/download/win">git for windows</a> and its <code>git bash</code>.</li>
 </ul>
+<h2 id="install">Install</h2>
+<p>Simplely clone the git repository and use <em>python pip</em>.</p>
+<pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
+pip install ./hackagames
+</code></pre>
+<p>or </p>
+<pre><code class="language-sh">python -m pip install ./hackagames
+</code></pre>
+<p>Thats it.
+You can play to several included games (the ones developed on top of <code>hackapy</code>), and implement some Bots (cf. <strong>First Bot</strong> section).</p>
 <h2 id="dependencies">Dependencies</h2>
 <p>The project is distributed using git solution and relies on <code>Python3</code> language.
 Make sure you have them installed.</p>
 <p><strong>HackaGames</strong> includes <em>python3</em> librairy: <strong>hakapy</strong> for making game-servers and player-clients.
-The network protocol of <strong>HackaGames</strong> relies on <em>zmq</em> library. Process-bars are implemented via <em>tqdm</em>.
-So first get those dependencies for instance via <code>pip</code>.</p>
-<pre><code class="language-sh">pip install zmq tqdm
-</code></pre>
-<p>or </p>
-<pre><code class="language-sh">python -m pip install zmq tqdm
-</code></pre>
-<h2 id="install">Install</h2>
-<p>Then get Hackagame by cloning our repository in your working directory.
-<strong>HackaGames</strong> is designed to be installed aside from your developments (AIs and new games).
-That is why we encourage you to first create a workscape (<code>hacka-workspace</code> for instance), clone <strong>HackaGames</strong> in this workscape,
-and then create new repositories as you have new ideas (starting for instant with <code>tutos</code>).</p>
-<pre><code class="language-bash">mkdir hacka-workspace     # make a new directory
-cd hacka-workspace        # move into it
-# clone HackaGame :
-git clone https://bitbucket.org/imt-mobisyst/hackagames.git
-</code></pre>
-<p>Thats it.
-You can play with several games (the ones developed on top of <code>hackapy</code>), and implement some Bots (cf. <strong>First Bot</strong> section).</p>
+The network protocol of <strong>HackaGames</strong> relies on <em>zmq</em> library. Process-bars are implemented via <em>tqdm</em>.</p>
 <h2 id="getting-started">Getting Started</h2>
 <p>The easiest way is to play with one of the proposed <em>python3</em> games, <strong>Py421</strong> for instance.</p>
-<p>Each python3 game comes with <code>start-interactive</code> script permitting to start the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/gamePy421/start-interactive
+<p>Each python3 game comes with <code>play</code> script permitting to start the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/py421
 </code></pre>
 <p>The <strong>Py421</strong> is a tree dice game. The player can roll several times to get the best combination.
 The actions consist in keeping or rolling each of the 3 dices. So there are 8 possible actions:</p>
