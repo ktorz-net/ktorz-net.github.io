@@ -189,7 +189,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="basic-model-learning-markov-decision-process">Basic Model Learning: Markov-Decision-Process</h1>
-<p>This tutorial aims to compute the policy from logs of transition and rewards on 421 game.
+<p>This tutorial aims to compute the policy from logs (transition and rewards) on 421 game.
 Learn model tutorial is structured as policy tutorials.</p>
 <ol>
 <li>Generate logs.</li>
@@ -219,21 +219,21 @@ v1:
 <p>The transition and reward can be saved on 2 diferent <code>json</code> file.</p>
 <h2 id="process-model">Process model.</h2>
 <p>This is the interesting part of the exercice.
-From the transitions and rewards (load from <code>json</code>) we want to compute the optimal policy $\pi^*$
+From the transitions and rewards (load from <code>json</code>) we want to compute the optimal policy <span class="arithmatex">\(\pi^*\)</span>
 For that purpose, we recommand to apply Value Iteration (cf. <a href="https://en.wikipedia.org/wiki/Markov_decision_process">On Wikipedia</a>)</p>
 <p>Value-Iteration</p>
 <blockquote>
-<p><em>Input:</em> an <strong>MDP:</strong> $\langle S, A, T, R \rangle$ ; precision error: <em>$\epsilon$</em> ; discount factor: <em>$\gamma$</em> ; initial <strong>V(s)</strong></p>
+<p><em>Input:</em> an <strong>MDP:</strong> <span class="arithmatex">\(\langle S, A, T, R \rangle\)</span> ; precision error: <em><span class="arithmatex">\(\epsilon\)</span></em> ; discount factor: <em><span class="arithmatex">\(\gamma\)</span></em> ; initial <strong>V(s)</strong></p>
 <ol>
-<li>Repeat until: <strong>maximal delta &lt; $\epsilon$</strong> <br /> For each state <strong>$s \in S$</strong></li>
-<li>Search the action <strong>$a^*$</strong> maximizing the Bellman Equation on <strong>$s$</strong></li>
+<li>Repeat until: <strong>maximal delta &lt; <span class="arithmatex">\(\epsilon\)</span></strong> <br /> For each state <strong><span class="arithmatex">\(s \in S\)</span></strong></li>
+<li>Search the action <strong><span class="arithmatex">\(a^*\)</span></strong> maximizing the Bellman Equation on <strong><span class="arithmatex">\(s\)</span></strong></li>
 </ol>
-<p>$$a^*= \arg\max_{a \in A}\left( R(s, a) + \gamma \sum_{s'\in S} T(s,a,s') \times V(s') \right)$$</p>
+<div class="arithmatex">\[a^*= \arg\max_{a \in A}\left( R(s, a) + \gamma \sum_{s'\in S} T(s,a,s') \times V(s') \right)\]</div>
 <ul>
-<li>Update <em>$\pi(s)$</em> and <em>$V(s)$</em> by considering action <strong>$a^*$</strong> </li>
-<li>Compute the delta value between the previous and the new <em>$V(s)$</em></li>
+<li>Update <em><span class="arithmatex">\(\pi(s)\)</span></em> and <em><span class="arithmatex">\(V(s)\)</span></em> by considering action <strong><span class="arithmatex">\(a^*\)</span></strong> </li>
+<li>Compute the delta value between the previous and the new <em><span class="arithmatex">\(V(s)\)</span></em></li>
 </ul>
-<p><em>Output:</em> an optimal $\pi^*$ and associated V-values</p>
+<p><em>Output:</em> an optimal <span class="arithmatex">\(\pi^*\)</span> and associated V-values</p>
 </blockquote>
 <h2 id="exploit">Exploit.</h2>
 <p>Load the policy on your <code>policyBot</code> to test-it.</p>
@@ -253,6 +253,8 @@ For that purpose, we recommand to apply Value Iteration (cf. <a href="https://en
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

@@ -221,7 +221,7 @@ Iteratively, each force point of the attack and the defense has a chance to deal
 Defenses have an increased chance than attack.
 However if the attack is greater than the defense than each extra point count double.
 The fight is running until one of the army is destroyed.</p>
-<p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> ($2\times 10-8$) times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
+<p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> (<span class="arithmatex">\(2\times 10-8\)</span>) times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.</p>
 <h2 id="initialize-an-autonomous-player">Initialize an Autonomous Player</h2>
 <p>Into your workspace, we encourage you to create a new directory for your experiences linked to our tutorials (<code>tutos</code> for instance, aside of <code>hackagames</code> directory),
@@ -369,6 +369,8 @@ def playerLetter(self, iPlayer): # return the player letter (A, B, C ...) of the
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

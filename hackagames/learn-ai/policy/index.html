@@ -169,15 +169,14 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="understand-the-notion-of-policy">Understand the notion of Policy</h1>
-<p>Policy is a function $\pi$ returning the action to perform regarding a given state.</p>
-<p>To better understand the notion of <em>policy</em> we propose to learn one from <em>Py421</em> game.
-We wan to get a maximum of information by acting randomly.
-That for we start from the FirstPlayer.
-Refers to <em>First Bot</em> tutorial to create a player playing randomly.
-We will derivate it into a new <code>recorderRandBot</code> player.</p>
+<p>Policy is a function <span class="arithmatex">\(\pi\)</span> returning the action to perform regarding a given state.</p>
+<p>To better understand the notion of <em>policy</em> we propose to learn one for <em>Py421</em> game.
+We wan to get a maximum of information about the interest of applying actions in game situation (state)</p>
+<p>We propose to do that by acting randomly, 
+with a <code>RecorderRandBot</code> based on a <code>py421.firstBot</code> <code>Bot</code>.</p>
 <h3 id="record-experiments">Record experiments</h3>
-<p>The idea consists is to recorde information required to learn a policy,
-in other world, to evaluate the visited state and action.</p>
+<p>The idea consists in recording information required to learn a policy,
+in other world, to evaluate efficiency of visited state and action.</p>
 <p>The evaluation is classically obtained at the end of a game, with the final score.
 The expected file would look like: </p>
 <pre><code>state, action, result
@@ -194,35 +193,32 @@ state, action, result
 ...
 </code></pre>
 <p>It require to trace the visited state and action.
-Recordings can be made only at <em>sleep</em> step:</p>
-<pre><code class="language-python">    def sleep(self, result):
-        # open a State.Action.Value file in append mode
-        logFile= open( &quot;log-421-SAV.csv&quot;, &quot;a&quot; ) 
-        # For each reccorded trace
-        for t in self._trace :
-            # add a line in the file
-            logFile.write( f&quot;{t['state']}, {t['action']}, {result}\n&quot; )
-        logFile.close()
-</code></pre>
-<p>So it supposes to trace the visited state and actions.
-This can be performed at <em>decide</em>  step, with a <em>trace</em> attribute initialized at <em>wake-up</em> step:</p>
-<pre><code class="language-python">    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+The <code>RecorderRandBot</code> will lookalike:</p>
+<pre><code class="language-python">class RecorderRandBot( firstBot.Bot ):
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
         self._trace= []
-        self._actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
-            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
 
     def decide(self):
-        action= random.choice( self._actions )
-        self._trace.append( {
-            'state': '-'.join([ str(d) for d in self.dices ]),
-            'action': action
-        } )
+        state= '-'.join([ str(d) for d in self.dices ])
+        action= super.decide()
+        self._trace.append( {'state': state, 'action': action} )
         return action
+
+    def sleep(self, result):
+        # open a State.Action.Value file in append mode:
+        logFile= open( &quot;log-421-SAV.csv&quot;, &quot;a&quot; ) 
+        # For each recorded experience in trace
+        for xp in self._trace :
+            # add a line in the file
+            logFile.write( f&quot;{xp['state']}, {xp['action']}, {result}\n&quot; )
+        logFile.close()
 </code></pre>
+<p><strong>Important:</strong> the recording can only be done at <em>sleep</em> time. The bot need to reach the end of the game to evaluate the succession of actions it performed.</p>
+<p>Tracing the visited state and actions is performed at <em>decide</em>  step, with a <em>trace</em> attribute initialized at <em>wake-up</em> step.</p>
 <p>You can open your <code>log-sav.csv</code> (state, action, value) files to see it content.</p>
 <h3 id="process-the-data">Process the data</h3>
 <p>Processing <code>log-sav.csv</code> file consists of generating a structure matching a coherent policy from brute data.
-Typically, the structure can be simply a.
+Typically, the structure can be simply a dictionnary over possible states.
 ie: <code>policy= { 'state1': 'actionInState1', 'state2': 'actionInState2', ... }</code></p>
 <p><strong>Dictionary:</strong>
 - <a href="https://docs.python.org/3.8/tutorial/datastructures.html#dictionaries">Python documentation</a>
@@ -272,10 +268,10 @@ policyFile.close()
     action= self.policy[ '-'.join([ str(d) for d in self.dices ]) ]
     return action
 </code></pre>
-<p>The policy reaches an average score close up to $290$.</p>
+<p>The policy reaches an average score close up to <span class="arithmatex">\(290\)</span>.</p>
 <h3 id="complete-policy">Complete Policy:</h3>
 <p>You can apply the same method but over the complete state definition.
-By adding the horizon in the state definition (<code>4-2-1h2</code> for instance rather than only <code>4-2-1</code>), it possible to reach average score of more than $320$.</p>
+By adding the horizon in the state definition (<code>4-2-1h2</code> for instance rather than only <code>4-2-1</code>), it possible to reach average score of more than <span class="arithmatex">\(320\)</span>.</p>
 <p>It will just require more experiences in the recording phase.</p></div>
             </div>
         </div>
@@ -291,6 +287,8 @@ By adding the horizon in the state definition (<code>4-2-1h2</code> for instance
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

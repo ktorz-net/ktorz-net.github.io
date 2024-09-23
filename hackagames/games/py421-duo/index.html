@@ -159,7 +159,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#py421-duo-mode" class="nav-link">Py421 , Duo Mode</a>
+            <li class="nav-item" data-level="1"><a href="#py421-duo-mode" class="nav-link">Py421, Duo Mode</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#2-player-rules" class="nav-link">2 Player Rules</a>
               <ul class="nav flex-column">
@@ -180,7 +180,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="py421-duo-mode">Py421 ,<br /> Duo Mode</h1>
+<h1 id="py421-duo-mode">Py421, Duo Mode</h1>
 <p><strong>Py421</strong> is an <em>HackaGames</em> game.</p>
 <p>After mastering the solo version of <strong>Py421</strong>, it is times for a 2-players' confrontation.
 Tow player version of <strong>Py421</strong> can be started with <code>duo</code> parameters. 
@@ -197,7 +197,7 @@ python3 ./hackagames/connect-shell
 </code></pre>
 <p>In this version of the game, it is not necessary to reach the best combination possible. 
 Players just wan the best one between them.
-The score at the end would be: $1$, $-1$, or $0$ depending on who win the game and if there is a winner. </p>
+The score at the end would be: <span class="arithmatex">\(1\)</span>, <span class="arithmatex">\(-1\)</span>, or <span class="arithmatex">\(0\)</span> depending on who win the game and if there is a winner. </p>
 <h2 id="2-player-rules">2 Player Rules</h2>
 <p>The Py421 is an asymmetric player game.
 The first player fix the game parameters for the second.</p>
@@ -218,9 +218,9 @@ The <code>gameState</code> attribute of the <code>perceive</code> methods comes 
         self.op_dices= gameState.child(3).flags()
         print( f'H: {self.horizon} DICES: {self.dices} OPPONENTS {self.op_dices}' )
 </code></pre>
-<p>To notice that opponent dices (<code>self.op_dices</code>) would be tree $0$, if the player is the first player.
+<p>To notice that opponent dices (<code>self.op_dices</code>) would be tree <span class="arithmatex">\(0\)</span>, if the player is the first player.
 For the second player, <code>self.op_dices</code> informs on the conbinaison to beat.
-However, the horizon will not necessarily be $2$ at it first player activation.
+However, the horizon will not necessarily be <span class="arithmatex">\(2\)</span> at it first player activation.
 In fact, he can see the end of the game coming while he never decide anything (the first player <code>keep-keep-keep</code> at its first action).</p>
 <h2 id="optimize-your-ai">Optimize your AI</h2>
 <p>A good AI for <strong>421 Solo</strong> game will not play so bad in <strong>Duo</strong> mode but should be easy to beat, in average.
@@ -228,7 +228,7 @@ Starting from your <strong>421 Solo</strong> Bot, we recommend to tunes two diff
 <pre><code class="language-sh">cp ./tutos/myPy421Bot.py ./tutos/myPy421DuoBot.py
 </code></pre>
 <p>One when your player plays first trying to stop with a good enough combination with a minimum of dices throws.
-The second, when your player plays second, with a strategy not focused on the best combination any more, but on the probability to reach a better one compared to the opponent combination. Most of the time, a simple $6$ beat a $5$.</p></div>
+The second, when your player plays second, with a strategy not focused on the best combination any more, but on the probability to reach a better one compared to the opponent combination. Most of the time, a simple <span class="arithmatex">\(6\)</span> beat a <span class="arithmatex">\(5\)</span>.</p></div>
             </div>
         </div>
 
@@ -243,6 +243,8 @@ The second, when your player plays second, with a strategy not focused on the be
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

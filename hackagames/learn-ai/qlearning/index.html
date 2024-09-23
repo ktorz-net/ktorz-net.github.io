@@ -203,14 +203,14 @@ Accumulating feedback, it will be capable of evaluating the interest of actions 
 <p>And do not forget: you ~~can~~ must test your code at each development step by executing the code for a few games and validate that the output is as expected (also a good python tool to make test: <code>pytest</code>).</p>
 <h2 id="qvalues-equation">qvalues equation</h2>
 <p>The <strong>Q-Learning</strong> algorithm ([Cf. <a href="https://en.wikipedia.org/wiki/Q-learning">Wikipedia</a>]) consists in computing <code>qvalues</code>, a dictionary of the interest or value of executing a given action from a given state.</p>
-<p>$$ \mathit{qvalues}(s, a) \in \mathbb{R} $$ </p>
-<p>A qvalue is equal to the immediate reward of doing action $a$ in a state $s$ plus the future rewards modeled as $\mathit{qvalues}(s', a')$.
-$s'$ is the state reached from (s, a) and $a'$ the next action that will be performed.
-In other terms, $\mathit{qvalues}(s, a)$ is the cumulative reward from $s$, knowing that the next action is $a$.
-However, the resulting experiment of doing $a$ from $s$ need to be computed as an average.</p>
-<p>Finally, one of the ways to formalize updates on $\mathit{qvalues}(s, a)$ is:</p>
-<p>$$ \mathit{qvalues}(s, a) = \alpha(\ r(s, a, s') + \mathit{qvalues}(s', a')\ ) + (1-\alpha)(\ \mathit{qvalues}(s, a)\ ) $$ </p>
-<p>The learning rate $\alpha$ is the speed that incoming experiences erase the oldest (can be initialized at $0.1$ as a first approximation).</p>
+<div class="arithmatex">\[ \mathit{qvalues}(s, a) \in \mathbb{R} \]</div>
+<p>A qvalue is equal to the immediate reward of doing action <span class="arithmatex">\(a\)</span> in a state <span class="arithmatex">\(s\)</span> plus the future rewards modeled as <span class="arithmatex">\(\mathit{qvalues}(s', a')\)</span>.
+<span class="arithmatex">\(s'\)</span> is the state reached from (s, a) and <span class="arithmatex">\(a'\)</span> the next action that will be performed.
+In other terms, <span class="arithmatex">\(\mathit{qvalues}(s, a)\)</span> is the cumulative reward from <span class="arithmatex">\(s\)</span>, knowing that the next action is <span class="arithmatex">\(a\)</span>.
+However, the resulting experiment of doing <span class="arithmatex">\(a\)</span> from <span class="arithmatex">\(s\)</span> need to be computed as an average.</p>
+<p>Finally, one of the ways to formalize updates on <span class="arithmatex">\(\mathit{qvalues}(s, a)\)</span> is:</p>
+<div class="arithmatex">\[ \mathit{qvalues}(s, a) = \alpha(\ r(s, a, s') + \mathit{qvalues}(s', a')\ ) + (1-\alpha)(\ \mathit{qvalues}(s, a)\ ) \]</div>
+<p>The learning rate <span class="arithmatex">\(\alpha\)</span> is the speed that incoming experiences erase the oldest (can be initialized at <span class="arithmatex">\(0.1\)</span> as a first approximation).</p>
 <h2 id="implementing-qvalues">Implementing qvalues</h2>
 <p>At some point, our new player will require to update its <code>qvalues</code> from its experiments.
 So let's start with a method:</p>
@@ -245,7 +245,7 @@ if state not in self.qvalues.keys() :
 It can be performed while a new state is reaches.</p>
 <p>So a first call to <code>updateQvalues</code> can be implemented into <code>perception</code> method. 
 At this time, we consider that we have no idea about the value of doing this or that action or of reaching a specific state.
-The reward is set to $0$.</p>
+The reward is set to <span class="arithmatex">\(0\)</span>.</p>
 <p>However, a last call to the <code>updateQvalues</code> need to be set-up into the <code>sleep</code> method.
 At sleep step, the reward matches the game score, and a special state <code>"end"</code> with a fix action <code>"sleep"</code> need to be added to the qValues.</p>
 <h2 id="exploration-exploitation-dilemma">Exploration-Exploitation Dilemma</h2>
@@ -264,7 +264,7 @@ The random chose of explore versus exploit is weighted by <code>ε</code> and <c
 <p>One way to do that is to plot the evolution of the strategy during the learning.
 The package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools for instance to do that.
 At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.
-Generate a plot with one point every $500$ games for instance. </p>
+Generate a plot with one point every <span class="arithmatex">\(500\)</span> games for instance. </p>
 <p>Typically after playing <em>X</em> games:</p>
 <pre><code class="language-python">import matplotlib.pyplot as plt
 
@@ -290,6 +290,8 @@ plt.show()
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

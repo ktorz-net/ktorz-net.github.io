@@ -188,11 +188,11 @@
 <p>The goal of the tutorial is to understand, feel the complexity of addressing a system with combinatorial explosion over the number of states...</p>
 <p>This tutorial relies on <em>MoveIt</em> game. Make sure you clearly understand the game and its API.</p>
 <h2 id="basic-q-learning">Basic Q-Learning:</h2>
-<p>In its basic configuration <em>MoveIt</em> involves a $6 \times 4$ grid with randomly generated obstacles.
+<p>In its basic configuration <em>MoveIt</em> involves a <span class="arithmatex">\(6 \times 4\)</span> grid with randomly generated obstacles.
 Has a first exercise you can apply basic <em>Q-Learning</em> with a fixed configuration by fixing the random seed at game creation (<code>game= GameMoveIt( seed=128 )</code>).</p>
 <p>In this case the system state 'only' involve the positions of the robot and of the humans.
-Something as $3$ variables into $6 \times 4$ possibilities.
-We also require the robot target, but will only record the directions ($\in [0, 6]$)...</p>
+Something as <span class="arithmatex">\(3\)</span> variables into <span class="arithmatex">\(6 \times 4\)</span> possibilities.
+We also require the robot target, but will only record the directions (<span class="arithmatex">\(\in [0, 6]\)</span>)...</p>
 <pre><code class="language-python">def state(self):
     robot, human1, human2 = tuple(self._mobiles)
     # Path to the goal:
@@ -202,7 +202,7 @@ We also require the robot target, but will only record the directions ($\in [0, 
     state+= f&quot;-{human2.x()}-{human2.y()}&quot;
     return state
 </code></pre>
-<p>At this point the system is modeled with $(6 \times 4)^3*6$ states.
+<p>At this point the system is modeled with <span class="arithmatex">\((6 \times 4)^3*6\)</span> states.
 Lucky for us, the reward can be easily computed at each time steps (in the perception method).</p>
 <pre><code class="language-python">    newScore= statePod.value(1)
     reward= newScore - self._score
@@ -210,7 +210,7 @@ Lucky for us, the reward can be easily computed at each time steps (in the perce
 </code></pre>
 <p>You can now apply basic <em>Q-Learning</em> as experimented on <em>4.2.1</em>.</p>
 <h2 id="expert-heuristic-optimizations">Expert Heuristic Optimizations:</h2>
-<p>A Basic <code>Q-Learning</code> learning is slow and will be blocked at something like $-100$ meaning that the robot continues to generate collision.
+<p>A Basic <code>Q-Learning</code> learning is slow and will be blocked at something like <span class="arithmatex">\(-100\)</span> meaning that the robot continues to generate collision.
 A first optimization of the approach consists of including expert knowledge to limit the bad actions and to speed up the learning process.</p>
 <h3 id="remove-forbidden-actions">Remove forbidden actions:</h3>
 <p>At decision time, it is possible to remove from the pool of available actions, the actions driving the robot on an obstacle or on a human.</p>
@@ -221,7 +221,7 @@ A first optimization of the approach consists of including expert knowledge to l
 The humans generally move toward their own goal (with error exception).
 The human’s goals are hidden to the robot, but the human trajectory into the bot state to better anticipate the next human's moves.</p>
 <h2 id="scale-up_1">Scale-up:</h2>
-<p>Mission on a $4 \times 6$ grid with $2$ humans remains a very limited scenario.
+<p>Mission on a <span class="arithmatex">\(4 \times 6\)</span> grid with <span class="arithmatex">\(2\)</span> humans remains a very limited scenario.
 At launch time, it is possible to change the game configuration:</p>
 <pre><code class="language-python">game= GameMoveIt(
     seed=128,              # Grid seed for generations...
@@ -241,7 +241,7 @@ but to be capable of using the learned policy in all situations.</p>
 </ul>
 <p>A better solution consists to model the system from the point of view of the actions. 
 We speak about local versus global models.
-For instance, the goal can be characterized as direction and distance rather than $(x, y)$ coordinate.</p>
+For instance, the goal can be characterized as direction and distance rather than <span class="arithmatex">\((x, y)\)</span> coordinate.</p>
 <p>Propose a state definition based from robot location in a less dependent way to the grid dimension and try again Q-Learning algorithm.</p>
 <p>To notice that local representation would be more suitable with Decision-Tree.</p></div>
             </div>
@@ -258,6 +258,8 @@ For instance, the goal can be characterized as direction and distance rather tha
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

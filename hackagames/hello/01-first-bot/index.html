@@ -203,7 +203,7 @@ results= game.testPlayer( bot, 1000 )
 # Analyze the result
 print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
-<p>This script import <code>py421.py</code> game and a bot, then it starts $1000$ games.</p>
+<p>This script import <code>py421.py</code> game and a bot, then it starts <span class="arithmatex">\(1000\)</span> games.</p>
 <p>Test it in a terminal:</p>
 <pre><code class="language-sh">python3 launch-py421.py
 </code></pre>
@@ -211,7 +211,7 @@ print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 <p>For playing <code>py421.py</code>, our script must implement an <code>hackagames</code> formatted <code>Bot</code>.</p>
 <p>A first simple solution consists in modifying the one proposed by the <em>Py421 HackaGames</em>.
 <em>Py421 FirstBot</em> play randomly. 
-A first interesting update should be to score each time a $4 2 1$ is reached :</p>
+A first interesting update should be to score each time a <span class="arithmatex">\(4 2 1\)</span> is reached :</p>
 <pre><code class="language-python">import random
 import hacka.games.py421.firstBot as firstBot
 
@@ -228,7 +228,7 @@ The average score should be increased.</p>
 <p>Games and Bots rely on <code>hacka.pylib</code> python library.</p>
 <h3 id="game-loop">Game Loop:</h3>
 <p>A game mainly relies on <code>perceive</code> and <code>decide</code> capability for players and bots to update the information about the game and to ask for player action.</p>
-<p>The <code>perceive</code> method gives $1$ argument: a <code>gameState</code>, the current game state from the point of view of the player.
+<p>The <code>perceive</code> method gives <span class="arithmatex">\(1\)</span> argument: a <code>gameState</code>, the current game state from the point of view of the player.
 In fact <code>gameState</code> can be different from a player to another in multiplayer games with partial observation (typically: card games).
 In the basic configuration of <code>Py421</code>, there is only one player and the <code>gameConf</code> informs about the 3 dice values and the horizon counter (the number of remaining roll again possibilities).</p>
 <p>The <code>decide</code> method does not have an argument, but should return the player action. 
@@ -239,7 +239,7 @@ The action is formatted as a string.</p>
 That for, the method <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
 There are triggered <code>1000</code> times in our script.
 During a Game's game, players are activated at turn with <code>perceive</code> and <code>decide</code> method </p>
-<p>The <code>wakeUp</code> has $3$ parameters: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
+<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> parameters: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
 At this stage, there is no information to get from <code>gameConf</code> in <code>Py421</code>.</p>
 <p>Finally, the <code>sleep</code> inform about the obtained score with it parameters <code>result</code>. 
 The score is computed for the player regarding the ending game.</p>
@@ -287,6 +287,8 @@ However, you can go on <strong>Pod</strong> page for more detail on this core el
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

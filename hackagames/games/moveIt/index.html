@@ -216,7 +216,7 @@ In the simplest form, you control a robot in an environment with humans.</p>
 </code></pre>
 <p>The controlled robot is modeled as <code>R 1</code>  and want to reach the position labialized has <code>1</code>.
 The environment also includes 2 humans <code>H 1</code> and <code>H 2</code> with unknown goals position.</p>
-<p>The robot can move to one of the 6 cells next to its own position: <code>move X</code> with $X \in [0, 1, 2, 3, 4, 5, 6]$ (<code>0</code> means the robots stay on it position). The robot can also <code>pass</code>. This special action makes it abandon the mission and trigger a new task to fulfill.</p>
+<p>The robot can move to one of the 6 cells next to its own position: <code>move X</code> with <span class="arithmatex">\(X \in [0, 1, 2, 3, 4, 5, 6]\)</span> (<code>0</code> means the robots stay on it position). The robot can also <code>pass</code>. This special action makes it abandon the mission and trigger a new task to fulfill.</p>
 <pre><code>          ▁         ▁     
        ▖▝   ▘▗   ▖▝   ▘▗   
      █         █         █    
@@ -241,10 +241,10 @@ game= GameMoveIt()
 results= game.testPlayer( Bot(), 4 )
 print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
-<p>This script import <code>moveIt</code> game, a player and start $4$ games.
+<p>This script import <code>moveIt</code> game, a player and start <span class="arithmatex">\(4\)</span> games.
 It requires that you instantiate a <code>MoveIt</code> bot on a <code>tutos/basicBot.py</code> file. 
 This class <em>Bot</em> should implement the <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code> methods.</p>
-<p>To simplify the development, the bot can rely on <em>MoveIt</em> <em>Hexaboard</em> and <em>Mobile</em> classes to model the world and the mobile elements (the robot and the $2$ humans). </p>
+<p>To simplify the development, the bot can rely on <em>MoveIt</em> <em>Hexaboard</em> and <em>Mobile</em> classes to model the world and the mobile elements (the robot and the <span class="arithmatex">\(2\)</span> humans). </p>
 <p>First you have to import access to those elements: </p>
 <pre><code class="language-python">#!env python3
 &quot;&quot;&quot;
@@ -350,6 +350,8 @@ def isAvailable(self):# if the cell is free and without a mobile present
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

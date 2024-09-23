@@ -251,7 +251,7 @@ It is suppozed that the new Game class implement the abstract methods of <code>A
 This method is more an inside method re-defined in function of how the players are managed. 
 Actually, two strategies are proposed:</p>
 <ul>
-<li><strong>AbsSequentialGame:</strong> Players are activated at turns. The perception of the game for the $i$-th player and a call to <code>decide</code> are sent after the $(i-1)$-th player terminates its actions (<code>applyPlayerAction( (i-1), "action" )</code> returns <em>True</em>).</li>
+<li><strong>AbsSequentialGame:</strong> Players are activated at turns. The perception of the game for the <span class="arithmatex">\(i\)</span>-th player and a call to <code>decide</code> are sent after the <span class="arithmatex">\((i-1)\)</span>-th player terminates its actions (<code>applyPlayerAction( (i-1), "action" )</code> returns <em>True</em>).</li>
 <li><strong>AbsSimultaneousGame:</strong> (Work In Progress) Players are activated in a simultaneous way. All the players receive their perception of the game then all the players are requested for their actions. Generally action resolution in these kinds of games are resolved in the <code>tic</code> method.</li>
 </ul>
 <h2 id="example-of-of-the-simple-hello-games">Example of of the simple hello games:</h2>
@@ -267,7 +267,7 @@ import hackapy as hg
 </code></pre>
 <p>Then, the Game implement an abstract sequential game (each player play at turns).
 The Game methods to implemented are: <code>initialize</code>, <code>playerHand</code>, <code>applyPlayerAction</code>, <code>isEnded</code> and <code>playerScore</code>.
-Here the Hello game simply echo the player action in a terminal $3$ times (method <code>applyPlayerAction</code>).</p>
+Here the Hello game simply echo the player action in a terminal <span class="arithmatex">\(3\)</span> times (method <code>applyPlayerAction</code>).</p>
 <pre><code class="language-python">class GameHello( hg.AbsSequentialGame ) :
 
     # Game interface :
@@ -297,10 +297,10 @@ Here the Hello game simply echo the player action in a terminal $3$ times (metho
         # All players are winners.
         return 1
 </code></pre>
-<p>A counter initialized in <code>initialize</code> method, count $3$ game turn (i.e. after each player play at-turn) in <code>tic</code> method. 
+<p>A counter initialized in <code>initialize</code> method, count <span class="arithmatex">\(3\)</span> game turn (i.e. after each player play at-turn) in <code>tic</code> method. 
 Then the <code>isEnded</code> method will return <em>True</em>.
 The method <code>playerHand</code> informs the player about the counter status.
-Finaly, there is no winner and all player will end with a result at $1$ (method <code>playerScore</code>).</p>
+Finaly, there is no winner and all player will end with a result at <span class="arithmatex">\(1\)</span> (method <code>playerScore</code>).</p>
 <h2 id="lets-play">Lets play</h2>
 <p>The <code>start-server</code> script will permit to lauch the game server.
 It only instancate a Game with a determined number of players then call the <code>AbsGame</code> <code>start</code> method.</p>
@@ -394,6 +394,8 @@ def test_gameMethod():
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
