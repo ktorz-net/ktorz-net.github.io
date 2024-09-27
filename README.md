@@ -3,7 +3,7 @@
 
 ## New Modules: 
 
-Source of the public website: [https://imt-mobisyst.github.io/](https://imt-mobisyst.github.io).
+Source of the public website: [https://ktorz-net.github.io/](https://ktorz-net.github.io).
 
 ## Prerequisites
 
