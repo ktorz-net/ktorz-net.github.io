@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Install - HackaGames</title>
+        <title>First Bot - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -37,27 +37,20 @@
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../../journeys/" class="nav-link">Journeys</a>
-                            </li>
                             <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">Install</a>
+    <a href="../install/" class="dropdown-item">Install</a>
 </li>
                                     
 <li>
-    <a href="../01-first-bot/" class="dropdown-item">First Bot</a>
+    <a href="./" class="dropdown-item active">First Bot</a>
 </li>
                                     
 <li>
-    <a href="../02-api/" class="dropdown-item">Protocol API</a>
-</li>
-                                    
-<li>
-    <a href="../03-pod/" class="dropdown-item">Pod Class</a>
+    <a href="../multi-player/" class="dropdown-item">Multi-Player</a>
 </li>
                                 </ul>
                             </li>
@@ -66,23 +59,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../games/py421-solo/" class="dropdown-item">4.2.1 Solo</a>
-</li>
-                                    
-<li>
-    <a href="../../games/py421-duo/" class="dropdown-item">4.2.1 Duo</a>
-</li>
-                                    
-<li>
-    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
-</li>
-                                    
-<li>
-    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
-</li>
-                                    
-<li>
-    <a href="../../games/moveIt/" class="dropdown-item">MoveIt</a>
+    <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
                                 </ul>
                             </li>
@@ -108,15 +85,23 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Under the hood <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../diy/newgame/" class="dropdown-item">New Game</a>
+    <a href="../../hood/api/" class="dropdown-item">Protocol API</a>
 </li>
                                     
 <li>
-    <a href="../../diy/testdriven/" class="dropdown-item">Test-Driven</a>
+    <a href="../../hood/pod.md" class="dropdown-item">Pod Class</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/testdriven/" class="dropdown-item">Test-Driven</a>
 </li>
                                 </ul>
                             </li>
@@ -132,12 +117,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../journeys/" class="nav-link">
+                                <a rel="prev" href="../install/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../01-first-bot/" class="nav-link">
+                                <a rel="next" href="../multi-player/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -159,17 +144,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#install-process" class="nav-link">Install Process</a>
+            <li class="nav-item" data-level="1"><a href="#first-bot" class="nav-link">First Bot</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#install" class="nav-link">Install</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot-environment" class="nav-link">Initialize a Bot environment</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#getting-started" class="nav-link">Getting Started</a>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot-ie-an-autonomous-player" class="nav-link">Initialize a Bot, i.e. an Autonomous Player</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#understand-bot-methods" class="nav-link">Understand Bot methods :</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -180,46 +165,100 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="install-process">Install Process</h1>
-<p>A quick <em>tutorial</em> to make <strong>HackaGames</strong> running on your computer.</p>
-<p><em>Nota bene</em> : </p>
-<ul>
-<li><strong>HackaGames</strong> is natively developed on <em>Linux</em> systems.
-Documentation is built regarding Ubuntu-like distributions.
-Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntaxe.</li>
-<li><strong>On Windows:</strong> You can use <a href="https://git-scm.com/download/win">git for windows</a> and its <code>git bash</code>.</li>
-</ul>
-<h2 id="install">Install</h2>
-<p>Simplely clone the git repository and use <em>python pip</em>.</p>
-<pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
-pip install ./hackagames
+<h1 id="first-bot">First Bot</h1>
+<p>In this tutorial, we will learn about how the games and the players/bots communicate together. 
+In Hackagames several players can play simultaneously to games. </p>
+<p>That for, the loop control of the program is handled by the game.
+Then, the player bots have to generate the appropriate responses (string formed actions) to situations.
+To do so, a player bot can re-implement the 4 expected methods: <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code>.</p>
+<h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
+<p>First let implement a simple script, instantiating a game and a player.</p>
+<p>Put the next code into a script file <code>launch-py421.py</code>.</p>
+<pre><code class="language-python"># Setup a game:
+from hacka.games.py421 import GameSolo as Game
+
+# Setup a bot:
+from hacka.games.py421.firstBot import Bot
+bot= Bot()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.testPlayer( bot, 1000 )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
-<p>or </p>
-<pre><code class="language-sh">python -m pip install ./hackagames
+<p>This script import <code>py421.py</code> game and a bot, then it starts <span class="arithmatex">\(1000\)</span> games.</p>
+<p>Test it in a terminal:</p>
+<pre><code class="language-sh">python3 launch-py421.py
 </code></pre>
-<p>Thats it.
-You can play to several included games (the ones developed on top of <code>hackapy</code>), and implement some Bots (cf. <strong>First Bot</strong> section).</p>
-<h2 id="dependencies">Dependencies</h2>
-<p>The project is distributed using git solution and relies on <code>Python3</code> language.
-Make sure you have them installed.</p>
-<p><strong>HackaGames</strong> includes <em>python3</em> librairy: <strong>hakapy</strong> for making game-servers and player-clients.
-The network protocol of <strong>HackaGames</strong> relies on <em>zmq</em> library. Process-bars are implemented via <em>tqdm</em>.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>The easiest way is to play with one of the proposed <em>python3</em> games, <strong>Py421</strong> for instance.</p>
-<p>Each python3 game comes with <code>play</code> script permitting to start the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/py421
+<h2 id="initialize-a-bot-ie-an-autonomous-player">Initialize a Bot, i.e. an Autonomous Player</h2>
+<p>For playing <code>py421.py</code>, our script must implement an <code>hackagames</code> formated <code>Bot</code>.</p>
+<p>A first simple solution consists in modifying the one proposed by the <em>Py421 HackaGames</em>.
+<em>Py421 FirstBot</em>.
+ <em>Py421 FirstBot</em> plays randomly, an interesting update should be to score each time a <span class="arithmatex">\(4 2 1\)</span> is reached :</p>
+<pre><code class="language-python">import random
+import hacka.games.py421.firstBot as firstBot
+
+# Setup a bot:
+class MyBot( firstBot.Bot ) :
+    def decide( self ):
+        if self.dices() == [4, 2, 1] :
+            return &quot;keep-keep-keep&quot;
+        return random.choice( self.actions() )
 </code></pre>
-<p>The <strong>Py421</strong> is a tree dice game. The player can roll several times to get the best combination.
-The actions consist in keeping or rolling each of the 3 dices. So there are 8 possible actions:</p>
-<ul>
-<li><code>keep-keep-keep</code>,  <code>keep-keep-roll</code>,  <code>keep-roll-keep</code>,  <code>keep-roll-roll</code>, <code>roll-keep-keep</code>,  <code>roll-keep-roll</code>,  <code>roll-roll-keep</code> and <code>roll-roll-roll</code></li>
-</ul>
-<p>The goal is to optimize the combination of dices before the end of the second turn.
-The best combination ever is <strong>4-2-1</strong>.
-But you can explore other combinations.</p>
-<ul>
-<li>You can then follow the tutorial of <strong>First Bot</strong> to learn how to implement an autonomous player for <strong>Py421</strong> the game.</li>
-</ul></div>
+<p>Replace the <code># Setup a player:</code> section into your <code>launch-py421.py</code> script and try your bot. 
+The average score should be increased.</p>
+<h2 id="understand-bot-methods">Understand Bot methods :</h2>
+<p>Games and Bots rely on <code>hacka.pylib</code> library, to exchange information about the game and the player intentions.</p>
+<h3 id="game-loop">Game Loop:</h3>
+<p>A game mainly relies on <code>perceive</code> and <code>decide</code> capability for players and bots to update the information about the game and to ask for player action.</p>
+<p>The <code>perceive</code> method gives <span class="arithmatex">\(1\)</span> argument: a <code>gameState</code>, the current game state from the point of view of the player.
+In fact <code>gameState</code> can be different from a player to another in multiplayer games with partial observation (typically: card games).
+In the basic configuration of <code>Py421</code>, there is only one player and the <code>gameConf</code> informs about the 3 dice values and the horizon counter (the number of remaining roll again possibilities).</p>
+<p>The <code>decide</code> method does not have an argument, but should return the player action. 
+<code>decide</code> is always triggered after one or several <code>perceive</code>.
+The action is formatted as a string.</p>
+<h3 id="game-server">Game Server :</h3>
+<p>Furthermore, A Game server can start several games sequentially. 
+That for, the method <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
+There are triggered <code>1000</code> times in our script.
+During a Game's game, players are activated at turn with <code>perceive</code> and <code>decide</code> method </p>
+<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> parameters: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
+At this stage, there is no information to get from <code>gameConf</code> in <code>Py421</code>.</p>
+<p>Finally, the <code>sleep</code> inform about the obtained score with it parameters <code>result</code>. 
+The score is computed for the player regarding the ending game.</p>
+<h3 id="example-of-first-py421-bot">Example of first py421 Bot :</h3>
+<p>As an example, this next Bot is a verbose version for "Py421" playing randomly:</p>
+<pre><code class="language-python">import random 
+
+class Bot :
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        print( f'---\nWake-up player-{playerId} ({numberOfPlayers} players)')
+        print( &quot;conf: &quot; + str(gameConf) )
+
+    def perceive(self, gameState):
+        self._horizon= gameState.child(1).flag(1)
+        self._dices= gameState.child(2).flags()
+        self._score= gameState.child(2).value(1)
+        print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score}' )
+
+    def decide(self):
+        actions= ['keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
+            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
+        action= random.choice( actions )
+        print( f'\t&lt; Action: {action}' )
+        return action
+
+    def sleep(self, result):
+        print( f'--- Results: {str(result)}' )
+</code></pre>
+<p>To notice that the parameters <code>gameConf</code> and <code>gameState</code> are formated as <em>hackapy.Pod</em> (Piece Of Data), a tree data structure.
+It is not required to understand <em>Pod</em>.
+Examples are always provided to get the game information from <em>Pod</em>.
+However, you can go on <strong>Under the hood - Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p></div>
             </div>
         </div>
 

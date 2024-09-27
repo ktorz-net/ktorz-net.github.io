@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Test-Driven - HackaGames</title>
+        <title>Install - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -37,27 +37,20 @@
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../../journeys/" class="nav-link">Journeys</a>
-                            </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../hello/00-install/" class="dropdown-item">Install</a>
+    <a href="./" class="dropdown-item active">Install</a>
 </li>
                                     
 <li>
-    <a href="../../hello/01-first-bot/" class="dropdown-item">First Bot</a>
+    <a href="../first-bot/" class="dropdown-item">First Bot</a>
 </li>
                                     
 <li>
-    <a href="../../hello/02-api/" class="dropdown-item">Protocol API</a>
-</li>
-                                    
-<li>
-    <a href="../../hello/03-pod/" class="dropdown-item">Pod Class</a>
+    <a href="../multi-player/" class="dropdown-item">Multi-Player</a>
 </li>
                                 </ul>
                             </li>
@@ -66,23 +59,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../games/py421-solo/" class="dropdown-item">4.2.1 Solo</a>
-</li>
-                                    
-<li>
-    <a href="../../games/py421-duo/" class="dropdown-item">4.2.1 Duo</a>
-</li>
-                                    
-<li>
-    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
-</li>
-                                    
-<li>
-    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
-</li>
-                                    
-<li>
-    <a href="../../games/moveIt/" class="dropdown-item">MoveIt</a>
+    <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
                                 </ul>
                             </li>
@@ -107,16 +84,24 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Under the hood <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../newgame/" class="dropdown-item">New Game</a>
+    <a href="../../hood/api/" class="dropdown-item">Protocol API</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Test-Driven</a>
+    <a href="../../hood/pod.md" class="dropdown-item">Pod Class</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/testdriven/" class="dropdown-item">Test-Driven</a>
 </li>
                                 </ul>
                             </li>
@@ -132,12 +117,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../newgame/" class="nav-link">
+                                <a rel="prev" href="../.." class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../f.a.q/" class="nav-link">
+                                <a rel="next" href="../first-bot/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -159,17 +144,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#test-driven-development" class="nav-link">Test Driven Development</a>
+            <li class="nav-item" data-level="1"><a href="#install-process" class="nav-link">Install Process</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#pytest-tool" class="nav-link">Pytest tool:</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#test-your-players" class="nav-link">Test your players:</a>
+            <li class="nav-item" data-level="2"><a href="#install" class="nav-link">Install</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#test-your-games" class="nav-link">Test your games:</a>
+            <li class="nav-item" data-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#getting-started" class="nav-link">Getting Started</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -180,76 +165,46 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="test-driven-development">Test Driven Development</h1>
-<p><em>Test Driven Developement</em> (TDD) consist of defining test that would validate a desired functionality before to develop the functionality itself. 
-After development, the test allows to validate that the functionality works but also that functionally matches the initial expectation.</p>
-<p><a href="https://en.wikipedia.org/wiki/Test-driven_development">Wikipedia</a> is a good entrance point for going further in the concepts of TDD.</p>
-<p>One of the simplest ways to develop tests in Python is to use <code>pytest</code>.</p>
-<h2 id="pytest-tool">Pytest tool:</h2>
-<p>A test script has file-name starting with <code>test_</code>.
-Optionally it can be regrouped in a <code>test</code> directory.
-It is composed of test function starting with <code>def test_</code> defining <code>assert</code> based test.
-For instance <code>test_pytest.py</code>:</p>
-<pre><code class="language-python">def test_test():
-    assert( True )
+<h1 id="install-process">Install Process</h1>
+<p>A quick <em>tutorial</em> to make <strong>HackaGames</strong> running on your computer.</p>
+<p><em>Nota bene</em> : </p>
+<ul>
+<li><strong>HackaGames</strong> is natively developed on <em>Linux</em> systems.
+Documentation is built regarding Ubuntu-like distributions.
+Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntaxe.</li>
+<li><strong>On Windows:</strong> You can use <a href="https://git-scm.com/download/win">git for windows</a> and its <code>git bash</code>.</li>
+</ul>
+<h2 id="install">Install</h2>
+<p>Simplely clone the git repository and use <em>python pip</em>.</p>
+<pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
+pip install ./hackagames
 </code></pre>
-<p>Then, <em>Pytest</em> can be used to run the tests:</p>
-<pre><code class="language-shell"># install
-pip install pytest
-
-# execute all your tests:
-pytest
+<p>or </p>
+<pre><code class="language-sh">python -m pip install ./hackagames
 </code></pre>
-<h2 id="test-your-players">Test your players:</h2>
-<h2 id="test-your-games">Test your games:</h2>
-<p>A minimal test bench built considering the <code>gameHello</code> tutorial: </p>
-<pre><code class="language-python">&quot;&quot;&quot;
-Test - hello.Engine
-&quot;&quot;&quot;
-import sys
-
-sys.path.insert( 1, __file__.split('hackagames')[0] )
-import hackagames.hackapy as hg
-import gameHello.gameEngine as ge
-
-def test_gameMethod():
-    game= ge.GameConnect4()
-
-    assert( type( game.initialize().asPod() ) is hg.Pod  )
-    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
-    game.applyPlayerAction( 1, &quot;test&quot; )
-    game.tic()
-    assert( not game.isEnded() )
-    assert( game.playerScore(1) == 0 )
-
-def test_initialize():
-    game= ge.GameConnect4()
-
-    wakeUpPod= game.initialize().asPod()
-
-    assert( str(wakeUpPod) == &quot;hello:&quot; )
-
-    assert( wakeUpPod.family() == &quot;hello&quot; )
-    assert( wakeUpPod.status() == &quot;&quot; )
-    assert( wakeUpPod.flags() == [] )
-    assert( wakeUpPod.values() == [] )
-    assert( len( wakeUpPod.children() ) == 0 )
-
-def test_playerHand():
-    game= ge.GameConnect4()
-
-    game.initialize().asPod()
-    handPod= game.playerHand(1).asPod()
-
-    assert( str(handPod) == 'hi: [0]' )
-
-    assert( handPod.family() == &quot;hi&quot; )
-    assert( handPod.status() == &quot;&quot; )
-    assert( handPod.flags() == [0] )
-    assert( handPod.values() == [] )
-    assert( len( handPod.children() ) == 0 )
+<p>Thats it.
+You can play to several included games (the ones developed on top of <code>hackapy</code>), and implement some Bots (cf. <strong>First Bot</strong> section).</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>The project is distributed using git solution and relies on <code>Python3</code> language.
+Make sure you have them installed.</p>
+<p><strong>HackaGames</strong> includes <em>python3</em> librairy: <strong>hakapy</strong> for making game-servers and player-clients.
+The network protocol of <strong>HackaGames</strong> relies on <em>zmq</em> library. Process-bars are implemented via <em>tqdm</em>.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>The easiest way is to play with one of the proposed <em>python3</em> games, <strong>Py421</strong> for instance.</p>
+<p>Each python3 game comes with <code>play</code> script permitting to start the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/py421
 </code></pre>
-<p>Then you have to adapt the test while you implement your game.</p></div>
+<p>The <strong>Py421</strong> is a tree dice game. The player can roll several times to get the best combination.
+The actions consist in keeping or rolling each of the 3 dices. So there are 8 possible actions:</p>
+<ul>
+<li><code>keep-keep-keep</code>,  <code>keep-keep-roll</code>,  <code>keep-roll-keep</code>,  <code>keep-roll-roll</code>, <code>roll-keep-keep</code>,  <code>roll-keep-roll</code>,  <code>roll-roll-keep</code> and <code>roll-roll-roll</code></li>
+</ul>
+<p>The goal is to optimize the combination of dices before the end of the second turn.
+The best combination ever is <strong>4-2-1</strong>.
+But you can explore other combinations.</p>
+<ul>
+<li>You can then follow the tutorial of <strong>First Bot</strong> to learn how to implement an autonomous player for <strong>Py421</strong> the game.</li>
+</ul></div>
             </div>
         </div>
 

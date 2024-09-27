@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>4.2.1 Solo - HackaGames</title>
+        <title>Py421, Solo Mode - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -37,52 +37,29 @@
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../../journeys/" class="nav-link">Journeys</a>
-                            </li>
                             <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../hello/00-install/" class="dropdown-item">Install</a>
+    <a href="../../hello/install/" class="dropdown-item">Install</a>
 </li>
                                     
 <li>
-    <a href="../../hello/01-first-bot/" class="dropdown-item">First Bot</a>
+    <a href="../../hello/first-bot/" class="dropdown-item">First Bot</a>
 </li>
                                     
 <li>
-    <a href="../../hello/02-api/" class="dropdown-item">Protocol API</a>
-</li>
-                                    
-<li>
-    <a href="../../hello/03-pod/" class="dropdown-item">Pod Class</a>
+    <a href="../../hello/multi-player/" class="dropdown-item">Multi-Player</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">4.2.1 Solo</a>
-</li>
-                                    
-<li>
-    <a href="../py421-duo/" class="dropdown-item">4.2.1 Duo</a>
-</li>
-                                    
-<li>
-    <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
-</li>
-                                    
-<li>
-    <a href="../connect4/" class="dropdown-item">Connect4</a>
-</li>
-                                    
-<li>
-    <a href="../moveIt/" class="dropdown-item">MoveIt</a>
+    <a href="../py421/" class="dropdown-item">Py4.2.1</a>
 </li>
                                 </ul>
                             </li>
@@ -108,15 +85,23 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Do-it-Yourself <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Under the hood <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../diy/newgame/" class="dropdown-item">New Game</a>
+    <a href="../../hood/api/" class="dropdown-item">Protocol API</a>
 </li>
                                     
 <li>
-    <a href="../../diy/testdriven/" class="dropdown-item">Test-Driven</a>
+    <a href="../../hood/pod.md" class="dropdown-item">Pod Class</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/newgame/" class="dropdown-item">New Game</a>
+</li>
+                                    
+<li>
+    <a href="../../hood/testdriven/" class="dropdown-item">Test-Driven</a>
 </li>
                                 </ul>
                             </li>
@@ -131,16 +116,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../../hello/03-pod/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../py421-duo/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -185,12 +160,11 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="py421-solo-mode">Py421, Solo Mode</h1>
-<p><strong>Py421</strong> is an <em>HackaGames</em> game.</p>
-<p><strong>Py421</strong> is a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
+<p><strong>Py421</strong> is an <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
 <p>This tutorial is based only on <strong>Python3</strong>.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>start-interactive</code> script starts the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/gamePy421/start-interactive
+<p>The <code>play/py421</code> script starts the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/py421
 </code></pre>
 <p><strong>Py421</strong> is a 3-dice game. The player can roll several times to get a combination.
 The player can perform one and only one action on his turn, and the game stops automatically after 2 turns.</p>
