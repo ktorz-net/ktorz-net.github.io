@@ -61,26 +61,30 @@
 <li>
     <a href="./" class="dropdown-item active">Py4.2.1</a>
 </li>
+                                    
+<li>
+    <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -122,7 +126,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../learn-ai/policy/" class="nav-link">
+                                <a rel="next" href="../tictactoe/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -151,6 +155,10 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#initialize-a-bot" class="nav-link">Initialize a Bot</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot_1" class="nav-link">Initialize a Bot</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -207,7 +215,51 @@ class Bot :
 
     def sleep(self, result):
         print( &quot;&gt; result: &quot;+ str(result) )
-</code></pre></div>
+</code></pre>
+<h2 id="initialize-a-bot_1">Initialize a Bot</h2>
+<p>It is possible to start <em>421</em> in duo mode. 
+To try this version executes the following commad:</p>
+<pre><code class="language-sh">python3 hackagames/play/py421 duo -n 2
+</code></pre>
+<p>That start a 2 games 4.2.1 where you have to confront the random player. 
+The first game you play as the first player role.
+You control the number of roll-again. The opponent will not be capable to roll its dice more time than you.
+The second game, you play the second player role.
+You know the combinaision to beat.</p>
+<h3 id="confront-your-bots">Confront your Bots</h3>
+<p>You can confront 2 Bot AIs by importing <em>GameDuo</em> rather than <em>GameSolo</em> into your launch script: </p>
+<pre><code class="language-python3"># Setup a game:
+from hacka.games.py421 import GameDuo as Game
+from py421Bot import Bot
+
+bot, opponent= Bot(), Opponent()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.testPlayer( bot, 10, [opponent] )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>The <code>testPlayer</code> method returns the results for a specific player (<em>bot</em> in this script).
+The results for the opponents (one or several, depending on the games) are simplely trashed.</p>
+<p>Also, you can directly confront your <em>bot</em> yourself, with a shell interface:</p>
+<pre><code class="language-python">from hacka.pylib.player import PlayerIHM as Opponent
+</code></pre>
+<h3 id="optimize-a-2-player-bot">Optimize a 2-player Bot :</h3>
+<p>A Bot designed for <em>solo</em> mode of 421 can also play to <em>duo</em> mode.
+However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is incresed in <em>duo</em> mode.
+The player identifier of the <code>wakeUp</code> inform if the bot is the first or the second player.
+The <em>gameState</em> also include the conbinaison of your opponent:</p>
+<pre><code class="language-python">    def perceive(self, gameState):
+        self._horizon= gameState.child(1).flag(1)
+        self._dices= gameState.child(2).flags()
+        self._score= gameState.child(2).value(1)
+        self._oppo_dices= gameState.child(3).flags()
+        self._oppo_score= gameState.child(3).value(1)
+        print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score} (VS: {self._oppo_dices} {self._oppo_score})' )
+</code></pre>
+<p>Use this increased state definition to optimize the bot's strategies.</p></div>
             </div>
         </div>
 

@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Policy - HackaGames</title>
+        <title>Learn Model - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -61,14 +61,18 @@
 <li>
     <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">Policy</a>
+    <a href="../policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
@@ -76,7 +80,7 @@
 </li>
                                     
 <li>
-    <a href="../learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="./" class="dropdown-item active">Learn Model</a>
 </li>
                                     
 <li>
@@ -117,12 +121,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../games/py421/" class="nav-link">
+                                <a rel="prev" href="../qlearning/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../qlearning/" class="nav-link">
+                                <a rel="next" href="../scale-up/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -144,8 +148,28 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#understand-the-notion-of-policy" class="nav-link">Understand the notion of Policy</a>
+            <li class="nav-item" data-level="1"><a href="#basic-model-learning-markov-decision-process" class="nav-link">Basic Model Learning: Markov-Decision-Process</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#generate-logs" class="nav-link">Generate logs.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#process-logs" class="nav-link">Process logs.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#process-model" class="nav-link">Process model.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#exploit" class="nav-link">Exploit.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#in-reinforcement-model-learning" class="nav-link">In Reinforcement Model-Learning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -153,111 +177,57 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="understand-the-notion-of-policy">Understand the notion of Policy</h1>
-<p>Policy is a function <span class="arithmatex">\(\pi\)</span> returning the action to perform regarding a given state.</p>
-<p>To better understand the notion of <em>policy</em> we propose to learn one for <em>Py421</em> game.
-We wan to get a maximum of information about the interest of applying actions in game situation (state)</p>
-<p>We propose to do that by acting randomly, 
-with a <code>RecorderRandBot</code> based on a <code>py421.firstBot</code> <code>Bot</code>.</p>
-<h3 id="record-experiments">Record experiments</h3>
-<p>The idea consists in recording information required to learn a policy,
-in other world, to evaluate efficiency of visited state and action.</p>
-<p>The evaluation is classically obtained at the end of a game, with the final score.
-The expected file would look like: </p>
-<pre><code>state, action, result
-state, action, result
-state, action, result
-state, action, result
-state, action, result
-...
-</code></pre>
-<p>For instance with <em>Py421</em>:</p>
-<pre><code>4-2-1, keep-keep-keep, 800
-6-3-1, keep-roll-keep, 184
-5-5-3, roll-keep-keep, 104
-...
-</code></pre>
-<p>It require to trace the visited state and action.
-The <code>RecorderRandBot</code> will lookalike:</p>
-<pre><code class="language-python">class RecorderRandBot( firstBot.Bot ):
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        self._trace= []
-
-    def decide(self):
-        state= '-'.join([ str(d) for d in self.dices ])
-        action= super.decide()
-        self._trace.append( {'state': state, 'action': action} )
-        return action
-
-    def sleep(self, result):
-        # open a State.Action.Value file in append mode:
-        logFile= open( &quot;log-421-SAV.csv&quot;, &quot;a&quot; ) 
-        # For each recorded experience in trace
-        for xp in self._trace :
-            # add a line in the file
-            logFile.write( f&quot;{xp['state']}, {xp['action']}, {result}\n&quot; )
-        logFile.close()
-</code></pre>
-<p><strong>Important:</strong> the recording can only be done at <em>sleep</em> time. The bot need to reach the end of the game to evaluate the succession of actions it performed.</p>
-<p>Tracing the visited state and actions is performed at <em>decide</em>  step, with a <em>trace</em> attribute initialized at <em>wake-up</em> step.</p>
-<p>You can open your <code>log-sav.csv</code> (state, action, value) files to see it content.</p>
-<h3 id="process-the-data">Process the data</h3>
-<p>Processing <code>log-sav.csv</code> file consists of generating a structure matching a coherent policy from brute data.
-Typically, the structure can be simply a dictionnary over possible states.
-ie: <code>policy= { 'state1': 'actionInState1', 'state2': 'actionInState2', ... }</code></p>
-<p><strong>Dictionary:</strong>
-- <a href="https://docs.python.org/3.8/tutorial/datastructures.html#dictionaries">Python documentation</a>
-- <a href="https://www.w3schools.com/python/python_dictionaries.asp">On w3school</a></p>
-<p>But first, it is required to read the log file and group the same experiences together.
-For instance, in state '4-3-1' random strategy will try several times the action 'keep-roll-keep' with different results.</p>
-<p>The simplest way to do that is to create a dictionary over state referencing dictionaries over action referencing lists of reached scores
-(expected result: <code>data['state']['action'] -&gt; a list of value</code>).</p>
-<p>In other term in a script 'process-sav.py':</p>
-<pre><code class="language-python">data= {}
-
-# Load data..
-logFile= open(&quot;log-421-sav.csv&quot;, &quot;r&quot;)
-for line in logFile :
-    state, action, value= tuple( line.split(', ') )
-    value= float(value)
-    if state not in data :
-        data[state]= {action: [value]}
-    elif action not in data[state]:
-        data[state][action]= [value]
-    else :
-        data[state][action].append( value )
-logFile.close()
-</code></pre>
-<p>We can now process the data:</p>
+<h1 id="basic-model-learning-markov-decision-process">Basic Model Learning: Markov-Decision-Process</h1>
+<p>This tutorial aims to compute the policy from logs (transition and rewards) on 421 game.
+Learn model tutorial is structured as policy tutorials.</p>
+<ol>
+<li>Generate logs.</li>
+<li>Process the logs to produce a model.</li>
+<li>Process the model to produce a policy.</li>
+</ol>
+<p>The model is based on Markov Decision Process (MDP) framework:</p>
 <ul>
-<li>Compute the average score for each tuple (state, action)</li>
-<li>Select the action with the maximum score in a policy dictionary.</li>
+<li><a href="https://en.wikipedia.org/wiki/Markov_decision_process">On Wikipedia</a></li>
 </ul>
-<p>In the end, <code>policy["4-2-1"]</code> should return <code>"keep-keep-keep"</code> for instance.</p>
-<p>Notice that, a <a href="https://docs.python.org/3/library/json.html">json</a> package exists with a <code>dump</code> function to record the policy into a <code>policy-421-sav.json</code> file.</p>
-<pre><code class="language-python">policyFile= open(&quot;policy-421-sav.json&quot;, &quot;w&quot;)
-json.dump(data, policyFile, sort_keys=True, indent=2 )
-policyFile.close()
-</code></pre>
-<h3 id="exploit">exploit</h3>
-<p>Finally, it is possible to exploit the policy with a <code>policyBot</code> player.</p>
-<p>First load the policy, in the player constructor for instance:</p>
-<pre><code class="language-python">def __init__(self, policyFilePath):
-    super().__init__()
-    policyFile= open(policyFilePath)
-    self.policy= json.load( policyFile )
-    policyFile.close()
-</code></pre>
-<p>Then apply the policy actions:</p>
-<pre><code class="language-python">def decide(self):
-    action= self.policy[ '-'.join([ str(d) for d in self.dices ]) ]
-    return action
-</code></pre>
-<p>The policy reaches an average score close up to <span class="arithmatex">\(290\)</span>.</p>
-<h3 id="complete-policy">Complete Policy:</h3>
-<p>You can apply the same method but over the complete state definition.
-By adding the horizon in the state definition (<code>4-2-1h2</code> for instance rather than only <code>4-2-1</code>), it possible to reach average score of more than <span class="arithmatex">\(320\)</span>.</p>
-<p>It will just require more experiences in the recording phase.</p></div>
+<!-- TODO: 421 Solo: Engine: transition(s, a) -->
+<p>[ [s', p, r], ... ]</p>
+<!-- TODO: 421 Duo:
+v1: 
+-- First Player: QLearning - Second Player 
+-- Second Player: Policy -->
+
+<h2 id="generate-logs">Generate logs.</h2>
+<p>Modify your recorder Player from policy tutorial in order to log transitions and reward into a <code>log_421_sasr.csv</code> file with :
+<code>(previous_state, previous_action, current_state, reward)</code></p>
+<h2 id="process-logs">Process logs.</h2>
+<p>This process script will load the <code>log_421_sasr.csv</code> file to produce 2 dictionnaries: </p>
+<ul>
+<li><code>transition[previous_state][previous_action][]</code> that return a probability.</li>
+<li><code>reward[previous_state][previous_action]</code> that return the average reward of doing <code>previous_action</code> from <code>previous_state</code>.</li>
+</ul>
+<p>The transition and reward can be saved on 2 diferent <code>json</code> file.</p>
+<h2 id="process-model">Process model.</h2>
+<p>This is the interesting part of the exercice.
+From the transitions and rewards (load from <code>json</code>) we want to compute the optimal policy <span class="arithmatex">\(\pi^*\)</span>
+For that purpose, we recommand to apply Value Iteration (cf. <a href="https://en.wikipedia.org/wiki/Markov_decision_process">On Wikipedia</a>)</p>
+<p>Value-Iteration</p>
+<blockquote>
+<p><em>Input:</em> an <strong>MDP:</strong> <span class="arithmatex">\(\langle S, A, T, R \rangle\)</span> ; precision error: <em><span class="arithmatex">\(\epsilon\)</span></em> ; discount factor: <em><span class="arithmatex">\(\gamma\)</span></em> ; initial <strong>V(s)</strong></p>
+<ol>
+<li>Repeat until: <strong>maximal delta &lt; <span class="arithmatex">\(\epsilon\)</span></strong> <br /> For each state <strong><span class="arithmatex">\(s \in S\)</span></strong></li>
+<li>Search the action <strong><span class="arithmatex">\(a^*\)</span></strong> maximizing the Bellman Equation on <strong><span class="arithmatex">\(s\)</span></strong></li>
+</ol>
+<div class="arithmatex">\[a^*= \arg\max_{a \in A}\left( R(s, a) + \gamma \sum_{s'\in S} T(s,a,s') \times V(s') \right)\]</div>
+<ul>
+<li>Update <em><span class="arithmatex">\(\pi(s)\)</span></em> and <em><span class="arithmatex">\(V(s)\)</span></em> by considering action <strong><span class="arithmatex">\(a^*\)</span></strong> </li>
+<li>Compute the delta value between the previous and the new <em><span class="arithmatex">\(V(s)\)</span></em></li>
+</ul>
+<p><em>Output:</em> an optimal <span class="arithmatex">\(\pi^*\)</span> and associated V-values</p>
+</blockquote>
+<h2 id="exploit">Exploit.</h2>
+<p>Load the policy on your <code>policyBot</code> to test-it.</p>
+<h2 id="in-reinforcement-model-learning">In Reinforcement Model-Learning</h2>
+<p>In fact the real chalenge is to learn the model and use the learned model at the same time.</p></div>
             </div>
         </div>
 

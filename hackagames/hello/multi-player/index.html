@@ -61,26 +61,30 @@
 <li>
     <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -143,12 +147,65 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#multi-player-in-hackagames" class="nav-link">Multi-Player in HackaGames</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#with-a-simple-script" class="nav-link">With a simple script</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#human-interface" class="nav-link">Human Interface</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#with-a-client-server-architecture" class="nav-link">With a Client-Server Architecture</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-</div>
+<h1 id="multi-player-in-hackagames">Multi-Player in HackaGames</h1>
+<p>Most of the games are multi-players games where Artificial Intelligence embodies into <code>Bot</code> structures fight.</p>
+<h2 id="with-a-simple-script">With a simple script</h2>
+<p>One simple way to start a Python <code>HackaGames</code> game with several players is to instantiate the game and the players/Bots in a launch script:</p>
+<pre><code class="language-python3"># Setup a game:
+from hacka.games.aGame import Game
+from hacka.games.aGame.firstBot import Bot as Opponent
+from myBot import Bot
+
+bot, opponent1, opponent2= Bot(), Opponent(), Opponent()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.testPlayer( bot, 10, [opponent1, opponent2] )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>With <code>py421</code> game as an example:</p>
+<pre><code class="language-python3"># Setup a game:
+from hacka.games.py421 import GameDuo as Game
+from hacka.games.py421.firstBot import Bot as Opponent
+from myPy421Bot import Bot
+
+bot, opponent= Bot(), Opponent()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.testPlayer( bot, 1000, [opponent] )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<h2 id="human-interface">Human Interface</h2>
+<p>...</p>
+<h2 id="with-a-client-server-architecture">With a Client-Server Architecture</h2>
+<p>...</p></div>
             </div>
         </div>
 

@@ -61,26 +61,30 @@
 <li>
     <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
+                                    
+<li>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -174,21 +178,22 @@ To do so, a player bot can re-implement the 4 expected methods: <code>wakeUp</co
 <h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
 <p>First let implement a simple script, instantiating a game and a player.</p>
 <p>Put the next code into a script file <code>launch-py421.py</code>.</p>
-<pre><code class="language-python"># Setup a game:
+<pre><code class="language-python"># Import a game and player(s):
 from hacka.games.py421 import GameSolo as Game
-
-# Setup a bot:
 from hacka.games.py421.firstBot import Bot
+
+# Instanciate them:
+game= Game()
 bot= Bot()
 
-# Instanciate and start 100 games
-game= Game()
+# Start 1000 games on a player to test:
 results= game.testPlayer( bot, 1000 )
 
-# Analyze the result
+# And analyze the result:
 print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
-<p>This script import <code>py421.py</code> game and a bot, then it starts <span class="arithmatex">\(1000\)</span> games.</p>
+<p>This script import <code>py421.py</code> game and a <em>bot</em>, then it starts <span class="arithmatex">\(1000\)</span> games with that <em>bot</em> as main player.
+It return the 1000 end game results of <em>bot</em>.</p>
 <p>Test it in a terminal:</p>
 <pre><code class="language-sh">python3 launch-py421.py
 </code></pre>

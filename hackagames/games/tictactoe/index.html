@@ -54,33 +54,37 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
     <a href="../py421/" class="dropdown-item">Py4.2.1</a>
 </li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">TicTacToe</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learn AI <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learn-ai/policy/" class="dropdown-item">Policy</a>
+    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
 </li>
                                     
 <li>
-    <a href="../../learn-ai/scale-up/" class="dropdown-item">Scale-Up</a>
+    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -116,6 +120,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../py421/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../learning/policy/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -164,24 +178,27 @@
 <p><strong>TicTacToe</strong> is simple two-player games where each player tries to align trees of their pieces.</p>
 <p>It comes with two modes: <em>classic</em> and <em>ultimate</em>.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>start-interactive</code> script starts the game in <em>classic</em> mode with an interactive interface in a shell playing against an artificial player <code>playerFirstAI.py</code> (<code>./hackagames/gameTictactoe/start-interactive</code>).</p>
-<p>The player can perform one and only one action at its turn, and the game stops automatically with a winner or when no more pieces can be set on the tabletop.</p>
-<p>The actions consist in positionning a player's piece on the grid with the form: <code>coordinateLetter-coordinateNumber</code>. Their are 3 times 3 actions in <em>classic</em> mode: <code>A-1</code>, <code>A-2</code>, <code>A-3</code>, <code>B-1</code>, <code>B-2</code>, <code>B-3</code>, <code>C-1</code>, <code>C-2</code> and <code>C-3</code>.</p>
-<p>Exemple of grid at some point: </p>
+<p>The <code>play/py421</code> script starts the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/py421
+</code></pre>
+<p>In <em>ticTacToe</em>, the players can perform one and only one action at its turn, and the game stops automatically with a winner or when no more pieces can be set on the tabletop.</p>
+<p>The actions consist of positioning a player's piece on the grid of the form: <code>coordinateLetter-coordinateNumber</code>. Their are 3 times 3 actions in <em>classic</em> mode: <code>A-1</code>, <code>A-2</code>, <code>A-3</code>, <code>B-1</code>, <code>B-2</code>, <code>B-3</code>, <code>C-1</code>, <code>C-2</code> and <code>C-3</code>.</p>
+<p>Example of grid at some point: </p>
 <pre><code class="language-txt">x: A B C
 1  x    
 2    o  
 3  o   x
 </code></pre>
-<p>The first player aligning 3 of its pieces win the game.</p>
+<p>The letter at the up-left corner informs about the player pieces ('x' or 'o').
+The first player aligning 3 of its pieces win the game.</p>
 <h2 id="ultimate-tictactoe">Ultimate TicTacToe</h2>
-<p>The <em>ultimate</em> mode is a hierarchical 2-levels <strong>TicTacToe</strong>. It is possible to activate the mode with a command parrameter:</p>
+<p>The <em>ultimate</em> mode is a hierarchical 2-levels <strong>TicTacToe</strong>. It is possible to activate the mode with a command parameter:</p>
 <pre><code class="language-sh">start-interactive ultimate
 </code></pre>
-<p>the grid is composed off 9 times 9 cells, so potentially 9 times 9 actions for the players: <code>A-1</code>, <code>A-2</code>, ... , <code>A-9</code>, <code>B-1</code>, ... , `I-9.
+<p>The grid is composed of 9 times 9 cells, so potentially 9 times 9 actions for the players: <code>A-1</code>, <code>A-2</code>, ... , <code>A-9</code>, <code>B-1</code>, ... , `I-9.
 In practice, most of the time, only a sub-number of actions are available.
-The particularity in hierarchical <strong>TicTacToe</strong> is that, the took position by a player in the <em>classic</em> grid indicates the next grid to play for the next player turn.</p>
-<p>Exemple of grid at some point: </p>
+The particularity in hierarchical <strong>TicTacToe</strong> is that, the piece position taken by a player in the <em>local</em> grid indicates the next grid to play for the next player turn.</p>
+<p>Example of grid at some point: </p>
 <pre><code class="language-txt">x: A B C   D E F   G H I
 1  x     |       |      
 2        |       |      
@@ -196,9 +213,9 @@ The particularity in hierarchical <strong>TicTacToe</strong> is that, the took p
 9        |       |      
 actions: D:F-7:9
 </code></pre>
-<p>The line <code>actions: D:F-7:9</code> indicate that it is possible to play in any free possition between <code>D</code> and <code>F</code> and <code>7</code> and <code>9</code>, so : <code>D-7</code>, <code>D-8</code>, <code>D-9</code>, <code>E-7</code>, <code>E-9</code>, <code>F-7</code>, <code>F-8</code> or <code>F-9</code>.
-At the begining of the game it is possible to play in a corner grid, a side grid or the center grid. That for the action line indicate: <code>actions: A:C-1:3, A:C-4:6, D:F-4:6</code></p>
-<p>The players have to win 3 aligned <em>classic</em> grids to win an <em>Ultimate</em> <strong>TicTacToe</strong>.</p>
+<p>The line <code>actions: D:F-7:9</code> indicate that it is possible to play in any free position between <code>D</code> and <code>F</code> and <code>7</code> and <code>9</code>, so : <code>D-7</code>, <code>D-8</code>, <code>D-9</code>, <code>E-7</code>, <code>E-9</code>, <code>F-7</code>, <code>F-8</code> or <code>F-9</code>.
+At the beginning of the game, it is possible to play in a corner grid, a side grid or the center grid. That for the action line indicates: <code>actions: A:C-1:3, A:C-4:6, D:F-4:6</code></p>
+<p>The players have to win 3 aligned <em>classic</em> grids to win a <em>Ultimate</em> <strong>TicTacToe</strong>.</p>
 <h2 id="initialize-an-autonomous-player">Initialize an Autonomous Player</h2>
 <h2 id="customaize-your-ai">Customaize your AI:</h2>
 <hr /></div>
