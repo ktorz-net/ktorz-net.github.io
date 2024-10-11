@@ -32,7 +32,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="../../.." class="nav-link">ktorz ></a>
+                                <a href="../../.." class="nav-link">ktorz <</a>
                             </li>
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
@@ -54,12 +54,16 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
     <a href="../py421/" class="dropdown-item">Py4.2.1</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Connect4</a>
 </li>
                                     
 <li>
@@ -76,15 +80,11 @@
 </li>
                                     
 <li>
-    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q-Learning</a>
 </li>
                                     
 <li>
     <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
-</li>
-                                    
-<li>
-    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -120,6 +120,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../py421/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../tictactoe/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -148,7 +158,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#customaize-your-ai" class="nav-link">Customaize your AI:</a>
+            <li class="nav-item" data-level="2"><a href="#customaize-your-bot" class="nav-link">Customaize your Bot:</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -160,10 +170,11 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="connect4">Connect4</h1>
-<p><strong>Connect4</strong> is a <em>HackaGames</em> game.</p>
-<p><strong>Connect4</strong> is simple two-player games where each player tries to align 4 of their pieces.</p>
+<p><strong>Connect4</strong> is a <em>HackaGames</em> game, A simple two-player game where each player tries to align 4 of their pieces.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>start-interactive</code> script starts the game with an interactive interface in a shell playing against an artificial player <code>playerFirstAI.py</code> (<code>./hackagames/gameTictactoe/start-interactive</code>).</p>
+<p>The <code>play/connect4.py</code> script starts the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/connect4.py
+</code></pre>
 <p>The player can perform one and only one action at its turn, and the game stops automatically with a winner or when no more pieces can be set on the grid.</p>
 <p>The actions consist of positioning a player's piece on one of the grid columns.
 There are 7 possible actions: <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>F</code> and <code>G</code> for the corresponding column.</p>
@@ -176,70 +187,59 @@ There are 7 possible actions: <code>A</code>, <code>B</code>, <code>C</code>, <c
 |   |   | X | X |   |   |   |
 | X | O | O | O |   |   | X |
 -----------------------------
-1:O, 2:X
+you: O
 </code></pre>
 <p>First player play 'O' and the second 'X'.
 The first player aligning 4 of its pieces, in any direction win the game.</p>
 <h2 id="initialize-an-autonomous-player">Initialize an Autonomous Player</h2>
-<p>Tutorial of <em>4.2.1. Solo</em> game presents step by step what a bot player should look like.
-And more importantly, the tutorial explains all the 4 Player's class methods required by HackaGames (<code>wakeUp</code>, <code>perceive</code> and <code>sleep</code>).</p>
-<p>Here, we propose a first player for <em>Connect4</em>, playing randomly (supposingly in a <em>tutos</em> directory, aside of <em>hackagames</em>):</p>
-<pre><code class="language-python">import sys, random
-sys.path.insert(1, __file__.split('tutos')[0])
+<p>If you are implementing your first bot, please follow the <a href="../hello/first-bot">first bot</a> tutorial on Py421 game.</p>
+<p>The <code>wakeUp</code> method informs about the mode of the game, the <code>perception</code> of the status of the grid and the possibilities of actions.
+The hackagames <em>Connect4</em> package includes a very useful <em>Grid</em> class to manipulate the game state.</p>
+<p>A minimal random <em>Bot</em> can be implemented in a few lines: </p>
+<pre><code class="language-python">from hacka.games.connect4.grid import Grid
+import random
 
-import hackagames.hackapy.player as pl
-from hackagames.gameConnect4.gameEngine import Grid
-
-def main():
-    player= BotPlayer()
-    result= player.takeASeat()
-    print( f&quot;Average: {sum(result)/len(result)}&quot; )
-
-class BotPlayer( pl.AbsPlayer ):
-
-    def __init__(self):
-        super().__init__()
-        self.grid= Grid()
-        self.playerId= 0
-
+class Bot :
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
-        self.playerId= playerId
         assert( gamePod.family() == 'Connect4')
+        self._playerId= playerId
+        self._grid= Grid()
 
     def perceive(self, gameState):
         # update the game state:
-        self.grid.fromPod( gameState )
+        self._grid.fromPod( gameState )
 
     def decide(self):
-        options = self.grid.possibilities()
-        action = random.choice( options )
-        return action
+        options = self._grid.possibilities()
+        return random.choice( options )
 
     def sleep(self, result):
         pass
-
-# script
-if __name__ == '__main__' :
-    main()
 </code></pre>
-<p>Compared to other games, <em>Connect4</em> players can take advantage of an object modeling the grid. 
-The grid is updated during the perception phase, and it is requested during the decision phase.
-In this example, the player get all the possible actions (<code>self.grid.possibilities()</code>) <em>A</em>, <em>B</em>, <em>C</em> etc.
-Then an action is selected randomly.</p>
-<p>To play again your bot (into 3 shell:)</p>
-<pre><code class="language-sh"># In the first shell:
-python3 ./hackagames/gameConnect4/start-server
+<p>And can be tested thanks to a very simple launcher script:</p>
+<pre><code class="language-python"># Setup a game:
+from hacka.games.connect4 import GameConnect4 as Game
+from hacka.games.connect4.firstBot import Bot as Opponent
 
-# In the second shell:
-python3 ./tutos/yourConnect4Bot.py
+# Setup your bot:
+from myRandomBot import Bot
 
-# In the third shell:
-python3 ./hackagames/connect-shell
+bot= Bot()
+oppo= Opponent()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.test2Players( bot, oppo, 1000 )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results[0])/len(results[0])} vs {sum(results[1])/len(results[1])}&quot; )
 </code></pre>
-<h2 id="customaize-your-ai">Customaize your AI:</h2>
+<p>At this point, the results comparing the 2 Bot would be very close. The 2 bots have the same behavior.
+To notice that, the list of actions do not filter positions already taken. However in case of wrong actions, the game will ask the player for a second call.</p>
+<h2 id="customaize-your-bot">Customaize your Bot:</h2>
 <p>You can explore the grid to select the best action possible.
-Some useful <em>Gird</em> instance methods:</p>
+Some useful <em>Gird</em> methods:</p>
 <ul>
 <li><code>columnSize(self)</code>: The number of columns (<em>7</em> in classical configuration)</li>
 <li><code>heightMax(self)</code>: The height of the grid (<em>6</em> position per column in classical configuration)</li>
@@ -249,12 +249,16 @@ Some useful <em>Gird</em> instance methods:</p>
 </ul>
 <p>To test a move you will need:</p>
 <ul>
-<li><code>copy(self)</code>: returning a deep copy of the grid before to make some experiments</li>
-<li><code>playerPlay(self, iPlayer, aLetter)</code>: to alter the grid considering that player <em>iPlayer</em> play on <em>aLetter</em> column.</li>
+<li><code>copy(self)</code>: returning a deep copy of the grid (before to make some changes)</li>
+<li><code>playerPlay(self, iPlayer, aLetter)</code>: to alter the grid considering that player <em>iPlayer</em> play on the <em>aLetter</em> column.</li>
 <li><code>winner(self)</code>: returns the player Id winning the game if 4 of his pieces are aligned.</li>
 <li><code>possibilities(self)</code>: returns the list of possible move (letters), if the columns are not full.</li>
 </ul>
-<p>To notice that you can move from column letter to the column identifier and vice versa with <code>ch</code> and <code>ord</code> functions (for instance: <code>ord(aLetter)-ord('A')</code> and <code>chr( ord('A')+iColumn )</code>). </p>
+<p>To notice that you can move from column letter to the column identifier and vice versa with <code>chr</code> (a char from an integer) and <code>ord</code> (the interger code of a char).
+For instance:</p>
+<pre><code class="language-python">iColumn= ord(aLetter)-ord('A')
+aLetter= chr( ord('A')+iColumn )
+</code></pre>
 <hr /></div>
             </div>
         </div>

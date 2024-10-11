@@ -32,7 +32,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="../../.." class="nav-link">ktorz ></a>
+                                <a href="../../.." class="nav-link">ktorz <</a>
                             </li>
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
@@ -63,6 +63,10 @@
 </li>
                                     
 <li>
+    <a href="../connect4/" class="dropdown-item">Connect4</a>
+</li>
+                                    
+<li>
     <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
 </li>
                                 </ul>
@@ -76,15 +80,11 @@
 </li>
                                     
 <li>
-    <a href="../../learning/qlearning/" class="dropdown-item">Q Learning</a>
+    <a href="../../learning/qlearning/" class="dropdown-item">Q-Learning</a>
 </li>
                                     
 <li>
     <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
-</li>
-                                    
-<li>
-    <a href="../../learning/scale-up/" class="dropdown-item">Scale-Up</a>
 </li>
                                 </ul>
                             </li>
@@ -126,7 +126,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../tictactoe/" class="nav-link">
+                                <a rel="next" href="../connect4/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -171,10 +171,9 @@
 
 <h1 id="py421">Py421</h1>
 <p><strong>Py421</strong> is an <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
-<p>This tutorial is based only on <strong>Python3</strong>.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>play/py421</code> script starts the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/py421
+<p>The <code>play/py421.py</code> script starts the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">python3 hackagames/play/py421.py
 </code></pre>
 <p><strong>Py421</strong> is a 3-dice game. The player can roll several times to get a combination.
 The player can perform one and only one action on his turn, and the game stops automatically after 2 turns.</p>
