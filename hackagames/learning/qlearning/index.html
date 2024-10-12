@@ -86,6 +86,10 @@
 <li>
     <a href="../learn-model/" class="dropdown-item">Learn Model</a>
 </li>
+                                    
+<li>
+    <a href="../decision-tree/" class="dropdown-item">Decision Tree</a>
+</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -150,15 +154,15 @@
             
             <li class="nav-item" data-level="1"><a href="#basic-reinforcement-learning-q-learning" class="nav-link">Basic Reinforcement Learning: Q-Learning</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#qvalues-equation" class="nav-link">qvalues equation</a>
+            <li class="nav-item" data-level="2"><a href="#q-values-equation" class="nav-link">Q-Values equation</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#implementing-qvalues" class="nav-link">Implementing qvalues</a>
+            <li class="nav-item" data-level="2"><a href="#implementing-q-values" class="nav-link">Implementing Q-Values</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#when-to-update-qvalues" class="nav-link">When to update qvalues?</a>
+            <li class="nav-item" data-level="2"><a href="#when-to-update-q-values" class="nav-link">When to update Q-Values ?</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -167,6 +171,10 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#experiments" class="nav-link">Experiments</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#going-further" class="nav-link">Going further</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -185,25 +193,27 @@ Accumulating feedback, it will be capable of evaluating the interest of actions 
 <p>In reinforcement Learning family, <strong>Q-Learning</strong> is quite a simple and apply pretty well for learning to play <strong>421</strong>.</p>
 <p>The goal of the tutorial: </p>
 <ol>
-<li>Implement a new <code>QLearnerBot</code> player from random player.</li>
+<li>Implement a new <code>qlearnerBot</code> player from random <em>Bot</em>.</li>
 <li>At initialization <code>qvalues</code> is created empty with the other required variables.</li>
-<li>At decision steps the player updates its <code>qvalues</code> and choose a new action to perform.</li>
+<li>At perception steps the bot updates its <code>qvalues</code> </li>
+<li>At decision steps it chooses a new action to perform.</li>
 </ol>
 <p>And do not forget: you ~~can~~ must test your code at each development step by executing the code for a few games and validate that the output is as expected (also a good python tool to make test: <code>pytest</code>).</p>
-<h2 id="qvalues-equation">qvalues equation</h2>
-<p>The <strong>Q-Learning</strong> algorithm ([Cf. <a href="https://en.wikipedia.org/wiki/Q-learning">Wikipedia</a>]) consists in computing <code>qvalues</code>, a dictionary of the interest or value of executing a given action from a given state.</p>
+<h2 id="q-values-equation">Q-Values equation</h2>
+<p>The <strong>Q-Learning</strong> algorithm ([Cf. <a href="https://en.wikipedia.org/wiki/Q-learning">Wikipedia</a>]) consists of computing <code>qvalues</code>, a dictionary of interests/values of executing a given action from a given state.</p>
 <div class="arithmatex">\[ \mathit{qvalues}(s, a) \in \mathbb{R} \]</div>
-<p>A qvalue is equal to the immediate reward of doing action <span class="arithmatex">\(a\)</span> in a state <span class="arithmatex">\(s\)</span> plus the future rewards modeled as <span class="arithmatex">\(\mathit{qvalues}(s', a')\)</span>.
+<p>A <em>Q-Value</em> is equal to the immediate reward of doing action <span class="arithmatex">\(a\)</span> in a state <span class="arithmatex">\(s\)</span> plus the future rewards modeled as <span class="arithmatex">\(\mathit{qvalues}(s', a')\)</span>.
 <span class="arithmatex">\(s'\)</span> is the state reached from (s, a) and <span class="arithmatex">\(a'\)</span> the next action that will be performed.
 In other terms, <span class="arithmatex">\(\mathit{qvalues}(s, a)\)</span> is the cumulative reward from <span class="arithmatex">\(s\)</span>, knowing that the next action is <span class="arithmatex">\(a\)</span>.
 However, the resulting experiment of doing <span class="arithmatex">\(a\)</span> from <span class="arithmatex">\(s\)</span> need to be computed as an average.</p>
 <p>Finally, one of the ways to formalize updates on <span class="arithmatex">\(\mathit{qvalues}(s, a)\)</span> is:</p>
-<div class="arithmatex">\[ \mathit{qvalues}(s, a) = \alpha(\ r(s, a, s') + \mathit{qvalues}(s', a')\ ) + (1-\alpha)(\ \mathit{qvalues}(s, a)\ ) \]</div>
+<div class="arithmatex">\[ \mathit{qvalues}(s, a) = \alpha \times \mathit{experience} + (1-\alpha)\times \mathit{qvalues}(s, a)\]</div>
+<div class="arithmatex">\[ \text{with:}\ \mathit{experience}= r(s, a, s') + \max_{a'\in A}(\ \mathit{qvalues}(s', a')\ ) \]</div>
 <p>The learning rate <span class="arithmatex">\(\alpha\)</span> is the speed that incoming experiences erase the oldest (can be initialized at <span class="arithmatex">\(0.1\)</span> as a first approximation).</p>
-<h2 id="implementing-qvalues">Implementing qvalues</h2>
-<p>At some point, our new player will require to update its <code>qvalues</code> from its experiments.
+<h2 id="implementing-q-values">Implementing Q-Values</h2>
+<p>At some point, our new <em>Bot</em> (defined in <code>qlearnerBot.py</code>) will require to update its <code>qvalues</code> from its experiments.
 So let's start with a method:</p>
-<pre><code class="language-python">def updateQvalues(self, previous_state, previous_action, reward, current_state, current_action):
+<pre><code class="language-python">def updateQvalues(self, previous_state, action, current_state, reward):
     ...
 </code></pre>
 <p>A simple way to implement <code>qvalues</code> in python language is to implement it as a Dictionnary of dictionaries
@@ -212,59 +222,100 @@ So let's start with a method:</p>
 <pre><code class="language-python">qvalues= {}
 </code></pre>
 <p>Typically in the constructor method <code>__init__</code> in python (and with Q-Learning attributes):</p>
-<pre><code class="language-python">class QPlayer :
+<pre><code class="language-python">class Bot :
     def __init__(self):
-        self.alpha= 0.1 # learning rate, speed that an incoming experience erases the oldest.
-        self.qvalues= {} #
+        self._alpha= 0.1 # learning rate, speed that an incoming experience erases the oldest.
+        self._qvalues= { &quot;wakeUp&quot;: {&quot;roll-roll-roll&quot;: 0.0} }
 </code></pre>
 <p>Returning to the <code>updateQvalues</code> method,
-initializing action values for a given state will look like:</p>
-<pre><code class="language-python">state= &quot;4-2-1&quot;
+initializing action values for a given state will lookalike</p>
+<pre><code class="language-python"># state= &quot;2|6-3-1&quot; for instance (2 re-rolls from dice: 6, 3 and 1)
 if state not in self.qvalues.keys() :
-    self.qvalues[state]= {
+    self._qvalues[state]= {
             &quot;keep-keep-keep&quot;:0.0, &quot;roll-keep-keep&quot;:0.0, &quot;keep-roll-keep&quot;:0.0,
             &quot;roll-roll-keep&quot;:0.0, &quot;keep-keep-roll&quot;:0.0, &quot;roll-keep-roll&quot;:0.0,
             &quot;keep-roll-roll&quot;:0.0, &quot;roll-roll-roll&quot;:0.0 }
 </code></pre>
-<p>Finally, modifying a value in <strong>qvalues</strong> will look like:</p>
-<pre><code class="language-python">self.qvalues[&quot;4-2-1&quot;][&quot;roll-roll-roll&quot;]= ...
+<p>Finally, modifying a value in <strong>qvalues</strong> will look lookalike</p>
+<pre><code class="language-python">self._qvalues[&quot;2|6-3-1&quot;][&quot;roll-roll-roll&quot;]= ...
 </code></pre>
-<h2 id="when-to-update-qvalues">When to update qvalues?</h2>
-<p>The <code>updateQvalues</code> method requires to confront current state and action with memorized previous state and action.
-It can be performed while a new state is reaches.</p>
-<p>So a first call to <code>updateQvalues</code> can be implemented into <code>perception</code> method. 
-At this time, we consider that we have no idea about the value of doing this or that action or of reaching a specific state.
-The reward is set to <span class="arithmatex">\(0\)</span>.</p>
-<p>However, a last call to the <code>updateQvalues</code> need to be set-up into the <code>sleep</code> method.
-At sleep step, the reward matches the game score, and a special state <code>"end"</code> with a fix action <code>"sleep"</code> need to be added to the qValues.</p>
+<h2 id="when-to-update-q-values">When to update Q-Values ?</h2>
+<p>The <code>updateQvalues</code> method requires to confront previous and current states
+It can be performed while a new state is reaches.
+So, call to <code>updateQvalues</code> can be implemented into <code>perception</code> method.
+The reward can be computed as the difference between previous and current score.
+Do not forget to initialize state and action in <code>wakeUp</code> method.</p>
+<p>Your <em>Bot</em> player interface methods should be:</p>
+<pre><code class="language-python">    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        self._state= &quot;wakeUp&quot;
+        self._action= &quot;roll-roll-roll&quot;
+        self._score= 0
+
+    def perceive(self, gameState):
+        self._horizon= gameState.child(1).flag(1)
+        self._dices= gameState.child(2).flags()
+        newScore= gameState.child(2).value(1)
+        # Learn:
+        newState= f&quot;{self._horizon}|{self._dices[0]}-{self._dices[1]}-{self._dices[2]}&quot;
+        self.updateQvalues(
+            self._state, self._action,
+            newState, newScore-self._score
+        )
+        # Switch:
+        self._state= newState
+        self._score= newScore
+</code></pre>
 <h2 id="exploration-exploitation-dilemma">Exploration-Exploitation Dilemma</h2>
 <p>Until now we just compute and record statistical rewards. 
 The idea is to use-it on to take <em>decision</em> at some time (i.e. when we record a good knowledge).
-However the first difficulty in reinforcement learning result on the definition of this "at some time".
+However the first difficulty in reinforcement learning result in the definition of this "at some time".
 In other terms, when to stop the computation of statistical kwonledge by exploring actions and to start the exploitation of computed statistics to make decisions.
 It is known as the exploration versus exploitation trade-off [cf. <a href="https://en.wikipedia.org/wiki/Reinforcement_learning#Exploration">wikipedia</a>].</p>
 <p>One way to overpass the trade-off is to put it random. 
 The <em>ε-greedy</em> heuristic suppose that you will choose an exploration action (i.e. a random action for instance) a few times in a given time step.
 More technically, at each time step the AI randomly choose to get a random action or to get the best one accordingly to the current knowledge.
-The random chose of explore versus exploit is weighted by <code>ε</code> and <code>1-ε</code> with <code>ε</code> between 1 and 0.</p>
-<p>Do not forget to initialize the <code>self.epsilon</code> in the constructor method (<code>self.epsilon= 0.1</code> is generally a good first value, it states that a random action would be chosen 1 time over 10).</p>
+The random chose to explore versus to exploit is weighted by <code>ε</code> and <code>1-ε</code> with <code>ε</code> between 1 and 0.</p>
+<p>Do not forget to initialize the <code>self._epsilon</code> in the constructor method (<code>self._epsilon= 0.1</code> is generally a good first value, it states that a random action would be chosen 1 time over 10).</p>
 <h2 id="experiments">Experiments</h2>
 <p>You can now try to answer the question: how many episodes are required to learn a good enough policy.</p>
 <p>One way to do that is to plot the evolution of the strategy during the learning.
-The package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools for instance to do that.
-At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.
-Generate a plot with one point every <span class="arithmatex">\(500\)</span> games for instance. </p>
-<p>Typically after playing <em>X</em> games:</p>
+For instance, the package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools to do that.
+At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.</p>
+<p>Let generate a plot with one points every <span class="arithmatex">\(500\)</span> games for instance at sleep time.</p>
 <pre><code class="language-python">import matplotlib.pyplot as plt
 
-scores= []
-size= len(results)
-for i in range(0, size, 500) :
-    s= min(i+500, size)
-    scores.append( sum([ x for x in results[i:s] ]) / (s-i) )
-plt.plot( [ 500*i for i in range(len(scores)) ], scores )
-plt.show()
-</code></pre></div>
+...
+
+    def __init__(self):
+        # Progress
+        self._results= []
+        self._evals= []
+        # Q-Learning attributes
+        self._qvalues= { &quot;wakeUp&quot;: {&quot;roll-roll-roll&quot;: 0.0} }
+        self._alpha= 0.1
+        self._epsilon= 0.1
+
+...
+
+    def sleep(self, result):
+        self._results.append(result)
+        if len(self._results) == 500 :
+            self._evals.append( sum(self._results)/500.0 )
+            self._results= []
+            self.drawEvaluations()
+
+    def drawEvaluations(self) :
+        plt.plot( 
+            [ i*500 for i in range(len(self._evals)) ],
+            self._evals )
+        plt.savefig( &quot;output.png&quot; )
+        plt.clf()
+</code></pre>
+<h2 id="going-further">Going further</h2>
+<p>Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
+A first solution is to change the ratio dynamically while the systems record experiments.
+Another solution consists of implementing <a href="https://en.wikipedia.org/wiki/Reinforcement_learning#policy">probabilistic policies</a>.</p>
+<p>Using probabilistic policies in <em>Q-Learning</em> the probability to take an action rather than another increase with the differences in <em>Q-Values</em>.</p></div>
             </div>
         </div>
 

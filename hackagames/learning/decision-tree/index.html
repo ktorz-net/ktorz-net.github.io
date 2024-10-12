@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Multi-Player - HackaGames</title>
+        <title>Decision Tree - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -37,20 +37,20 @@
                             <li class="navitem">
                                 <a href="../.." class="nav-link">Home</a>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">First-Steps <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../install/" class="dropdown-item">Install</a>
+    <a href="../../hello/install/" class="dropdown-item">Install</a>
 </li>
                                     
 <li>
-    <a href="../first-bot/" class="dropdown-item">First Bot</a>
+    <a href="../../hello/first-bot/" class="dropdown-item">First Bot</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">Multi-Player</a>
+    <a href="../../hello/multi-player/" class="dropdown-item">Multi-Player</a>
 </li>
                                 </ul>
                             </li>
@@ -71,24 +71,24 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
+    <a href="../policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learning/qlearning/" class="dropdown-item">Q-Learning</a>
+    <a href="../qlearning/" class="dropdown-item">Q-Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learning/learn-model/" class="dropdown-item">Learn Model</a>
+    <a href="../learn-model/" class="dropdown-item">Learn Model</a>
 </li>
                                     
 <li>
-    <a href="../../learning/decision-tree/" class="dropdown-item">Decision Tree</a>
+    <a href="./" class="dropdown-item active">Decision Tree</a>
 </li>
                                 </ul>
                             </li>
@@ -125,12 +125,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../first-bot/" class="nav-link">
+                                <a rel="prev" href="../learn-model/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../games/py421/" class="nav-link">
+                                <a rel="next" href="../../hood/api/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -152,24 +152,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#multi-player-in-hackagames" class="nav-link">Multi-Player in HackaGames</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#with-a-simple-script" class="nav-link">With a simple script</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#human-interface" class="nav-link">Human Interface</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#client-server-architecture" class="nav-link">Client-Server Architecture</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-level="1"><a href="#script" class="nav-link">Script :</a>
+            <li class="nav-item" data-level="1"><a href="#using-decision-tree" class="nav-link">Using Decision Tree</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -178,89 +161,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="multi-player-in-hackagames">Multi-Player in HackaGames</h1>
-<p>Most of the games are multi-players games where Artificial Intelligence embodies into <code>Bot</code> fight.</p>
-<h2 id="with-a-simple-script">With a simple script</h2>
-<p>One simple way to start a Python <code>HackaGames</code> game with several players is to instantiate a game and the players/Bots in a launcher script:</p>
-<pre><code class="language-python3"># Setup a game:
-from hacka.games.aGame import Game
-from hacka.games.aGame.firstBot import Bot as Opponent
-from myBot import Bot
-
-bot, opponent1, opponent2= Bot(), Opponent(), Opponent()
-
-# Instanciate and start 100 games
-number= 100
-game= Game()
-results=game.launch( [bot, opponent1, opponent2], number )
-
-# Analyze the results
-for name, individualResults in zip( [&quot;bob&quot;, &quot;natacha&quot;, &quot;jad&quot;], results ) :
-    print( f&quot;- {name},s average score: {sum(individualResults)/number}&quot; )
-</code></pre>
-<h2 id="human-interface">Human Interface</h2>
-<p>The <code>hacka.pylib</code> package provides a very basic shell interface capable of playing any hackagames.</p>
-<pre><code class="language-python3">from hacka.pylib.player import PlayerIHM as Interface
-</code></pre>
-<p>Typically it is the one used by py421 game.
-However, systematically more tailored shell interface is provided.</p>
-<pre><code class="language-python3">from hacka.games.aGames.shell import Interface
-</code></pre>
-<p>Those interfaces can replace bot players into the launcher script.</p>
-<p>Example with Connect4:</p>
-<pre><code class="language-python3"># Setup a game:
-from hacka.games.connect4 import GameConnect4 as Game
-from hacka.games.connect4.firstBot import Bot
-from hacka.games.connect4.shell import Interface
-
-# Instanciate and start 100 games
-number= 4
-game= Game()
-results=game.launch( [Bot(), Interface()], number )
-
-# Analyze the results
-for name, individualResults in zip( [&quot;bob&quot;, &quot;me&quot;], results ) :
-    print( f&quot;- {name},s average score: {sum(individualResults)/number}&quot; )
-</code></pre>
-<h2 id="client-server-architecture">Client-Server Architecture</h2>
-<p>HackaGames is designed to run as a client-server architecture.
-The game run as a server, and players (Bots or Human Interfaces) as clients.
-The game wait for the appropriate number of players before to start.</p>
-<p>For instance, on three different shells: </p>
-<pre><code class="language-sh"># shell-1
-python3 -m hacka.games.tictactoe.serve ultimate -n 2
-# shell-2
-python3 -m hacka.games.tictactoe.shell
-# shell-3
-python3 -m hacka.games.tictactoe.firstBot
-</code></pre>
-<p>Each shell process one entity of the game, coordination is provided with hackagame protocol.
-The shells can be distributed over different machine.
-To connect a player to a specific hackagames server, the player need to inherite from <code>hacka.pylib</code> abstract player (<code>AbsPlayer</code>) and take a seat on a game....</p>
-<pre><code class="language-python3">
-</code></pre>
-<p>from ... import pylib as hk</p>
-<p>def main() :
-    player= MyBot()
-    player.takeASeat( "xxx.local" )</p>
-<p>class MyBot( hk.AbsPlayer ) :</p>
-<pre><code># Player interface :
-def wakeUp(self, playerId, numberOfPlayers, gamePod ):
-    ...
-
-def perceive(self, gameState):
-    ...
-
-def decide(self):
-    ...
-
-#def sleep(self, result):
-    ...
-</code></pre>
-<h1 id="script">Script :</h1>
-<p>if <strong>name</strong> == '<strong>main</strong>' :
-    main()
-...</p></div>
+<h1 id="using-decision-tree">Using Decision Tree</h1></div>
             </div>
         </div>
 
