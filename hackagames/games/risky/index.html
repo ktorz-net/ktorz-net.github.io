@@ -54,7 +54,7 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -68,6 +68,10 @@
                                     
 <li>
     <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Risky</a>
 </li>
                                 </ul>
                             </li>
@@ -124,6 +128,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../tictactoe/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../learning/policy/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -148,19 +162,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#initialize-an-autonomous-player" class="nav-link">Initialize an Autonomous Player</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#test-your-player" class="nav-link">Test your Player</a>
+            <li class="nav-item" data-level="2"><a href="#initialize-a-bot" class="nav-link">Initialize a Bot</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#customaize-your-ai" class="nav-link">Customaize your AI:</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#confront-your-ai" class="nav-link">Confront your AI:</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -172,13 +178,12 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="risky">Risky</h1>
-<p><strong>Risky</strong> is an <em>HackaGames</em> game.</p>
-<p>It is a strategic turn-based game where two armies (or more) fights for a territory.</p>
+<p><strong>Risky</strong> is a <em>HackaGames</em> strategic turn-based game where two armies (or more) fights for a territory.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>start-interactive</code> script starts the game with an interactive interface in a shell playing against an artificial player <code>playerFirstAI.py</code>.</p>
-<pre><code class="language-sh">python3 hackagames/gameRisky/start-interactive
+<p>The <code>play/risky.py</code> script starts the game with an interactive interface in a shell playing against an artificial player (<code>firstBot.py</code>) playing randomly.</p>
+<pre><code class="language-sh">python3 hackagames/play/risky.py
 </code></pre>
-<p>The world is composed by interconnected nodes forming a tabletop as, for instance:</p>
+<p>The world is composed by interconnected nodes forming a tabletop as, for instance</p>
 <pre><code class="language-txt">       .' '.
       |     |
        '. .3
@@ -197,7 +202,8 @@ When an army is on a node, the information is presented as below:</p>
 |1- 12|   # army action and force
  '. .4    # node ID
 </code></pre>
-<p>In this example, an army of player <em>A</em> is on node <code>4</code>. The army has <code>1</code> action-point and is composed by <code>12</code> soldiers. </p>
+<p>In this example, an army of player <em>A</em> is on node <code>4</code>.
+This army has <code>1</code> action-point and is composed by <code>12</code> soldiers. </p>
 <p>Each army has 2 main attributes:</p>
 <ul>
 <li>its action counter (the number of action it can perform - max 2)</li>
@@ -206,125 +212,70 @@ When an army is on a node, the information is presented as below:</p>
 <p>At its turn the player can make several actions (in the limit of action counters):</p>
 <ul>
 <li>Moving: <code>move X Y FORCE</code> to move <code>FORCE</code> units from cell <code>X</code> to cell <code>Y</code></li>
-<li>Growing: <code>grow X</code> to grow the army on nodes <code>X</code>. The increase of the army is depending on the initial army size and the connections to occupied friend nodes.</li>
+<li>Growing: <code>grow X</code> to grow the army on nodes <code>X</code>. The increase of the army is depending on the initial army size and the neighbors (the number of connected owned nodes).</li>
 <li>Sleeping: <code>sleep</code> to increase the action counter by one for all the armies.</li>
 </ul>
 <p>To notice that a moving action that will move an army toward an adversarial node trigger a fight.
 Iteratively, each force point of the attack and the defense has a chance to deal one damage.
-Defenses have an increased chance than attack.
+Defenses have an increased chance than attackers.
 However if the attack is greater than the defense than each extra point count double.
 The fight is running until one of the army is destroyed.</p>
 <p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> (<span class="arithmatex">\(2\times 10-8\)</span>) times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.</p>
-<h2 id="initialize-an-autonomous-player">Initialize an Autonomous Player</h2>
-<p>Into your workspace, we encourage you to create a new directory for your experiences linked to our tutorials (<code>tutos</code> for instance, aside of <code>hackagames</code> directory),
-and to create your new <strong>Risky</strong> player in this directory.</p>
-<pre><code class="language-sh">mkdir tutos
-touch tutos/myRiskyPlayer.py
-</code></pre>
-<p>You now have to edit <code>myRiskyPlayer.py</code> script and create a <strong>Risky</strong> player.
-The script must begin by importing hackagames elements (<code>hackapy</code> and the <code>Risky</code> <code>gameEngine</code>) and implement an <code>hackagames Abstract Player</code>.</p>
-<p>To import <code>hackapy</code> and the <code>gameEngine</code> you have first to modify the python path resource to add your workspace directory (i.e. the directory including tutos in which your AI in positioned).</p>
-<pre><code class="language-python"># Local HackaGame:
-import sys
-sys.path.insert( 1, __file__.split('tutos')[0] )
-
-import hackagames.hackapy as hg
-import hackagames.gameRisky.gameEngine as game
-</code></pre>
-<p>The first script we propose selects a random action and also requires the adequate python tool:</p>
-<pre><code class="language-python">import random
-</code></pre>
-<p>Then your first player will inherit from hackay Abstract Player and implement the <code>4</code> player methods <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code> required to play any Hackagames's game :</p>
-<pre><code class="language-python">class AutonomousPlayer( hg.AbsPlayer ) :
-
-    # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        [...]
-
-    def perceive(self, gameState):
-        [...]
-
-    def decide(self):
-        [...]
-
-    def sleep(self, result):
-        [...]
-</code></pre>
-<p>A first version of <code>myRiskyPlayer.py</code> player could be a copy-paste of the <code>hackagames/gameRisky/playerFirstAI</code>, 
-and your final first script would be:</p>
-<pre><code class="language-python"># Local HackaGame:
-import sys
-sys.path.insert( 1, __file__.split('tutos')[0] )
-
-import hackagames.hackapy as hg
-import hackagames.gameRisky.gameEngine as game
+<h2 id="initialize-a-bot">Initialize a Bot</h2>
+<p>If you are implementing your first bot, please follow the <a href="../hello/first-bot">first bot</a> tutorial on Py421 game.</p>
+<p>The <code>wakeUp</code> method informs about the mode of the game and more importantly the tabletop structure, the <code>perception</code> of the status of each army on the tabletop.
+It is possible to manage a copy of <em>Riscky</em> game locally for helping decision-making.</p>
+<p>A minimal random <em>Bot</em> can be implemented in a few lines: </p>
+<pre><code class="language-python">from hacka.games.risky import GameRisky
 import random
 
-class AutonomousPlayer(hg.AbsPlayer) :
-
+class Bot : 
     # Player interface :
     def wakeUp(self, iPlayer, numberOfPlayers, gameConf):
-        print( f'---\nwake-up player-{iPlayer} ({numberOfPlayers} players)')
-        self.playerId= chr( ord(&quot;A&quot;)+iPlayer-1 )
-        self.game= game.GameRisky().fromPod( gameConf )
-        self.viewer= game.ViewerTerminal( self.game )
+        self._playerId= chr( ord(&quot;A&quot;)+iPlayer-1 )
+        self._game= GameRisky().fromPod( gameConf )
 
     def perceive(self, gameState):
-        self.game.fromPod( gameState )
-        self.viewer.print( self.playerId )
+        self._game.fromPod( gameState )
 
     def decide(self):
-        actions= self.game.searchActions( self.playerId )
-        action= random.choice( actions )
-        if action[0] == 'move':
-            action[3]= random.randint(1, action[3])
-        action= ' '.join( [ str(x) for x in action ] )
-        print( &quot;Do: &quot;+ action )
-        return action
+        actions= self._game.searchReadyActions( self._playerId )
+        return random.choice( actions )
 
     def sleep(self, result):
-        print( f'---\ngame end\nresult: {result}')
+        pass
 </code></pre>
-<p>Here the gameEngine permit the player to instantiate a copy <code>self.game</code> of the game at the reached configuration.
-It is first used to search for available actions in <code>decide</code> method and to get one at random.</p>
-<h2 id="test-your-player">Test your Player</h2>
-<p><em>HackaGames</em> is designed to work as a client-server architecture to make the game and the player completely independent.
-However, it is also possible start a python game in a test mode for a player in a single process with a simple script.
-Aside to <code>hackagames</code> and your <code>tutos</code> directories create your own launcher:</p>
-<pre><code class="language-sh">touch launcherRisky.py
-</code></pre>
-<p>Edit the python script.
-The code requires to import the game and the player and an opponent to your player.
-then to instantiate them and to start <code>testPlayer</code> method:</p>
-<pre><code class="language-python">#!env python3
-from hackagames.gameRisky.gameEngine import GameRisky
-from hackagames.gameRisky.playerFirstAI import AutonomousPlayer as Opponent
-from tutos.myRiskyPlayer import AutonomousPlayer as Player
+<p>And can be tested thanks to a very simple launcher script:</p>
+<pre><code class="language-python">#!python3 
 
-# Instanciate and start 1 games
-game= GameRisky( 2, &quot;board-4&quot; )
-player= Player()
-opponent1= Opponent()
-results= game.testPlayer( player, 100, [opponent1] )
+# Setup a game:
+from hacka.games.risky import GameRisky as Game
+from hacka.games.risky.firstBot import Bot as Opponent
 
-print(results)
+# Setup your bot:
+from randomBot import Bot
+
+bot= Bot()
+oppo= Opponent()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.test2Players( bot, oppo, 100 )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results[0])/len(results[0])} vs {sum(results[1])/len(results[1])}&quot; )
 </code></pre>
-<p>That it, you can execute your script: <code>python3 ./launcherRisky.py</code> which calls your player.
-The second attribute in <code>testPlayer</code> method of <code>game</code> instance (<code>100</code> here) is the number of games the players will play before the process end.</p>
-<p>The <code>game.testPlayer</code> method return the list game results.
-We can now print and analyze the reached results (compute the average score for instance): </p>
-<pre><code class="language-python"># Analysis
-average= sum(results)/len(results)
-print( f&quot;Average score: {average}&quot;)
-</code></pre>
-<p>The result should be very close to zero. It is the same AI...</p>
+<p>At this point, the results comparing the 2 Bots would be very close.
+The difference comes from the fact <code>firstBot</code> <em>Bot</em> has a decreased probability to choose a move action.</p>
 <h2 id="customaize-your-ai">Customaize your AI:</h2>
 <p>To customize your AI you can use the game engine copy (cf. <a href="https://github.com/ktorz-net/hackagames/blob/master/gameRisky/gameEngine">risky.py</a>)</p>
 <p>Somme of the available methods:</p>
 <pre><code class="language-python">def update( self, board ): # Update the board from the perception.
 
-def searchActions(self, playerId): # List all the current possible actions from the configuration of the armies
+def searchActions(self, playerId): # List all the current possible actions from the configuration of the armies. An action is a list ['actionName', nodeId, targetNodeId, maxForce]. targetNodeId and maxForce exist only for 'move' actions...
+
+def searchReadyActions(self, playerId): # List a limited set of ready to use actions.
 
 def cellIds(self): # return the list of cell identifiers
 
@@ -335,19 +286,23 @@ def armyOn(self, iCell) : # return an army as a Pod object, if an army is on the
 def playerLetter(self, iPlayer): # return the player letter (A, B, C ...) of the ith player (1, 2, ...)
 </code></pre>
 <p>An army is a <code>Pod</code> object where the owner is recorded in the status and the 2 attributes is for action counter and force :</p>
-<pre><code class="language-python">for iCell in self.game.cellIds() :
-    army= self.game.armyOn(iCell) # The army on the cell 1
+<pre><code class="language-python">for iCell in self._game.cellIds() :
+    army= self._game.armyOn(iCell) # The army on the cell 1
     if army :
         owner= army.status()
         action= army.flag(1)
         force= army.flag(2)
         print( f&quot;Army-{owner} ({action}, {force}) on {iCells}&quot; )
 </code></pre>
-<p>The goal now is to compute that information in order to propose an AI winning the PlayerFirstAI.</p>
-<h2 id="confront-your-ai">Confront your AI:</h2>
-<p>In the launcher script, you can replace the imported <code>opponent</code> AI to an interactive interface.</p>
-<pre><code class="language-python">from hackagames.gameRisky.gameEngine.players import PlayerShell as Opponent
-</code></pre></div>
+<p>It is also possible to print the game state thanks to <em>ViewerTerminal</em> tool.</p>
+<pre><code class="language-python">from hacka.games.risky import ViewerTerminal
+
+...
+
+        view= ViewerTerminal( self._game )
+        view.print(self._playerId)
+</code></pre>
+<p>The goal now is to compute that information in order to propose an AI winning firstBot Bots (<em>ReadyBot</em>, <em>Bot</em> and <em>MetaBot</em>).</p></div>
             </div>
         </div>
 
