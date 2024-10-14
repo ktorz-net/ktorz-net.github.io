@@ -166,7 +166,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#initialize-a-bot_1" class="nav-link">Initialize a Bot</a>
+            <li class="nav-item" data-level="2"><a href="#multi-player-mode" class="nav-link">Multi-player mode</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -223,7 +223,22 @@ class Bot :
     def sleep(self, result):
         print( &quot;&gt; result: &quot;+ str(result) )
 </code></pre>
-<h2 id="initialize-a-bot_1">Initialize a Bot</h2>
+<p>You can try your Bot AI by importing <em>GameSolo</em> into a launch script: </p>
+<pre><code class="language-python"># Setup a game:
+from hacka.games.py421 import GameDuo as Game
+from py421Bot import Bot
+
+bot, opponent= Bot()
+
+# Instanciate and start 100 games
+game= Game()
+results= game.testPlayer( bot, 10 )
+
+# Analyze the result
+print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>The <code>testPlayer</code> method returns the results for your specific player (<em>bot</em> in this script).</p>
+<h2 id="multi-player-mode">Multi-player mode</h2>
 <p>It is possible to start <em>421</em> in duo mode. 
 To try this version executes the following commad:</p>
 <pre><code class="language-sh">python3 hackagames/play/py421 duo -n 2
@@ -235,24 +250,19 @@ The second game, you play the second player role.
 You know the combinaision to beat.</p>
 <h3 id="confront-your-bots">Confront your Bots</h3>
 <p>You can confront 2 Bot AIs by importing <em>GameDuo</em> rather than <em>GameSolo</em> into your launch script: </p>
-<pre><code class="language-python3"># Setup a game:
+<pre><code class="language-python"># Setup a game:
 from hacka.games.py421 import GameDuo as Game
-from py421Bot import Bot
-
-bot, opponent= Bot(), Opponent()
+from hacka.games.py421.firstBot import Bot as Bot1
+from py421Bot import Bot2
 
 # Instanciate and start 100 games
 game= Game()
-results= game.testPlayer( bot, 10, [opponent] )
+results= game.launch( [Bot1(), Bot1()], 10 )
 
 # Analyze the result
 print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
-<p>The <code>testPlayer</code> method returns the results for a specific player (<em>bot</em> in this script).
-The results for the opponents (one or several, depending on the games) are simplely trashed.</p>
-<p>Also, you can directly confront your <em>bot</em> yourself, with a shell interface:</p>
-<pre><code class="language-python">from hacka.pylib.player import PlayerIHM as Opponent
-</code></pre>
+<p>The <code>launch</code> method returns the results for all players.</p>
 <h3 id="optimize-a-2-player-bot">Optimize a 2-player Bot :</h3>
 <p>A Bot designed for <em>solo</em> mode of 421 can also play to <em>duo</em> mode.
 However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is incresed in <em>duo</em> mode.
