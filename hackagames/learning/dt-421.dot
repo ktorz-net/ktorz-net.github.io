@@ -1,0 +1,26 @@
+digraph finite_state_machine {
+    {node [shape=box color="blue" fontcolor="blue"]
+        end[label="End"]
+        d3end[label="X|X-X-X"]
+        d2end[label="X|X-X-1"]
+        d11end[label="X|X-1-1"]
+        d111end[label="X|1-1-1"]
+        d21end[label="X|X-2-1"]
+        d421end[label="X|4-2-1"] }; 
+	node [shape=ellipse]
+        dice3[label="dice-3"]
+        dice2[label="dice-2"]
+        {node [label="dice-1"] dice11; dice12};
+    edge [fontcolor="black"]
+    horizon -> end [label = "0"]
+    horizon -> dice3 [label = "else"]
+    dice3 -> dice2 [label = "1"]
+    dice3 -> d3end [label = "else"]
+    dice2 -> dice11 [label = "1"]
+    dice2 -> dice12 [label = "2"]
+    dice2 -> d2end [label = "else"]
+    dice11 -> d111end [label = "1"]
+    dice11 -> d11end [label = "else"]
+    dice12 -> d421end [label = "4"]
+    dice12 -> d21end [label = "else"]
+}

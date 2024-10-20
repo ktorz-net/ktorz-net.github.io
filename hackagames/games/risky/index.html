@@ -170,6 +170,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#differents-maps" class="nav-link">Differents maps:</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -222,6 +226,12 @@ However if the attack is greater than the defense than each extra point count do
 The fight is running until one of the army is destroyed.</p>
 <p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> (<span class="arithmatex">\(2\times 10-8\)</span>) times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.</p>
+<p>Futhermore, the game accepts also meta-actions: </p>
+<ul>
+<li>Defending: <code>defends</code> - this action triggers <code>grow X</code> into any available <em>X</em> positions, then <code>sleep</code></li>
+<li>Fighting: <code>fight X</code>- this action searches for the maximal army to move on an adverserial <em>X</em> position.</li>
+<li>Exepending: <code>expend X</code> - this action distributes with <code>move</code> an army on <em>X</em> to all the empty connected cells.</li>
+</ul>
 <h2 id="initialize-a-bot">Initialize a Bot</h2>
 <p>If you are implementing your first bot, please follow the <a href="../hello/first-bot">first bot</a> tutorial on Py421 game.</p>
 <p>The <code>wakeUp</code> method informs about the mode of the game and more importantly the tabletop structure, the <code>perception</code> of the status of each army on the tabletop.
@@ -240,7 +250,7 @@ class Bot :
         self._game.fromPod( gameState )
 
     def decide(self):
-        actions= self._game.searchReadyActions( self._playerId )
+        actions= self._game.searchMetaActions( self._playerId )
         return random.choice( actions )
 
     def sleep(self, result):
@@ -266,16 +276,17 @@ results= game.test2Players( bot, oppo, 100 )
 # Analyze the result
 print( f&quot;Average score: {sum(results[0])/len(results[0])} vs {sum(results[1])/len(results[1])}&quot; )
 </code></pre>
-<p>At this point, the results comparing the 2 Bots would be very close.
-The difference comes from the fact <code>firstBot</code> <em>Bot</em> has a decreased probability to choose a move action.</p>
+<p>At this point, the results comparing the 2 Bots would be very close.</p>
 <h2 id="customaize-your-ai">Customaize your AI:</h2>
 <p>To customize your AI you can use the game engine copy (cf. <a href="https://github.com/ktorz-net/hackagames/blob/master/gameRisky/gameEngine">risky.py</a>)</p>
 <p>Somme of the available methods:</p>
 <pre><code class="language-python">def update( self, board ): # Update the board from the perception.
 
-def searchActions(self, playerId): # List all the current possible actions from the configuration of the armies. An action is a list ['actionName', nodeId, targetNodeId, maxForce]. targetNodeId and maxForce exist only for 'move' actions...
+def buildActionDescritors(self, playerId): # List all the current possible action descriptors from the configuration of the armies. A descriptor is a list ['actionName', nodeId, targetNodeId, maxForce]. targetNodeId and maxForce exist only for 'move' actions...
 
 def searchReadyActions(self, playerId): # List a limited set of ready to use actions.
+
+def searchMetaActions(self, playerId): # List the set of ready to use meta-actions.
 
 def cellIds(self): # return the list of cell identifiers
 
@@ -302,7 +313,10 @@ def playerLetter(self, iPlayer): # return the player letter (A, B, C ...) of the
         view= ViewerTerminal( self._game )
         view.print(self._playerId)
 </code></pre>
-<p>The goal now is to compute that information in order to propose an AI winning firstBot Bots (<em>ReadyBot</em>, <em>Bot</em> and <em>MetaBot</em>).</p></div>
+<p>The goal now is to compute that information in order to propose an AI winning your first random Bot.</p>
+<h2 id="differents-maps">Differents maps:</h2>
+<p>Actually <em>Risky</em> proposes severals maps, increasing gradually the number of cells, and so the complexity.
+The maps are: <em>board-4</em>, <em>board-6</em>, <em>board-10</em>, <em>board-12</em>, <em>board-26</em>. </p></div>
             </div>
         </div>
 

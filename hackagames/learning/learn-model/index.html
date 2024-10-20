@@ -218,11 +218,13 @@
 <p>The <code>updateModel</code> method updates counters and average rewards. 
 My advice is to keep also a counter <code>experiments</code> over the amount of time the <em>Bot</em> tests the same action into the same state.
 At some point, the <code>updateModel</code> method, the update should be something like:</p>
-<pre><code class="language-python">        self._experiements[past_state][action]+= 1
-        self._transitions[past_state][action][present_state]+= 1
-        exp= self._experiements[past_state][action]
-        oldReward= self._rewards[past_state][action] * (exp-1)
-        self._rewards[past_state][action]= (oldReward+reward) / exp
+<pre><code class="language-python">        # Roling reward average :
+        total= self._counterActions[past_state][action]
+        oldReward= self._rewards[past_state][action]
+        self._rewards[past_state][action]= (oldReward * total + reward) / (total+1)
+        # Update counters
+        self._counterExperiences[past_state][action]+= 1
+        self._counterTransitions[past_state][action][present_state]+= 1
 </code></pre>
 <p>Naturally, it supposes that you already create the dictionaries and the entrances...
 Use json package to save your model (sometimes) into your <code>sleep</code> method.</p>
@@ -232,17 +234,15 @@ From the transitions and rewards we want to compute the optimal policy <span cla
 For that purpose, we recommand to apply Value Iteration (cf. <a href="https://en.wikipedia.org/wiki/Markov_decision_process">On Wikipedia</a>)</p>
 <blockquote>
 <p><strong>valueIteration:</strong>
-<em>Input:</em> an <strong>MDP:</strong> <span class="arithmatex">\(\langle S, A, T, R \rangle\)</span> ; precision error: <em><span class="arithmatex">\(\epsilon\)</span></em> ; discount factor: <em><span class="arithmatex">\(\gamma\)</span></em> ; initial <strong>V(s)</strong></p>
+<em>Input:</em> an <strong>MDP:</strong> <span class="arithmatex">\(\langle S, A, T, R \rangle\)</span> ; precision error: <em><span class="arithmatex">\(\epsilon\)</span></em> ; discount factor: <em><span class="arithmatex">\(\gamma\)</span></em> ; initial <strong>values(s)</strong></p>
 <ol>
 <li>Repeat until: <strong>maximal delta &lt; <span class="arithmatex">\(\epsilon\)</span></strong> <br /> For each state <strong><span class="arithmatex">\(s \in S\)</span></strong></li>
-<li>Search the action <strong><span class="arithmatex">\(a^*\)</span></strong> maximizing the Bellman Equation on <strong><span class="arithmatex">\(s\)</span></strong></li>
 </ol>
+<p><span class="arithmatex">\(\qquad \qquad -\)</span> Search the action <strong><span class="arithmatex">\(a^*\)</span></strong> maximizing the Bellman Equation on <strong><span class="arithmatex">\(s\)</span></strong></p>
 <div class="arithmatex">\[a^*= \arg\max_{a \in A}\left( \mathit{value}(s, a) \right)\]</div>
-<div class="arithmatex">\[\mathit{value}(s, a)= R(s, a) + \gamma \sum_{s'\in S} T(s,a,s') \times V(s')\]</div>
-<ul>
-<li>Set <em><span class="arithmatex">\(\pi(s)= a^*\)</span></em> and _<span class="arithmatex">\(V(s)= \mathit{value}(s,  a^*)\)</span></li>
-<li>Compute the delta value between the previous and the new <em><span class="arithmatex">\(V(s)\)</span></em></li>
-</ul>
+<div class="arithmatex">\[\mathit{value}(s, a)= R(s, a) + \gamma \sum_{s'\in S} T(s,a,s') \times \mathit{values}(s')\]</div>
+<p><span class="arithmatex">\(\qquad \qquad -\)</span> Set <em><span class="arithmatex">\(\pi(s)= a^*\)</span></em> and _<span class="arithmatex">\(\mathit{values}(s)= \mathit{computeValue}(s,  a^*)\)</span></p>
+<p><span class="arithmatex">\(\qquad \qquad -\)</span> Compute the delta value between the previous and the new <em><span class="arithmatex">\(\mathit{values}(s)\)</span></em></p>
 <p><em>Output:</em> an optimal <span class="arithmatex">\(\pi^*\)</span> and the associated V-values</p>
 </blockquote>
 <p>The policy can be updated every <span class="arithmatex">\(500\)</span> <code>sleep</code> with a call to your new <code>valueIteration</code>.

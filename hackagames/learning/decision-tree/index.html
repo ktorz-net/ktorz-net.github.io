@@ -158,6 +158,22 @@
             
             <li class="nav-item" data-level="1"><a href="#using-decision-tree" class="nav-link">Using Decision Tree</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#simple-version-with-py421" class="nav-link">Simple version With Py421</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#expert-state-definition-for-risky" class="nav-link">Expert state definition for Risky</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#autonomous-decision-tree-in-risky" class="nav-link">Autonomous Decision-Tree in Risky</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#going-further" class="nav-link">Going further</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -165,7 +181,81 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="using-decision-tree">Using Decision Tree</h1></div>
+<h1 id="using-decision-tree">Using Decision Tree</h1>
+<p>"A decision tree is a decision support recursive partitioning structure" <a href="https://en.wikipedia.org/wiki/Decision_tree">Wikipedia</a>.
+It can be used to partitioning states, i.e. to groups similar states together into super-states.</p>
+<p>Grouped states should be close in terms of behavior: expected action, value and transition.
+If such a structure can be built over the state space, then it is possible to exploit it into reinforcement learning.</p>
+<h2 id="simple-version-with-py421">Simple version With Py421</h2>
+<p><em>Py421</em> advantages the combinations <em>4-2-1</em>, <em>1-1-1</em> or <em>X-1-1</em>. 
+A first idea could be to focus state definition to target those combinations.</p>
+<p>This idea modeled as a tree will lookalike: <br />
+<img alt="DT for 421" src="../dt-421.svg" /></p>
+<p>This tree can be implemented with a <em>"if-then-else"</em> procedure into a QLearner Bot, to learn a good behavior on Py421 game only over 7 states.</p>
+<p>As a result, learning should be very fast but with a final behavior less performant than learning applied over all the <em>168</em> game states.</p>
+<h2 id="expert-state-definition-for-risky">Expert state definition for Risky</h2>
+<p>The goal is to apply state factorization/clustering to a game where the number of states and actions prevents from using QLearning over all the states.
+That for, the exercise consists of applying QLearning to <em>risky</em>. </p>
+<ol>
+<li>
+<p>As a first, action you should get familiar with the game mechanisms: <a href="../../games/risky/">tuto risky</a></p>
+</li>
+<li>
+<p>Then, you have to trace (ie. print) a complete definition of crossed states.</p>
+</li>
+</ol>
+<p><strong>QUESTION:</strong> <em>How many states describe risky configuration (considering the default BOARD-4) ?</em></p>
+<ol>
+<li>Finally, try to learn a policy using QLearning over meta actions. </li>
+</ol>
+<p><strong>QUESTION:</strong> <em>Which action has the worst branching number ?</em></p>
+<p>A simple score over the game can be computed as the difference between armies total size.
+This score feeds appropriately the reward computation.</p>
+<pre><code class="language-python">    def totalArmies(self) :
+        myArmy= 0
+        opponentArmy= 0
+        for ic in self._game.cellIds() :
+            army= self._game.armyOn(ic)
+            if army :
+                if self._playerId == army.status() :
+                    myArmy+= army.flag(2)
+                else :
+                    opponentArmy+= army.flag(2)
+        return myArmy, opponentArmy
+</code></pre>
+<ol>
+<li>Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</li>
+</ol>
+<!-- ## States as list of values... -->
+
+<h2 id="autonomous-decision-tree-in-risky">Autonomous Decision-Tree in Risky</h2>
+<p>In this next step, the goal is to learn a decision tree from data.
+A good course introducing decision tree  learning is proposed on the <a href="https://www.w3schools.com/python/python_ml_decision_tree.asp">w3schools</a>.</p>
+<p>In our case the data can be generated from our first QLearner Bot.
+The CSV (ComaSeparetedValue) file is built at <code>sleep</code> step to trace visited states and actions associated with the final game status.</p>
+<pre><code class="language-cvs">states variables, action, winner
+states variables, action, winner
+states variables, action, winner
+states variables, action, winner
+states variables, action, winner
+...
+</code></pre>
+<ul>
+<li><em>states variables</em>: coma separated values of all state variables.</li>
+<li><em>action</em>: selected action (defend, expend-1, expend-2, ... fight-1, ...).</li>
+<li><em>winner</em>: a boolean ( positive <span class="arithmatex">\(1\)</span> if the player win, negative <span class="arithmatex">\(0\)</span> else).</li>
+</ul>
+<p>The model should be trained to predicts the action and the end of the game.
+The Decision-Tree can be analyzed to increase QLearner Bot.</p>
+<h2 id="going-further">Going further</h2>
+<p>The solution should perform on a more complex board (board-6 then board-12).
+You can apply a classical reinforcement learning approach consisting of a loop: </p>
+<ol>
+<li>Use the learned Decition-Tree into QLearner Bot.</li>
+<li>Generate data from learned new QValues<br />(the behavior should be increased, so different than previously used data set).</li>
+<li>Regenerate a new Decition-Tree.</li>
+<li>Return to step <span class="arithmatex">\(1.\)</span></li>
+</ol></div>
             </div>
         </div>
 
