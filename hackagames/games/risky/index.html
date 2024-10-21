@@ -224,7 +224,7 @@ Iteratively, each force point of the attack and the defense has a chance to deal
 Defenses have an increased chance than attackers.
 However if the attack is greater than the defense than each extra point count double.
 The fight is running until one of the army is destroyed.</p>
-<p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> (<span class="arithmatex">\(2\times 10-8\)</span>) times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
+<p>For instance, with a <code>move 1 2 10</code> with a defense of <code>8</code> on the node <code>2</code>, the fight will start by considering an attack force of <code>12</code> - <span class="arithmatex">\(2 \times (10-8)\)</span> - times 1 chance over 2 against a defense of <code>8</code> times 2 chances over 3.
 The exact amount of damages at the end of the fight remains uncertain.</p>
 <p>Futhermore, the game accepts also meta-actions: </p>
 <ul>
@@ -278,9 +278,9 @@ print( f&quot;Average score: {sum(results[0])/len(results[0])} vs {sum(results[1
 </code></pre>
 <p>At this point, the results comparing the 2 Bots would be very close.</p>
 <h2 id="customaize-your-ai">Customaize your AI:</h2>
-<p>To customize your AI you can use the game engine copy (cf. <a href="https://github.com/ktorz-net/hackagames/blob/master/gameRisky/gameEngine">risky.py</a>)</p>
+<p>To customize your AI you can use the game engine copy (cf. <a href="https://github.com/ktorz-net/hackagames/blob/master/src/hacka/games/risky">risky.py</a>)</p>
 <p>Somme of the available methods:</p>
-<pre><code class="language-python">def update( self, board ): # Update the board from the perception.
+<pre><code class="language-python">def fromPod( self, gameState ): # Update the board from the perception.
 
 def buildActionDescritors(self, playerId): # List all the current possible action descriptors from the configuration of the armies. A descriptor is a list ['actionName', nodeId, targetNodeId, maxForce]. targetNodeId and maxForce exist only for 'move' actions...
 
@@ -295,6 +295,8 @@ def edgesFrom(self, iCell): # return the list of connected cell identifiers from
 def armyOn(self, iCell) : # return an army as a Pod object, if an army is on the iCell cell (and False otherwise).
 
 def playerLetter(self, iPlayer): # return the player letter (A, B, C ...) of the ith player (1, 2, ...)
+
+def playerNum(self, playerId): # return the player number (1, 2, ...) from its letter (A, B, C ...).
 </code></pre>
 <p>An army is a <code>Pod</code> object where the owner is recorded in the status and the 2 attributes is for action counter and force :</p>
 <pre><code class="language-python">for iCell in self._game.cellIds() :

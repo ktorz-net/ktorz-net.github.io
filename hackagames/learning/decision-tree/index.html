@@ -166,7 +166,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#autonomous-decision-tree-in-risky" class="nav-link">Autonomous Decision-Tree in Risky</a>
+            <li class="nav-item" data-level="2"><a href="#generate-decision-tree-in-risky" class="nav-link">Generate Decision-Tree in Risky</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -224,11 +224,19 @@ This score feeds appropriately the reward computation.</p>
         return myArmy, opponentArmy
 </code></pre>
 <ol>
-<li>Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</li>
+<li>
+<p>Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</p>
+</li>
+<li>
+<p>Its working well ? try your solution on <em>board-6</em> then <em>board-10</em> and <em>board-12</em>. The board can be set on the <code>GameRisky</code> constructor, in launcher script:</p>
+</li>
 </ol>
+<pre><code class="language-python">from hacka.games.risky import GameRisky as Game
+game= Game( map=&quot;board-6&quot; )
+</code></pre>
 <!-- ## States as list of values... -->
 
-<h2 id="autonomous-decision-tree-in-risky">Autonomous Decision-Tree in Risky</h2>
+<h2 id="generate-decision-tree-in-risky">Generate Decision-Tree in Risky</h2>
 <p>In this next step, the goal is to learn a decision tree from data.
 A good course introducing decision tree  learning is proposed on the <a href="https://www.w3schools.com/python/python_ml_decision_tree.asp">w3schools</a>.</p>
 <p>In our case the data can be generated from our first QLearner Bot.
