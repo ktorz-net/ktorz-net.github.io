@@ -215,7 +215,7 @@ This score feeds appropriately the reward computation.</p>
                     opponentArmy+= army.flag(2)
         return myArmy, opponentArmy
 </code></pre>
-<p><strong>4.</strong> Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</p>
+<p><strong>4.</strong> Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details).</p>
 <p><strong>5.</strong> Its working well ? try your solution on <em>board-6</em> then <em>board-10</em> and <em>board-12</em>. The board can be set on the <code>GameRisky</code> constructor, in launcher script:</p>
 <pre><code class="language-python">from hacka.games.risky import GameRisky as Game
 game= Game( map=&quot;board-6&quot; )
@@ -241,8 +241,9 @@ states variables, action, winner
 </ul>
 <p>The model should be trained to predicts the action and the end of the game.
 The Decision-Tree can be analyzed to increase QLearner Bot.</p>
+<p>(An alternative to the solution proposed by the w3schools exits with <a href="https://scikit-learn.org/stable/modules/tree.html">scikit-learn</a>).</p>
 <h2 id="going-further">Going further</h2>
-<p>The solution should perform on a more complex board (board-6 then board-12).
+<p>The solution should perform on a more complex board (from <em>board-6</em> to <em>board-12</em>).
 You can apply a classical reinforcement learning approach consisting of a loop: </p>
 <ol>
 <li>Use the learned Decition-Tree into QLearner Bot.</li>
