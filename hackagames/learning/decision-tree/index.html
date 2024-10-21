@@ -105,7 +105,7 @@
 </li>
                                     
 <li>
-    <a href="../../hood/pod.md" class="dropdown-item">Pod Class</a>
+    <a href="../../hood/pod/" class="dropdown-item">Pod Class</a>
 </li>
                                     
 <li>
@@ -196,18 +196,10 @@ A first idea could be to focus state definition to target those combinations.</p
 <h2 id="expert-state-definition-for-risky">Expert state definition for Risky</h2>
 <p>The goal is to apply state factorization/clustering to a game where the number of states and actions prevents from using QLearning over all the states.
 That for, the exercise consists of applying QLearning to <em>risky</em>. </p>
-<ol>
-<li>
-<p>As a first, action you should get familiar with the game mechanisms: <a href="../../games/risky/">tuto risky</a></p>
-</li>
-<li>
-<p>Then, you have to trace (ie. print) a complete definition of crossed states.</p>
-</li>
-</ol>
+<p><strong>1.</strong> As a first, action you should get familiar with the game mechanisms: <a href="../../games/risky/">tuto risky</a></p>
+<p><strong>2.</strong> Then, you have to trace (ie. print) a complete definition of crossed states.</p>
 <p><strong>QUESTION:</strong> <em>How many states describe risky configuration (considering the default BOARD-4) ?</em></p>
-<ol>
-<li>Finally, try to learn a policy using QLearning over meta actions. </li>
-</ol>
+<p><strong>3.</strong> Finally, try to learn a policy using QLearning over meta actions. </p>
 <p><strong>QUESTION:</strong> <em>Which action has the worst branching number ?</em></p>
 <p>A simple score over the game can be computed as the difference between armies total size.
 This score feeds appropriately the reward computation.</p>
@@ -223,14 +215,8 @@ This score feeds appropriately the reward computation.</p>
                     opponentArmy+= army.flag(2)
         return myArmy, opponentArmy
 </code></pre>
-<ol>
-<li>
-<p>Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</p>
-</li>
-<li>
-<p>Its working well ? try your solution on <em>board-6</em> then <em>board-10</em> and <em>board-12</em>. The board can be set on the <code>GameRisky</code> constructor, in launcher script:</p>
-</li>
-</ol>
+<p><strong>4.</strong> Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details))</p>
+<p><strong>5.</strong> Its working well ? try your solution on <em>board-6</em> then <em>board-10</em> and <em>board-12</em>. The board can be set on the <code>GameRisky</code> constructor, in launcher script:</p>
 <pre><code class="language-python">from hacka.games.risky import GameRisky as Game
 game= Game( map=&quot;board-6&quot; )
 </code></pre>
