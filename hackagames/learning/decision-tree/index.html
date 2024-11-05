@@ -224,7 +224,7 @@ game= Game( map=&quot;board-6&quot; )
 
 <h2 id="generate-decision-tree-in-risky">Generate Decision-Tree in Risky</h2>
 <p>In this next step, the goal is to learn a decision tree from data.
-A good course introducing decision tree  learning is proposed on the <a href="https://www.w3schools.com/python/python_ml_decision_tree.asp">w3schools</a>.</p>
+A good course introducing decision tree learning is proposed on the <a href="https://www.w3schools.com/python/python_ml_decision_tree.asp">w3schools</a>.</p>
 <p>In our case the data can be generated from our first QLearner Bot.
 The CSV (ComaSeparetedValue) file is built at <code>sleep</code> step to trace visited states and actions associated with the final game status.</p>
 <pre><code class="language-cvs">states variables, action, winner
@@ -239,8 +239,19 @@ states variables, action, winner
 <li><em>action</em>: selected action (defend, expend-1, expend-2, ... fight-1, ...).</li>
 <li><em>winner</em>: a boolean ( positive <span class="arithmatex">\(1\)</span> if the player win, negative <span class="arithmatex">\(0\)</span> else).</li>
 </ul>
-<p>The model should be trained to predicts the action and the end of the game.
-The Decision-Tree can be analyzed to increase QLearner Bot.</p>
+<p>The model should be trained to predict if the player is on a winning trajectory.
+In other terms, if the current state and the applied action can be labeled as good or bad considering a predicted end of the game.</p>
+<p>The generated Decision-Tree model can be analyzed regarding <span class="arithmatex">\(2\)</span> aspects:</p>
+<ul>
+<li>Prediction accuracy: The capability the model has to predict good and bad situation and responses. </li>
+<li>Model readability: The size of the decision tree (the smallest the best)</li>
+</ul>
+<p>Naturally, the <span class="arithmatex">\(2\)</span> aspects are in contradiction, but generally the reduction of the decision tree is welcomed  while the consequences of prediction accuracy is low.</p>
+<p>Tricks:</p>
+<ul>
+<li>It is generally possible to fix an expected size for the Decision-Trees.</li>
+<li>While we are not dependent anymore to the number of state and action variables (i.e. fixed decision-tree size), it is possible to generate as many new descriptive variables we want (for instance total size of the army, number occupied territories...).</li>
+</ul>
 <p>(An alternative to the solution proposed by the w3schools exits with <a href="https://scikit-learn.org/stable/modules/tree.html">scikit-learn</a>).</p>
 <h2 id="going-further">Going further</h2>
 <p>The solution should perform on a more complex board (from <em>board-6</em> to <em>board-12</em>).
