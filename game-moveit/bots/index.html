@@ -85,7 +85,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#moveit-model" class="nav-link">MoveIt model:</a>
+            <li class="nav-item" data-level="2"><a href="#moveit-model-gameengine-class" class="nav-link">MoveIt model (GameEngine class):</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -98,29 +98,96 @@
 
 <h1 id="first-autonomous-player-bot">First Autonomous Player (Bot)</h1>
 <p><em>MoveIt</em> est basé sur <em>HackaGames</em>. 
-Se référer à cette solution pour la philosophie du moteur de jeu, et des échange entre le Maitre de jeu et les joueurs.</p>
+Se référer à cette solution pour la philosophie du moteur de jeu, et des échanges entre le Maître de jeu et les joueurs.</p>
 <ul>
 <li>Documentation de HackaGames : <a href="https://ktorz-net.github.io/hackagames/">ktorz-net.github.io/hackagames/</a></li>
 </ul>
+<p>Pour lancer son premier Bot sur <em>MoveIt</em> il faut alors éditer un script de lancement comme suit (<code>launch.py</code> par exmple).</p>
+<pre><code class="language-python">import hacka.games.moveit as moveit
+import playground
+from hacka.command import Command, Option
+
+# Configure the game:
+gameEngine= moveit.GameEngine()
+
+# Then Go...
+gameMaster= moveit.GameMaster( gameEngine, randomMission=2 )
+player= playground.FirstBot()
+gameMaster.launch( [player], gameEngine.numberOfPlayers() )
+</code></pre>
+<p>Cela supose naturellement d'avoir une class <code>FirstBot</code> dans un fichier <code>playground.py</code>, à côté de votre lanceur.</p>
 <h2 id="squelette-de-joueur">Squelette de joueur:</h2>
-<p><em>MoveIt</em> se structure comme tout jeu <em>HackaGames</em> avec un cycle global enclanché pour une partie: <code>wakeUp</code> en début de partie et <code>sleep</code> en fin de partie, et un cycle rapide de tour de jeu avec <code>perceive</code> et <code>decide</code>.</p>
-<pre><code class="language-python">class MyBot():
+<p><em>MoveIt</em> se structure comme tout jeu <em>HackaGames</em> avec un cycle global: <code>wakeUp</code> en début de partie et <code>sleep</code> en fin de partie, et un cycle rapide de tour de jeu avec <code>perceive</code> et <code>decide</code>.</p>
+<pre><code class="language-python">class FirstBot():
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConfiguration ):
-        ...
+        pass
 
     def perceive(self, state ):
-        ...
+        pass
 
     def decide(self):
         return &quot;pass&quot;
 
     def sleep(self, result):
         print( f&quot;end on : {result}&quot; )
-
 </code></pre>
-<p>Le </p>
-<h2 id="moveit-model"><em>MoveIt</em> model:</h2></div>
+<p>Dans la mesure ou <code>FirstBot</code> définie les méthodes appropriées avec les parramétres cohérents, une instance de <code>FirstBot</code> pourra jouer dans un jeu <em>HackaGames</em>. Naturellement, dans l'état, le résultat sera null.</p>
+<pre><code class="language-sh">python3 launch.py
+</code></pre>
+<p>Le <code>gameConfiguration</code> de la méthode <code>wakeUp</code> défini le plateau de jeu.
+Les cellules et comment elles sont connecté les unes au autre. 
+Au passage on a dés le <code>wakeUp</code>, la position des robots et le 'Market Place' avec les missions diponible.</p>
+<p>Ensuite, la méthode <code>perceive</code> avec cont parramétre <code>state</code> ne va renseigner que sur l'avancé du jeux. Le positionnement des robots surle plateau et l'avancé des missions.</p>
+<p>Cependant il n'est pas utile de rentre dans le détail des object <code>gameConfiguration</code> et <code>state</code>. 
+Il est possible de charger un modéle du jeu, avec la class <code>GameEngine</code> du package python <code>moveIt</code>.
+Il sera alors possible de carger la caonfiguration du jeu et de mettre à jour son état simplement:</p>
+<pre><code class="language-python">from hacka.games.moveit import GameEngine
+
+...
+
+def wakeUp(self, playerId, numberOfPlayers, gameConfiguration ):
+    self._model= GameEngine()
+    self._model.fromPod(gameConfiguration)  # Load the model from gameConfiguration
+    self._model.render()                    # Draw the game image in shot-moveIt.png
+
+def perceive(self, state ):
+    self._model.setOnState(state)           # Update the model sate
+</code></pre>
+<p>Then model will be querry throught its methods (look at <a href="https://docs.python.org/3/library/inspect.html">inspect</a> python package for instance). </p>
+<h2 id="moveit-model-gameengine-class"><em>MoveIt</em> model (GameEngine class):</h2>
+<p>Let take a look at <code>GameEngine</code> accessor methods:</p>
+<pre><code class="language-python">    def numberOfPlayers(self):
+</code></pre>
+<p>Return the number of players.</p>
+<pre><code class="language-python">    def numberOfRobots(self, iPlayer=1):
+</code></pre>
+<p>Return the number of robots owned by the player identifiate as <code>iPlayer</code>.</p>
+<pre><code class="language-python">    def mobile(self, iPlayer, iRobot):
+</code></pre>
+<p>Return the <code>iRobot</code>th robot as a <code>Mobile</code> instance of the player <code>iPlayer</code>. 
+A <code>Mobile</code> as several well named methods:  <code>owner()</code> (should be equal to <code>iPlayer</code>), <code>identifier()</code> (should be equal to <code>iRobot</code>) and <code>mission()</code> the identifier of the current robot mission.</p>
+<pre><code class="language-python">    def mobilePosition(self, iPlayer, iRobot):
+</code></pre>
+<p>return the position (tile identifier) of the <code>iRobot</code>th robot of the player <code>iPlayer</code>.</p>
+<pre><code class="language-python">    def missions(self):
+</code></pre>
+<p>return all missions tuples.</p>
+<pre><code class="language-python">    def mission(self, iMission):
+</code></pre>
+<p>Return the tuple describing the <code>iMission</code>th mission (tile from, tile to, payment, allocation to player)</p>
+<pre><code class="language-python">    def missionsList(self):
+</code></pre>
+<p>return the list of active missions identifiers.</p>
+<pre><code class="language-python">    def freeMissions(self):
+</code></pre>
+<p>Return the list of mission identifier not allocated to any players.</p>
+<pre><code class="language-python">    def tic( self ):
+</code></pre>
+<p>Return the counter on game turn.</p>
+<pre><code class="language-python">    def score(self, iPlayer):
+</code></pre>
+<p>Return the score of the <code>iPlayer</code> player.</p></div>
             </div>
         </div>
 
