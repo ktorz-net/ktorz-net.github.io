@@ -4,24 +4,24 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
         
         
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>HackaMove</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Bot player - HackaMove</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-        <link href="style.css" rel="stylesheet">
+        <link href="../style.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">HackaMove</a>
+                <a class="navbar-brand" href="..">HackaMove</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -32,16 +32,16 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="../." class="nav-link">Ktorz-net <</a>
+                                <a href="../.." class="nav-link">Ktorz-net <</a>
+                            </li>
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../rules/" class="nav-link">Game Rules</a>
                             </li>
                             <li class="navitem active">
-                                <a href="." class="nav-link">Home</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="rules/" class="nav-link">Game Rules</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="bots/" class="nav-link">Bot player</a>
+                                <a href="./" class="nav-link">Bot player</a>
                             </li>
                         </ul>
 
@@ -52,12 +52,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
+                                <a rel="prev" href="../rules/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="rules/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -79,13 +79,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#moveit-an-hackagame-game" class="nav-link">MoveIt - an HackaGame game</a>
+            <li class="nav-item" data-level="1"><a href="#first-autonomous-player-bot" class="nav-link">First Autonomous Player (Bot)</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#briques-technologiques" class="nav-link">Briques technologiques</a>
+            <li class="nav-item" data-level="2"><a href="#squelette-de-joueur" class="nav-link">Squelette de joueur:</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#objectifs" class="nav-link">Objectifs</a>
+            <li class="nav-item" data-level="2"><a href="#moveit-model" class="nav-link">MoveIt model:</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -96,28 +96,31 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="moveit-an-hackagame-game">MoveIt - an HackaGame game</h1>
-<p><em>MoveIt</em> est a un jeu vidéo imaginé sur un aspect pédagogique pour le challenge de développer des joueurs IA.
-Il s'articule autour du problème de chemins multiagent (<a href="https://en.wikipedia.org/wiki/Multi-agent_pathfinding">Multi-agent pathfinding</a>).</p>
-<p>Cependant, au-delà du problème d’évitement de collision le but est: </p>
+<h1 id="first-autonomous-player-bot">First Autonomous Player (Bot)</h1>
+<p><em>MoveIt</em> est basé sur <em>HackaGames</em>. 
+Se référer à cette solution pour la philosophie du moteur de jeu, et des échange entre le Maitre de jeu et les joueurs.</p>
 <ul>
-<li>Deprendre en charge des missions aléatoires, </li>
-<li>Avec des équipes en concurrence sur le terrain</li>
-<li>Avec des Vips à éviter absolument.</li>
+<li>Documentation de HackaGames : <a href="https://ktorz-net.github.io/hackagames/">ktorz-net.github.io/hackagames/</a></li>
 </ul>
-<p><em>MoveIt</em> est accéssible via son <a href="https://github.com/ktorz-net/game-moveit">repo-git</a>, merci à github pour ce service.</p>
-<h2 id="briques-technologiques">Briques technologiques</h2>
-<p>Pour ce faire <em>MoveIt</em> s'appuie sur <a href="https://ktorz-net.github.io/hackagames/">HackaGames</a> une libraire modeste basée sur <a href="https://zeromq.org/">ZeroMQ</a> pour séparer le processus du jeu (le maître du jeu) et les joueurs autonomes (<em>Bot</em>).</p>
-<p>[ZeroMG] se veux être une <code>An open-source universal messaging library</code>.
-Par universel, il faut entendre <code>Connecting your code in any language, on any platform</code>.
-Cependant, aujourd’hui <em>HackaGames</em> est développé exclusivement sous <code>Python3</code>.</p>
-<h2 id="objectifs">Objectifs</h2>
-<ul>
-<li>Mises-en oeuvre de techniques d'optimisation combinatoire et d'Intelligence Artificielle.</li>
-<li>Conduire un projet de façon itératif.</li>
-<li>Travailler en équipes.</li>
-<li>Intégrer de bonne pratique de développement de projet informatique (versionning, tests, documentation).</li>
-</ul></div>
+<h2 id="squelette-de-joueur">Squelette de joueur:</h2>
+<p><em>MoveIt</em> se structure comme tout jeu <em>HackaGames</em> avec un cycle global enclanché pour une partie: <code>wakeUp</code> en début de partie et <code>sleep</code> en fin de partie, et un cycle rapide de tour de jeu avec <code>perceive</code> et <code>decide</code>.</p>
+<pre><code class="language-python">class MyBot():
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConfiguration ):
+        ...
+
+    def perceive(self, state ):
+        ...
+
+    def decide(self):
+        return &quot;pass&quot;
+
+    def sleep(self, result):
+        print( f&quot;end on : {result}&quot; )
+
+</code></pre>
+<p>Le </p>
+<h2 id="moveit-model"><em>MoveIt</em> model:</h2></div>
             </div>
         </div>
 
@@ -125,16 +128,16 @@ Cependant, aujourd’hui <em>HackaGames</em> est développé exclusivement sous 
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/jquery-3.6.0.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
         <script>
-            var base_url = ".",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js"></script>
-        <script src="javascripts/mathjax.js"></script>
+        <script src="../js/base.js"></script>
+        <script src="../javascripts/mathjax.js"></script>
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="search/main.js"></script>
+        <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -199,8 +202,3 @@ Cependant, aujourd’hui <em>HackaGames</em> est développé exclusivement sous 
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.5.3
-Build Date UTC : 2025-01-23 12:08:48.839864+00:00
--->
