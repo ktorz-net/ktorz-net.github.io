@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Game Rules - HackaMove</title>
+        <title>Distance and Paths - HackaMove</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -37,14 +37,14 @@
                             <li class="navitem">
                                 <a href=".." class="nav-link">Home</a>
                             </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">Game Rules</a>
+                            <li class="navitem">
+                                <a href="../rules/" class="nav-link">Game Rules</a>
                             </li>
                             <li class="navitem">
                                 <a href="../bots/" class="nav-link">Bot Player</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../dijkstra/" class="nav-link">Distance and Paths</a>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Distance and Paths</a>
                             </li>
                         </ul>
 
@@ -55,12 +55,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
+                                <a rel="prev" href="../bots/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../bots/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -81,58 +81,12 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
-            
-            <li class="nav-item" data-level="1"><a href="#regles-du-jeux" class="nav-link">Régles du jeux</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#jouer" class="nav-link">Jouer:</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#version-multi-joueur" class="nav-link">Version multi-joueur</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="regles-du-jeux">Régles du jeux</h1>
-<p><em>MoveIt</em> consiste donc à déplacer des robots dans une carte pour réalisér des missions.
-Un randu visuel est proposé à l'aide de la librairie graphique <a href="https://www.cairographics.org/">Cairo</a>.</p>
-<p>Ci apprés une capture d'écrant du jeux: </p>
-<p><img alt="" src="../resources/example-moveIt.png" /></p>
-<p>On peu y voir 3 robots rouges (<code>R-1</code>, <code>R-2</code> et <code>R-3</code>) pouvant se déplacer sur un graphe composé de 48 cellules/dalles (<em>tiles</em> en anglais)
-Un Market-Place propose des missions à réaliser par les robots.</p>
-<h2 id="jouer">Jouer:</h2>
-<p>Nous supposons ici que vous avais clonez <em>MoveIt</em> et que vous l'avez installé sur votre machine.
-Le répertoire <code>play</code> contiend un certaint nombre de scripts (<span class="arithmatex">\(2\)</span> pour l'instant), permetant de lancer <em>MoveIT</em> dans différente configuration dans un mode interactif. Vous, humain, jouez au jeu en envoyant vos commands dans le terminal.</p>
-<p>Lancer le jeu dans son mode le plus basic:</p>
-<pre><code class="language-sh">python3 ./game-moveit/play/debug.py
-</code></pre>
-<p>Une représentation du jeux est mise à jour à chaque pas-de-temps dans <code>./shot-moveIt.png</code> pour avoir une idée de l'état du jeu est prendre les bonnes décisions.</p>
-<p>Les décisions consernent en premier lieu les déplacement des robots et se code de la paçon suivante: <code>move iRobot direction</code>.
-Chaque robot donc est identifié par un numéro de <span class="arithmatex">\(1\)</span> à <span class="arithmatex">\(n\)</span> avec <span class="arithmatex">\(n\)</span> robots.
-La direction est codé sur une logique horaire (<a href="https://en.wikipedia.org/wiki/Clock_position">Clock Bearing</a>). Le robot peut se dépacer à midi, 3 heure, 6 heure ou 9 heure. </p>
-<p>Par exemple avec trois robots:</p>
-<pre><code class="language-sh">move 1 9 2 12 3 3
-</code></pre>
-<p>Cet commande indique que le robot-1 bouge dans la direction 9H, le robot-2 vers 12h et le robot-3 vers 3H. Une direction <span class="arithmatex">\(0h\)</span> indiquera que le rbots reste sur sa position (action par défault).</p>
-<p>Les robots peuvent réaliser une mission, soit pour la débuter, soit pour la finaliser. Dans ce cadre, le robot doit être sur la bonne possition pour faire une action mission : <code>mission iRobot iMission</code>. <code>iMission</code> est l'identifiant de la mission à activer ou a finaliser entre <span class="arithmatex">\(1\)</span> et <span class="arithmatex">\(m\)</span> avec <span class="arithmatex">\(m\)</span> missions sur le jeu.
-L'example suivant indique que le robot-2 active la mission <code>8</code>. </p>
-<pre><code class="language-sh">mission 2 8
-</code></pre>
-<p>à noter que <span class="arithmatex">\(2\)</span> mission ne raporteront pas néccéssairement le même nombre de crédit (¢).
-L'équipe de robot à un nombre de tours (tic) limité pour réaliser un maximun de mission.
-Aussi, il est préférable de faire les actions missions en même temps que des déplacements des autres robots, par exemple: </p>
-<pre><code class="language-sh">mission 2 8 move 1 0 3 12
-</code></pre>
-<p>Pour un version plus riche du jeu: </p>
-<pre><code class="language-sh">python3 ./game-moveit/play/moveIt.py
-</code></pre>
-<h2 id="version-multi-joueur">Version multi-joueur</h2></div>
+</div>
             </div>
         </div>
 
