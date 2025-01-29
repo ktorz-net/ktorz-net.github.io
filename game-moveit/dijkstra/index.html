@@ -81,12 +81,213 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#distances-and-paths" class="nav-link">Distances and Paths</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#distance-with-disjkstra" class="nav-link">Distance with Disjkstra</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#path-planning" class="nav-link">Path Planning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#a-algorithm" class="nav-link">A* algorithm</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-</div>
+<h1 id="distances-and-paths">Distances and Paths</h1>
+<p>Efficient <em>MoveIt</em> AI requires evaluation of distance in graph and path computation.
+In this tutorial we consider only on robot on the map.</p>
+<h2 id="distance-with-disjkstra">Distance with Disjkstra</h2>
+<p>Let consider a graph, <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra's algorithm</a> compute the shortest path from a given origin node toward a destination node.
+Starting from the origin node, <em>Dijkstra</em> visits all possible connections, in a recursive way, until the destination node is founded.</p>
+<p>By considering that, the destination node would be the last visited one, Dijkstra computes a distances' dictionary from the origin node toward all the other nodes.<br />
+In <em>MoveIt</em> game, the algorithm can be simplified considering that all weight is <span class="arithmatex">\(1\)</span>.
+Furthermore, <code>nodes</code> are similar to <code>tiles</code> in our model.</p>
+<p>Let consider a simple graph of <span class="arithmatex">\(8\)</span> nodes:</p>
+<p><img alt="" src="../resources/simple-grid.png" /></p>
+<p>Starting from node <span class="arithmatex">\(5\)</span>, <em>Simplified-Dijkstra</em> will first find <span class="arithmatex">\(2\)</span>, <span class="arithmatex">\(4\)</span> and <span class="arithmatex">\(7\)</span> at distance <span class="arithmatex">\(1\)</span>, then <span class="arithmatex">\(1\)</span>, <span class="arithmatex">\(3\)</span>, <span class="arithmatex">\(6\)</span> and <span class="arithmatex">\(8\)</span> at distance 2.
+The algorithm deep into the graph until all nodes are visited, ring by ring.</p>
+<pre><code class="language-python">    def computeDistances(self, iTile):
+        # Initialize distances to 0:
+        dists= [iTile] +  [0 for i in range( self._model.map().size() )]
+        # Initialize step from iTile:
+        ringNodes= self._model.map().neighbours(iTile)
+        ringDistance= 1
+        # while theire is nodes to visit
+        while len(ringNodes) &gt; 0 :
+            nextNodes= []
+            # Visit all step nodes:
+            for node in ringNodes :
+                # Update distance information
+                dists[node]= ringDistance
+            for node in ringNodes :
+                # Search for new tile to visit:
+                neighbours= self._model.map().neighbours(node)
+                for candidate in neighbours :
+                    if dists[candidate] == 0 :
+                         nextNodes.append(candidate)
+            # swith to the next step.
+            ringNodes= nextNodes
+            ringDistance+= 1
+        # Correct 0 distance:
+        dists[iTile]= 0
+        return dists
+</code></pre>
+<p>At this point, we compute the distances considering one origin node.
+The idea is to apply this method to all nodes, at the start time (into the <code>wakeUp</code> method) to fill an entire matrix.</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5:</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8:</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="path-planning">Path Planning</h2>
+<p>So it is possible to consider that we have a distance matrix structure over all couple of nodes (named <code>_distances</code>).
+From that statement, going from a tile <em>A</em> to a tile <em>B</em> consists in moving step by step, by selecting the next node with the minimal distance to <em>B</em>.</p>
+<p><strong>1:</strong> <em><strong>moveToward</strong></em> selects the next appropriate move.</p>
+<pre><code class="language-python">    def moveToward(self, iTile, iTarget):
+        # If no need to move:
+        if iTile == iTarget :
+            return 0, iTile
+        # Get candidates:
+        clockdirs= self._model.map().clockBearing(iTile)
+        nextTiles= self._model.map().neighbours(iTile)
+        selectedDir= clockdirs[0]
+        selectedNext= nextTiles[0]
+        # Test all candidates:
+        for clock, tile in zip( clockdirs, nextTiles ) :
+            if self._distances[tile][iTarget] &lt; self._distances[selectedNext][iTarget] :
+                selectedDir= clock
+                selectedNext= tile
+        # Return the selected candidates:
+        return selectedDir, selectedNext
+</code></pre>
+<p><strong>2:</strong> Then, <em><strong>path</strong></em> calls <em><strong>moveToward</strong></em> until the position is reached.</p>
+<pre><code class="language-python">    def path(self, iTile, iTarget):
+        clock, tile= self.moveToward(iTile, iTarget)
+        move= [clock]
+        path= [tile]
+        while tile != iTarget :
+            clock, tile= self.moveToward(tile, iTarget)
+            move.append( clock )
+            path.append( tile )
+        return move, path
+</code></pre>
+<p>From that point it is now possible to orient robot moves toward the next mission to take or toward the current mission target.</p>
+<h2 id="a-algorithm">A* algorithm</h2>
+<p>In <em>A* family algorithms</em>, we consider that we do not have an exact distance matrix, and that it requires too much computation to create it.
+However, it is considered true that it is possible to have approximate distances, typically, Euclidean distances computed from tile centers.
+The approximate distance is considered as an heuristic to guide the path planning.</p>
+<p>At each time step, the next node is selected accordingly to the heuristic (the closest one to the target), but backtrack mechanism is added if the search fall in a deadlock.</p>
+<p>More detail on <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">wikipedia</a>.</p></div>
             </div>
         </div>
 
