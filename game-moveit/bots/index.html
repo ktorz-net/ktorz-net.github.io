@@ -138,16 +138,16 @@ gameMaster.launch( [player], gameEngine.numberOfPlayers() )
     def sleep(self, result):
         print( f&quot;end on : {result}&quot; )
 </code></pre>
-<p>Dans la mesure ou <code>FirstBot</code> définie les méthodes appropriées avec les parramétres cohérents, une instance de <code>FirstBot</code> pourra jouer dans un jeu <em>HackaGames</em>. Naturellement, dans l'état, le résultat sera null.</p>
+<p>Dans la mesure où <code>FirstBot</code> définit les méthodes appropriées avec les paramètres cohérents, une instance de <code>FirstBot</code> pourra jouer dans un jeu <em>HackaGames</em>. Naturellement, dans l'état, le résultat sera nul.</p>
 <pre><code class="language-sh">python3 launch.py
 </code></pre>
-<p>Le <code>gameConfiguration</code> de la méthode <code>wakeUp</code> défini le plateau de jeu.
-Les cellules et comment elles sont connecté les unes au autre. 
-Au passage on a dés le <code>wakeUp</code>, la position des robots et le 'Market Place' avec les missions diponible.</p>
-<p>Ensuite, la méthode <code>perceive</code> avec cont parramétre <code>state</code> ne va renseigner que sur l'avancé du jeux. Le positionnement des robots surle plateau et l'avancé des missions.</p>
-<p>Cependant il n'est pas utile de rentre dans le détail des object <code>gameConfiguration</code> et <code>state</code>. 
-Il est possible de charger un modéle du jeu, avec la class <code>GameEngine</code> du package python <code>moveIt</code>.
-Il sera alors possible de carger la caonfiguration du jeu et de mettre à jour son état simplement:</p>
+<p>Le <code>gameConfiguration</code> de la méthode <code>wakeUp</code> définit le plateau de jeu.
+Les cellules et comment elles sont connectées les unes aux autres. 
+Au passage on a dés le <code>wakeUp</code>, la position des robots et le 'Market Place' avec les missions disponibles.</p>
+<p>Ensuite, la méthode <code>perceive</code> avec comme paramètre <code>state</code> ne va renseigner que sur l'avancée du jeu. Le positionnement des robots sur le plateau et l'avancée des missions.</p>
+<p>Cependant il n'est pas utile de rentre dans le détail des objets <code>gameConfiguration</code> et <code>state</code>. 
+Il est possible de charger un modèle du jeu, avec la class <code>GameEngine</code> du package python <code>moveIt</code>.
+Il sera alors possible de charger la configuration du jeu et de mettre à jour son état simplement:</p>
 <pre><code class="language-python">from hacka.games.moveit import GameEngine
 
 ...
@@ -161,13 +161,14 @@ def wakeUp(self, playerId, numberOfPlayers, gameConfiguration ):
 def perceive(self, state ):
     self._model.setOnState(state)           # Update the model sate
 </code></pre>
-<p>Then model will be querry throught its methods (look at <a href="https://docs.python.org/3/library/inspect.html">inspect</a> python package for instance). </p>
+<p>Then model will be queried through its methods (look at <a href="https://docs.python.org/3/library/inspect.html">inspect</a> python package for instance). </p>
 <h2 id="moveit-classes"><em>MoveIt</em> Classes</h2>
 <p><em>MoveIt</em> game is mainly based on <em>3</em> classe: </p>
 <ul>
-<li><code>GameEngine</code>: it manageges the games elements and the game rules.</li>
-<li><code>Map</code>: based on <code>Hackapy::tiled.Map</code>, it represents the environement as a grath of interconnected tiles.</li>
-<li><code>Mobile</code>: the mobile objectis on the <code>Map</code> (Robots, and Vips).</li>
+<li><code>GameEngine</code>: it manages the game elements and the game rules.</li>
+<li><code>Map</code>: based on <code>Hackapy::tiled.Map</code>, it represents the environment as a graph of interconnected tiles.</li>
+<li><code>Mobile</code>: the mobile objects on the <code>Map</code> (Robots, and Vips).</li>
+<li><code>Mission</code>: the mission objects with <code>start</code> and <code>final</code> positions plus <code>reward</code> and <code>owner</code> information.</li>
 </ul>
 <h3 id="gameengine-classs-methods"><code>GameEngine</code> Class's methods:</h3>
 <ul>
@@ -184,8 +185,9 @@ def perceive(self, state ):
 <li><strong><code>map()</code></strong> - Return the gameEngine map.</li>
 </ul>
 <h3 id="map-classs-methods"><code>Map</code> Class's methods:</h3>
-<p>To notice that <em>MoveIt</em> <code>Map</code> inherits from <em>HackaGames</em> <code>Map</code>, with tiles management and drawing handled at the parent level.</p>
+<p>To notice that <em>MoveIt</em> <code>Map</code> inherits from <em>HackaGames</em> <code>Map</code>, with tile management and drawing handled at the parent level.</p>
 <ul>
+<li><strong><code>size()</code></strong> - Return the number of tiles on the map.</li>
 <li><strong><code>neighbours(iTile)</code></strong> - Return the tile's identifiers of connected tiles to the <code>iTile</code>th tile.</li>
 <li><strong><code>clockBearing(iTile)</code></strong> - Retrun the list of possible movement for a mobile on the <code>iTile</code>th tile.</li>
 <li><strong><code>clockposition(iTile, clockDir)</code></strong> - Return the identifier of reached tile by moving toward the <code>clockDir</code> direction from the <code>iTile</code>th tile.</li>
@@ -193,7 +195,7 @@ def perceive(self, state ):
 <h3 id="mobile-classs-methods"><code>Mobile</code> Class's methods:</h3>
 <ul>
 <li><strong><code>owner(self)</code></strong> - Retrun the owner identifier, the player number or <span class="arithmatex">\(0\)</span> if it is a Vip.</li>
-<li><strong><code>identifier(self)</code></strong> - Return the identifier in the owner's mobile lists (starting from <span class="arithmatex">\(1\)</span>).</li>
+<li><strong><code>identifier(self)</code></strong> - Return identifier in the owner's mobile lists (starting from <span class="arithmatex">\(1\)</span>).</li>
 <li><strong><code>mission(self)</code></strong> - Return the mission the mobile is in charge and <span class="arithmatex">\(0\)</span> if it does not have any.</li>
 </ul>
 <h2 id="a-simple-first-bot-player">A simple first Bot Player</h2>
@@ -210,7 +212,7 @@ def perceive(self, state ):
 <h3 id="moving-at-random">Moving at random:</h3>
 <p>The first part is quite simple. 
 It requires to read robot position, to get possible movements and to choose one randomly.
-According to the <em>MoveIT</em> <em>API</em>, an imformative implementation of <code>decide</code> methode will looklike: </p>
+According to the <em>MoveIT</em> <em>API</em>, an informative implementation of <code>decide</code> method will lookalike: </p>
 <pre><code class="language-python">    def decide(self):
         msg= f'tic-{ self._model.tic() } | score { self._model.score(self._id) }'
         r1Position= self._model.mobilePosition(self._id, 1)
@@ -221,7 +223,7 @@ According to the <em>MoveIT</em> <em>API</em>, an imformative implementation of 
         print( msg )
         return f&quot;move 1 {self._move}&quot;
 </code></pre>
-<p>To notice that, removing <span class="arithmatex">\(0\)</span> from the possible directions will allows the robot to move/explore more.</p>
+<p>To notice that, removing <span class="arithmatex">\(0\)</span> from the possible directions will allow the robot to move/explore more.</p>
 <p>It is also possible to add sleeping and rendering in the perception method to visualize the robot behavior.</p>
 <pre><code class="language-python">    def perceive(self, gameState ):
         self._model.setOnState(gameState)
@@ -229,10 +231,10 @@ According to the <em>MoveIT</em> <em>API</em>, an imformative implementation of 
         time.sleep(0.2)
 </code></pre>
 <h3 id="activating-a-mission-action">Activating a mission action:</h3>
-<p>It is a litlebit more tricky. It requires to compare the position of the robot with all possible missions.
+<p>It becomes trickier a litlebit. It requires to compare the position of the robot with all possible missions.
 It is tricky ? so create a specific method.
-Alwais prefer to create new method to any other solution...</p>
-<p>So let get possible mission identifiers starting at a given positiion:</p>
+Always prefer to create new method compared to any other solution...</p>
+<p>So let get possible mission identifiers starting at a given position:</p>
 <pre><code class="language-python">    def missionOn(self, iTile):
         i= 1
         l= []
@@ -243,17 +245,17 @@ Alwais prefer to create new method to any other solution...</p>
         return l
 </code></pre>
 <p>From that point we can start a mission if the robot does not have one (<code>self._model.mobile(1, 1).mission() == 0</code>) and if it is on a tile matching a mission start (<code>len( self.missionOn( robotPosition ) ) &gt; 0</code>).</p>
-<p>We need also to activate mission action when the robot reach the final point of the mission :</p>
+<p>We also need to activate mission action when the robot reach the final point of the mission :</p>
 <pre><code class="language-python">        robot1Position= self._model.mobilePosition(self._id, 1)
         robot1Mission= self._model.mobile(1, 1).mission()
         if robot1Position == self._model.mission( robot1Mission ).final :
 </code></pre>
-<p>At this point our first bot should move randomly, and activate mission each time it is possible.</p>
+<p>At this point our first bot should move randomly, and activate missions each time it is possible.</p>
 <h3 id="going-further-multi-robots">Going further: Multi-Robots...</h3>
-<p>The proosed <em>FirstBot</em> only handle one robot associated to the player. 
-In case of multi-robot control, the <em>FirstBot</em> should repeat the decision process over all robots by agregating <em>'mission'</em> and <em>'move'</em> orders.</p>
-<p>Then with multiple robots moving on a same environement, the AI should avaoid collision.
-A robot canot target a position currently taken by another robot and tow robot canot move on the same tile.</p></div>
+<p>The proposed <em>FirstBot</em> only handle one robot associated to the player. 
+In case of multi-robot control, the <em>FirstBot</em> should repeat the decision process over all robots by aggregating <em>'mission'</em> and <em>'move'</em> orders.</p>
+<p>Then with multiple robots moving on a same environment, the AI should avoid collision.
+A robot cannot target a position currently taken by another robot and tow robot cannot move on the same tile.</p></div>
             </div>
         </div>
 
