@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>F.A.Q - HackaMove</title>
+        <title>Iterative process - HackaMove</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -53,12 +53,12 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Agile Dev. <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../iterative/" class="dropdown-item">Iterative process</a>
+    <a href="./" class="dropdown-item active">Iterative process</a>
 </li>
                                     
 <li>
@@ -66,8 +66,8 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">F.A.Q</a>
+                            <li class="navitem">
+                                <a href="../faq/" class="nav-link">F.A.Q</a>
                             </li>
                         </ul>
 
@@ -78,12 +78,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../tests/" class="nav-link">
+                                <a rel="prev" href="../dijkstra/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../tests/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -105,13 +105,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#frequent-asked-question" class="nav-link">Frequent Asked Question</a>
+            <li class="nav-item" data-level="1"><a href="#iterative-development" class="nav-link">Iterative Development</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#update-hackagames-and-moveit" class="nav-link">Update HackaGames and MoveIt</a>
+            <li class="nav-item" data-level="2"><a href="#example-with-scrum" class="nav-link">Example with Scrum</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#make-launcher-configurable" class="nav-link">Make launcher 'configurable'.</a>
+            <li class="nav-item" data-level="2"><a href="#what-do-we-need" class="nav-link">What do we need</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -122,46 +122,36 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="frequent-asked-question">Frequent Asked Question</h1>
-<h2 id="update-hackagames-and-moveit">Update <em>HackaGames</em> and <em>MoveIt</em></h2>
-<p>Using git and pip : </p>
-<pre><code class="language-sh">git -C hackagames pull
-git -C game-moveit pull
-pip install ./hackagames
-pip install ./game-moveit
-</code></pre>
-<h2 id="make-launcher-configurable">Make launcher <em>'configurable'</em>.</h2>
-<p>You can easely load and dumps structured data between python and files.
-Json offer an simple an elegent solution to exange dictionaries, for instance.</p>
-<p>From the <em>json</em> side (<code>config-7x10.json</code>): </p>
-<pre><code class="language-json">{
-    &quot;matrix&quot;: [
-        [ 0,  0, -1,  0, -1,  0,  0,  0,  0,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0, -1,  0],
-        [ 0,  0, -1, -1, -1, -1,  0,  0, -1,  0],
-        [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],
-        [ 0, -1,  0, -1, -1,  0,  0, -1, -1, -1],
-        [ 0, -1,  0, -1, -1,  0,  0, -1, -1, -1],
-        [ 0,  0,  0,  0,  0,  0,  0, -1, -1, -1]
-    ],
-    &quot;tic&quot;: 50
-}
-</code></pre>
-<p>On the python side: </p>
-<pre><code class="language-python">import json
-
-with open(&quot;./config-7x10.json&quot;) as file:
-    dico= json.load(file)
-
-# Configure the game:
-gameEngine= moveit.GameEngine(
-    matrix= dico['matrix'],
-    tic= dico['tic'],
-    numberOfPlayers=1, numberOfRobot=1,
-    numberOfPVips= 1
-)
-</code></pre>
-<p>Or: <code>open(sys.argv[1])</code> if you want to set the configuration file on the command line.</p></div>
+<h1 id="iterative-development">Iterative Development</h1>
+<p>Agile Development (<a href="https://en.wikipedia.org/wiki/Agile_software_development">wikipedia</a>)
+Borns with a Manifesto (Beck et all. 2021) focusing development over <span class="arithmatex">\(4\)</span> values:</p>
+<ul>
+<li><strong>Individuals and interactions</strong> over <em>processes and tools</em></li>
+<li><strong>Working software</strong> over <em>comprehensive documentation</em></li>
+<li><strong>Customer collaboration</strong> over <em>contract negotiation</em></li>
+<li><strong>Responding to change</strong> over <em>following a plan</em></li>
+</ul>
+<p>We can extract severals lessons:</p>
+<ol>
+<li>Project Development is not an exact science.</li>
+<li>It sound like an utopia but it's seek for efficiency.</li>
+<li>Development rythmed with iterations seems to be a good idea.</li>
+</ol>
+<h2 id="example-with-scrum">Example with Scrum</h2>
+<p>It is one implementation of Agile methode. It introduces notions as:</p>
+<ul>
+<li>Daily Scrum metting - or Standup meetting (team activity)</li>
+<li>Sprint (temporal decomposition)</li>
+<li>Product backlog / sprint backlog (object)</li>
+<li>Srum Master (Role)</li>
+</ul>
+<p><img alt="" src="../resources/Scrum_process.svg" /></p>
+<p>It highligts Agile Development with <em>iterative process</em> as the core element of the method.
+But, a strong usage of <em>Scrum</em> can put <em>processes and tools</em> before <strong>Individuals and interactions</strong>.</p>
+<h2 id="what-do-we-need">What do we need</h2>
+<ul>
+<li>A solution</li>
+</ul></div>
             </div>
         </div>
 
