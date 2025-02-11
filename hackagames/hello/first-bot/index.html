@@ -69,14 +69,10 @@
 <li>
     <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
 </li>
-                                    
-<li>
-    <a href="../../games/risky/" class="dropdown-item">Risky</a>
-</li>
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Learnning <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tuto: Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -201,7 +197,7 @@ results= game.testPlayer( bot, 1000 )
 print( f&quot;Average score: {sum(results)/len(results)}&quot; )
 </code></pre>
 <p>This script import <code>py421.py</code> game and a <em>bot</em>, then it starts <span class="arithmatex">\(1000\)</span> games with that <em>bot</em> as main player.
-It return the 1000 end game results of <em>bot</em>.</p>
+It return the average end game results of <em>bot</em>.</p>
 <p>Test it in a terminal:</p>
 <pre><code class="language-sh">python3 launch-py421.py
 </code></pre>
@@ -268,7 +264,7 @@ class Bot :
     def sleep(self, result):
         print( f'--- Results: {str(result)}' )
 </code></pre>
-<p>To notice that the parameters <code>gameConf</code> and <code>gameState</code> are formated as <em>hackapy.Pod</em> (Piece Of Data), a tree data structure.
+<p>To notice that the parameters <code>gameConf</code> and <code>gameState</code> are formated as <em>hacka.Pod</em> (Piece Of Data), a tree data structure.
 It is not required to understand <em>Pod</em>.
 Examples are always provided to get the game information from <em>Pod</em>.
 However, you can go on <strong>Under the hood - Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p></div>
