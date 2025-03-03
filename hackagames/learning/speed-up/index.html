@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Py4.2.1 - HackaGames</title>
+        <title>Speed-up - HackaGames</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -54,41 +54,41 @@
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Games <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active">Py4.2.1</a>
+    <a href="../../games/py421/" class="dropdown-item">Py4.2.1</a>
 </li>
                                     
 <li>
-    <a href="../connect4/" class="dropdown-item">Connect4</a>
+    <a href="../../games/connect4/" class="dropdown-item">Connect4</a>
 </li>
                                     
 <li>
-    <a href="../tictactoe/" class="dropdown-item">TicTacToe</a>
+    <a href="../../games/tictactoe/" class="dropdown-item">TicTacToe</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tuto: Learnning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../learning/policy/" class="dropdown-item">Policy</a>
+    <a href="../policy/" class="dropdown-item">Policy</a>
 </li>
                                     
 <li>
-    <a href="../../learning/qlearning/" class="dropdown-item">Q-Learning</a>
+    <a href="../qlearning/" class="dropdown-item">Q-Learning</a>
 </li>
                                     
 <li>
-    <a href="../../learning/model-based/" class="dropdown-item">Model Based</a>
+    <a href="../model-based/" class="dropdown-item">Model Based</a>
 </li>
                                     
 <li>
-    <a href="../../learning/speed-up/" class="dropdown-item">Speed-up</a>
+    <a href="./" class="dropdown-item active">Speed-up</a>
 </li>
                                 </ul>
                             </li>
@@ -122,12 +122,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../hello/multi-player/" class="nav-link">
+                                <a rel="prev" href="../model-based/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../connect4/" class="nav-link">
+                                <a rel="next" href="../../hood/api/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -149,21 +149,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#py421" class="nav-link">Py421</a>
+            <li class="nav-item" data-level="1"><a href="#speed-up" class="nav-link">Speed-Up</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#try-the-game" class="nav-link">Try the game:</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#initialize-a-bot" class="nav-link">Initialize a Bot</a>
+            <li class="nav-item" data-level="2"><a href="#experiments" class="nav-link">Experiments</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#multi-player-version" class="nav-link">Multi-player version</a>
+            <li class="nav-item" data-level="2"><a href="#dynamic-learning-parrameters" class="nav-link">Dynamic Learning Parrameters</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#server-mode" class="nav-link">Server Mode</a>
+            <li class="nav-item" data-level="2"><a href="#probabilistic-policy" class="nav-link">Probabilistic Policy</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#factorized-policy" class="nav-link">Factorized Policy</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -174,114 +174,54 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="py421">Py421</h1>
-<p><strong>Py421</strong> is an <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
-<h2 id="try-the-game">Try the game:</h2>
-<p>The <code>play/py421.py</code> script starts the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/py421.py
-</code></pre>
-<p><strong>Py421</strong> is a 3-dice game. The player can roll several times to get a combination.
-The player can perform one and only one action on his turn, and the game stops automatically after 2 turns.</p>
-<p>The actions consist in keeping or rolling each of the 3 dices. So there are 8 possible actions:</p>
-<ul>
-<li><code>keep-keep-keep</code>,  <code>keep-keep-roll</code>,  <code>keep-roll-keep</code>,  <code>keep-roll-roll</code>, <code>roll-keep-keep</code>,  <code>roll-keep-roll</code>,  <code>roll-roll-keep</code> and <code>roll-roll-roll</code></li>
-</ul>
-<p>The goal is to optimize the combination of dices before the end of the 2 turns.
-The best combination ever is <strong>4-2-1</strong> for <strong>800</strong> points.
-But you can explore other combinations.</p>
-<h2 id="initialize-a-bot">Initialize a Bot</h2>
-<p>If you are implementing your first bot, please follow the <a href="../../hello/first-bot">first bot</a> tutorial.</p>
-<p>As for any Hackagames bots, a <em>Py421</em> bot implements the the <code>4</code> player/bot methods <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code>. 
-Theire is no information to get from The <em>gameConf</em>.
-The <em>gameState</em> parameter of the <code>perceive</code> includes 2 elements (2 <em>gameState</em> childs).
-First child model the roll-again horizon (one integer value), the second child the dices (3 interger value and a floating point value for the score of the combinaison).</p>
-<pre><code class="language-python">import random
+<h1 id="speed-up">Speed-Up</h1>
+<p>The advantage of Model-Based learning compared to solutions like Q-Learning is to provide some guarantees on the computed policy.
+However, the main goal in machine learning is to build coherent policies as fast as possible (and by doing so, to be capable to scale-up).</p>
+<h2 id="experiments">Experiments</h2>
+<p>You can now try to answer the question: how many episodes are required to learn a good enough policy.</p>
+<p>One way to do that is to plot the evolution of the strategy during the learning.
+For instance, the package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools to do that.
+At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.</p>
+<p>Let generate a plot with one points every <span class="arithmatex">\(500\)</span> games for instance at sleep time.</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
 
-class Bot :
+...
 
-    def actions(self):
-        return [ 'keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
-            'roll-keep-keep', 'roll-keep-roll', 'roll-roll-keep', 'roll-roll-roll' ]
+    def __init__(self):
+        # Progress
+        self._results= []
+        self._evals= []
+        # Q-Learning attributes
 
-    # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        self._horizon= 3
-        self._dices= [0, 0, 0]
-        self._score= 0.0
-
-    def perceive(self, gameState):
-        self._horizon= gameState.child(1).flag(1)
-        self._dices= gameState.child(2).flags()
-        self._score= gameState.child(2).value(1)
-
-    def decide(self):
-        return random.choice( self.actions() )
+...
 
     def sleep(self, result):
-        print( &quot;&gt; result: &quot;+ str(result) )
-</code></pre>
-<p>You can try your Bot AI by importing <em>GameSolo</em> into a launch script: </p>
-<pre><code class="language-python">#!python3 
-# Setup a game:
-from hacka.games.py421 import GameSolo as Game
-from py421Bot import Bot
+        self._results.append(result)
+        if len(self._results) == 500 :
+            self._evals.append( sum(self._results)/500.0 )
+            self._results= []
+            self.drawEvaluations()
 
-bot= Bot()
-
-# Instanciate and start 100 games
-game= Game()
-results= game.testPlayer( bot, 10 )
-
-# Analyze the result
-print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+    def drawEvaluations(self) :
+        plt.plot( 
+            [ i*500 for i in range(len(self._evals)) ],
+            self._evals )
+        plt.savefig( &quot;output.png&quot; )
+        plt.clf()
 </code></pre>
-<p>The <code>testPlayer</code> method returns the results of <em>bot</em> player.</p>
-<h2 id="multi-player-version">Multi-player version</h2>
-<p>You can confront <code>2</code> Bot-AIs by importing <em>GameDuo</em> rather than <em>GameSolo</em> into your launch script: </p>
-<pre><code class="language-python">#!python3 
-# Setup a game:
-from hacka.games.py421 import GameDuo as Game
-from py421Bot import Bot as Bot1
-from duo421Bot import Bot as Bot2
-
-# Instanciate and start 100 games
-game= Game()
-bot1= Bot1()
-bot2= Bot2()
-results= game.launch( [bot1, bot2], 10 )
-
-# Analyze the result
-print( f&quot;Average scores: &quot; )
-for i in range(1, 3) :
-    pres= results[i-1]
-    print( f&quot;  - Player-{i}: {sum(pres)/len(pres)}&quot; )
-</code></pre>
-<p>The <code>launch</code> method returns the results for all bots players.
-It supose you have a second <em>Bot</em> class in a new file <code>duo421Bot.py</code>.</p>
-<h3 id="optimize-a-2-player-bot">Optimize a 2-player Bot :</h3>
-<p>A Bot designed for <em>solo</em> mode of 421 can also play to <em>duo</em> mode.
-However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is incresed in <em>duo</em> mode.
-The player identifier of the <code>wakeUp</code> inform if the bot is the first or the second player.
-The <em>gameState</em> also include the conbinaison of your opponent:</p>
-<pre><code class="language-python">    def perceive(self, gameState):
-        self._horizon= gameState.child(1).flag(1)
-        self._dices= gameState.child(2).flags()
-        self._score= gameState.child(2).value(1)
-        self._oppo_dices= gameState.child(3).flags()
-        self._oppo_score= gameState.child(3).value(1)
-        print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score} (VS: {self._oppo_dices} {self._oppo_score})' )
-</code></pre>
-<p>Use this increased state definition to optimize the bot's strategies.</p>
-<h2 id="server-mode">Server Mode</h2>
-<p>It is possible to start <em>421</em> in duo mode. 
-To try this version executes the following commad:</p>
-<pre><code class="language-sh">python3 hackagames/play/py421 duo -n 2
-</code></pre>
-<p>That start a 2 games 4.2.1 where you have to confront the random player. 
-The first game you play as the first player role.
-You control the number of roll-again. The opponent will not be capable to roll its dice more time than you.
-The second game, you play the second player role.
-You know the combinaision to beat.</p></div>
+<h2 id="dynamic-learning-parrameters">Dynamic Learning Parrameters</h2>
+<p>Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
+A first solution is to change the ratio dynamically while the systems record experiments.</p>
+<p>Typicaly, QLearning can be configured with a higth exploration probability during the first benches of games, and decrease this probability with experience (i.e. each time the <em>bot</em> is wape-up again).
+A similar mechanism can be applied to the learning rate.</p>
+<p>The parameter of the Qlearning is not deriectly the Exploration/Explotation ratio and the learning rate,
+but the initial and final values, and it decrease speed.</p>
+<h2 id="probabilistic-policy">Probabilistic Policy</h2>
+<p>Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
+A first solution is to change the ratio dynamically while the systems record experiments.
+Another solution consists of implementing <a href="https://en.wikipedia.org/wiki/Reinforcement_learning#policy">probabilistic policies</a>.</p>
+<p>Using probabilistic policies in <em>Q-Learning</em> the probability to take an action rather than another increase with the differences in <em>Q-Values</em>.</p>
+<h2 id="factorized-policy">Factorized Policy</h2></div>
             </div>
         </div>
 
