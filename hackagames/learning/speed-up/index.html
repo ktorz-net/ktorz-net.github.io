@@ -72,7 +72,7 @@
                                 </ul>
                             </li>
                             <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tuto: Learnning <b class="caret"></b></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tuto: Learning <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
@@ -155,11 +155,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#dynamic-learning-parrameters" class="nav-link">Dynamic Learning Parrameters</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#probabilistic-policy" class="nav-link">Probabilistic Policy</a>
+            <li class="nav-item" data-level="2"><a href="#dynamic-learning-parameters" class="nav-link">Dynamic Learning Parameters</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -175,18 +171,18 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="speed-up">Speed-Up</h1>
-<p>The advantage of Model-Based learning compared to solutions like Q-Learning is to provide some guarantees on the computed policy.
-However, the main goal in machine learning is to build coherent policies as fast as possible (and by doing so, to be capable to scale-up).</p>
+<p>The advantage of <em>Model-Based</em> learning compared to solutions like <em>Q-Learning</em> is to provide some guarantees on the computed policy.
+However, the main goal in machine learning is to build coherent policies as fast as possible (and by doing so, to be capable of scaling up).</p>
+<p>That for, learning directly the policy is generally preferred in Reinforcement Learning.
+However, solutions like <em>Q-Learning</em> remains inapplicable in real-life problems, and solutions need to be set up to bypass combinatorial explosions.</p>
 <h2 id="experiments">Experiments</h2>
-<p>You can now try to answer the question: how many episodes are required to learn a good enough policy.</p>
+<p>First we need to set up an environment to save and monitor our progress in learning policies (or models).</p>
 <p>One way to do that is to plot the evolution of the strategy during the learning.
-For instance, the package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides tools to do that.
-At the end of a series of games, it would be more interesting to plot the evolution of the average score rather to compute a unique average.</p>
+For instance, the package <a href="https://matplotlib.org/stable/tutorials/introductory/pyplot.html">pyplot</a> provides simple tools in this way.</p>
 <p>Let generate a plot with one points every <span class="arithmatex">\(500\)</span> games for instance at sleep time.</p>
 <pre><code class="language-python">import matplotlib.pyplot as plt
 
-...
-
+Class Bot:
     def __init__(self):
         # Progress
         self._results= []
@@ -194,7 +190,6 @@ At the end of a series of games, it would be more interesting to plot the evolut
         # Q-Learning attributes
 
 ...
-
     def sleep(self, result):
         self._results.append(result)
         if len(self._results) == 500 :
@@ -209,19 +204,43 @@ At the end of a series of games, it would be more interesting to plot the evolut
         plt.savefig( &quot;output.png&quot; )
         plt.clf()
 </code></pre>
-<h2 id="dynamic-learning-parrameters">Dynamic Learning Parrameters</h2>
+<p>It’s also possible to save the <em>QValues</em> dictionary and the average score in a file for later use, for instance with <code>json</code> package.</p>
+<pre><code class="language-python">fileContent= open(&quot;my-file.json&quot;, &quot;w&quot;)
+json.dump( aDictionary, fileContent, sort_keys=True, indent=2 )
+fileContent.close()
+</code></pre>
+<p>Then the load function can rebuild a <code>.json</code> dictionary.</p>
+<pre><code class="language-python">if os.path.isfile( &quot;my-file.json&quot; ) :
+    fileContent= open(&quot;my-file.json&quot;)
+    aDictionary = json.load(fileContent)
+    fileContent.close()
+</code></pre>
+<h2 id="dynamic-learning-parameters">Dynamic Learning Parameters</h2>
 <p>Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
 A first solution is to change the ratio dynamically while the systems record experiments.</p>
-<p>Typicaly, QLearning can be configured with a higth exploration probability during the first benches of games, and decrease this probability with experience (i.e. each time the <em>bot</em> is wape-up again).
+<p>Typically, QLearning can be configured with a high exploration probability during the first benches of games, and decrease this probability with experience (i.e. each time the <em>bot</em> is wape-up again).
 A similar mechanism can be applied to the learning rate.</p>
-<p>The parameter of the Qlearning is not deriectly the Exploration/Explotation ratio and the learning rate,
-but the initial and final values, and it decrease speed.</p>
-<h2 id="probabilistic-policy">Probabilistic Policy</h2>
-<p>Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
+<p>The parameter of the Qlearning is not directly the Exploration/Explotation ratio and the learning rate,
+but the initial and final values, and it decreases speed.</p>
+<!-- ## Probabilistic Policy
+
+Greedy exploit/Explore ratio is limited, notably when the Q-values become stables.
 A first solution is to change the ratio dynamically while the systems record experiments.
-Another solution consists of implementing <a href="https://en.wikipedia.org/wiki/Reinforcement_learning#policy">probabilistic policies</a>.</p>
-<p>Using probabilistic policies in <em>Q-Learning</em> the probability to take an action rather than another increase with the differences in <em>Q-Values</em>.</p>
-<h2 id="factorized-policy">Factorized Policy</h2></div>
+Another solution consists of implementing [probabilistic policies](https://en.wikipedia.org/wiki/Reinforcement_learning#policy).
+
+Using probabilistic policies in _Q-Learning_ the probability to take an action rather than another increase with the differences in _Q-Values_.
+-->
+
+<h2 id="factorized-policy">Factorized Policy</h2>
+<p>The main idea is that a same action could be defined for several 'similar' states.
+So is it possible to group 'similar' states together, to learn faster.</p>
+<p><em>Py421</em> advantages the combinations <em>4-2-1</em>, <em>1-1-1</em> or <em>X-1-1</em>. 
+A first idea could be to focus state definition to target those combinations.</p>
+<p>This idea modeled as a tree will lookalike: <br />
+<img alt="DT for 421" src="../dt-421.svg" /></p>
+<p>This tree can be implemented with a <em>"if-then-else"</em> procedure into a QLearner Bot, to learn a good behavior on Py421 game only over 7 states.
+As a result, learning should be very fast but with a final behavior less performant than learning applied over all the <em>168</em> game states.</p>
+<p>In fact, such a solution is close to <em>Decision Tree</em> approaches, a decision support based on a recursive partitioning structure <a href="https://en.wikipedia.org/wiki/Decision_tree">Wikipedia</a>.</p></div>
             </div>
         </div>
 
