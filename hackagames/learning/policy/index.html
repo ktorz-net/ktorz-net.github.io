@@ -88,6 +88,10 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
+                </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -138,19 +142,35 @@ state, action, result
 </code></pre>
 <p>It require to trace the visited state and action.
 The <code>recorderRandBot</code> will lookalike:</p>
-<pre><code class="language-python">class Bot( py421.Bot ):
+<pre><code class="language-python">class Pi421Random():
+    def process(self, state):
+        return random.choice( [
+                &quot;keep-keep-keep&quot;, &quot;roll-keep-keep&quot;, &quot;keep-roll-keep&quot;, &quot;roll-roll-keep&quot;, 
+                &quot;keep-keep-roll&quot;, &quot;roll-keep-roll&quot;, &quot;keep-roll-roll&quot;, &quot;roll-roll-roll&quot; ] )
+
+class RecoderBot():
+    def __init__(self, policy= Pi421Random() ):
+        self._pi= policy
+
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        # Recorder buffer: 
         self._trace= []
+
+    def perceive(self, gameState):
+        # Game variables:
+        self._horizon = gameState.child(1).integer(1)
+        self._dices = gameState.child(2).integers()
+        self._score = gameState.child(2).value(1)
 
     def decide(self):
         state= '-'.join([ str(d) for d in self._dices ])
-        action= super().decide()
+        action= self._pi.process(state)
         self._trace.append( {'state': state, 'action': action} )
         return action
 
     def sleep(self, result):
         # open a State.Action.Value file in append mode:
-        logFile= open( &quot;log-421-SAV.csv&quot;, &quot;a&quot; ) 
+        logFile= open( &quot;log-SAV.csv&quot;, &quot;a&quot; ) 
         # For each recorded experience in trace
         for xp in self._trace :
             # add a line in the file
@@ -175,7 +195,7 @@ For instance, in state '4-3-1' random strategy will try several times the action
 <pre><code class="language-python">data= {}
 
 # Load data..
-logFile= open(&quot;log-421-sav.csv&quot;, &quot;r&quot;)
+logFile= open(&quot;log-SAV.csv&quot;, &quot;r&quot;)
 for line in logFile :
     state, action, value= tuple( line.split(', ') )
     value= float(value)
@@ -186,6 +206,8 @@ for line in logFile :
     else :
         data[state][action].append( value )
 logFile.close()
+
+print( data )
 </code></pre>
 <p>We can now process the data:</p>
 <ul>
@@ -202,7 +224,6 @@ policyFile.close()
 <p>Finally, it is possible to exploit the policy with a <code>policyBot</code> player.</p>
 <p>First load the policy, in the player constructor for instance:</p>
 <pre><code class="language-python">def __init__(self, policyFilePath):
-    super().__init__()
     policyFile= open(policyFilePath)
     self.policy= json.load( policyFile )
     policyFile.close()
