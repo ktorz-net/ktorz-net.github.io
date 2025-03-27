@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Scale-Up - HackaGames</title>
+    <title>Pick'n Del - HackaGames</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Scale-Up";
-        var mkdocs_page_input_path = "learning/scale-up.md";
+        var mkdocs_page_name = "Pick\u0027n Del";
+        var mkdocs_page_input_path = "tiled-land/pickndel.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -68,18 +68,18 @@
               </ul>
               <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../qlearning/">Q-Learning</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../speed-up/">Speed-up</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../model-based/">Model Based</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Pick'n Del</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -111,7 +111,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Scale-Up</li>
+          <li class="breadcrumb-item">Tiled Game</li>
+      <li class="breadcrumb-item active">Pick'n Del</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -120,69 +121,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="scale-up">Scale-Up</h1>
-<p>The goal of the tutorial is to understand, feel the complexity of addressing a system with combinatorial explosion over the number of states...</p>
-<p>This tutorial relies on <em>MoveIt</em> game. Make sure you clearly understand the game and its API.</p>
-<h2 id="basic-q-learning">Basic Q-Learning:</h2>
-<p>In its basic configuration <em>MoveIt</em> involves a <span class="arithmatex">\(6 \times 4\)</span> grid with randomly generated obstacles.
-Has a first exercise you can apply basic <em>Q-Learning</em> with a fixed configuration by fixing the random seed at game creation (<code>game= GameMoveIt( seed=128 )</code>).</p>
-<p>In this case the system state 'only' involve the positions of the robot and of the humans.
-Something as <span class="arithmatex">\(3\)</span> variables into <span class="arithmatex">\(6 \times 4\)</span> possibilities.
-We also require the robot target, but will only record the directions (<span class="arithmatex">\(\in [0, 6]\)</span>)...</p>
-<pre><code class="language-python">def state(self):
-    robot, human1, human2 = tuple(self._mobiles)
-    # Path to the goal:
-    pathGoal= self._board.path( robot.x(), robot.y(), robot.goalx(), robot.goaly() )
-    state= f&quot;{robot.x()}-{robot.y()}-{pathGoal[0]}&quot;
-    state+= f&quot;-{human1.x()}-{human1.y()}&quot;
-    state+= f&quot;-{human2.x()}-{human2.y()}&quot;
-    return state
+                <h1 id="pickn-del">Pick'n Del</h1>
+<p>A HackableGame based on tiled-land.</p>
+<h2 id="install">Install</h2>
+<p>In your directory aside of <code>hackagames</code>:</p>
+<pre><code class="language-sh">git -C hackagames pull
+pip install ./hackagame
+git clone https://github.com/imt-mobisyst/tiled-land
+pip install ./tiled-land
 </code></pre>
-<p>At this point the system is modeled with <span class="arithmatex">\((6 \times 4)^3*6\)</span> states.
-Lucky for us, the reward can be easily computed at each time steps (in the perception method).</p>
-<pre><code class="language-python">    newScore= statePod.value(1)
-    reward= newScore - self._score
-    self._score= newScore
+<h2 id="launchfile">Launchfile:</h2>
+<pre><code class="language-python">import tiledland.game.pickndel as pnd
+
+world= pnd.World().initializeGrid([
+        [00, 00, 00, 00],  # 1  2  3  4
+        [-1, 00, -1, -1],  #    5      
+        [00, 00, 00, 00],  # 6  7  8  9
+        [00, -1, -1, 00]   #10       13
+    ])
+
+master= pnd.GameMaster( world, tic=25 )
+bot= pnd.player.ShellPlayer()
+
+master.testPlayer( bot, 1 )
 </code></pre>
-<p>You can now apply basic <em>Q-Learning</em> as experimented on <em>4.2.1</em>.</p>
-<h2 id="expert-heuristic-optimizations">Expert Heuristic Optimizations:</h2>
-<p>A Basic <code>Q-Learning</code> learning is slow and will be blocked at something like <span class="arithmatex">\(-100\)</span> meaning that the robot continues to generate collision.
-A first optimization of the approach consists of including expert knowledge to limit the bad actions and to speed up the learning process.</p>
-<h3 id="remove-forbidden-actions">Remove forbidden actions:</h3>
-<p>At decision time, it is possible to remove from the pool of available actions, the actions driving the robot on an obstacle or on a human.</p>
-<h3 id="speed-up-learning-process">Speed-up Learning process</h3>
-<p>Each time a new state is visited and recorded on <em>Q</em> dictionary, it is possible to associate the action identified by the path to the robot target with a positive value.</p>
-<h3 id="still-negative">Still negative ?</h3>
-<p>In fact, the state space does not integrate the trajectory of the humans.
-The humans generally move toward their own goal (with error exception).
-The human’s goals are hidden to the robot, but the human trajectory into the bot state to better anticipate the next human's moves.</p>
-<h2 id="scale-up_1">Scale-up:</h2>
-<p>Mission on a <span class="arithmatex">\(4 \times 6\)</span> grid with <span class="arithmatex">\(2\)</span> humans remains a very limited scenario.
-At launch time, it is possible to change the game configuration:</p>
-<pre><code class="language-python">game= GameMoveIt(
-    seed=128,              # Grid seed for generations...
-    sizeHeight=4,          # size of the grid: number of lines  
-    sizeLine= 6,           # size of the grid: number of cells in a line 
-    numberOfObstacles= 6,  # number of obstacles
-    numberOfHuman= 3       # number of humans
-)
+<h2 id="first-bot">First Bot:</h2>
+<p>A verry simple first bot:</p>
+<pre><code class="language-python">import tiledland.game.pickndel as pnd
+
+class FirstBot():
+
+    # Constructor:
+    def __init__(self):
+        super().__init__()
+        self._model= pnd.World()
+        self._id= 0
+        self._tic= 0
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gamePod):
+        self._id= playerId
+        self._model.fromPod(gamePod)
+
+    def perceive(self, podState):
+        self._tic= self._model.setOnPodState(podState)
+
+    def decide(self):
+        return &quot;pass&quot;
+
+    def sleep(self, result):
+        print( f&quot;End on: {result}&quot; )
 </code></pre>
-<p>The provided solution should be capable of learning rapidly, new behavior on new environment.</p>
-<h2 id="local-vs-global-states">Local vs Global States</h2>
-<p>The real problem consists in removing the limitation of learning behairio on a unique environment settings,
-but to be capable of using the learned policy in all situations.</p>
-<p>By integrating map configuration into the state variables, the state space will grow exponentially.</p>
+<p>The <code>_model</code> attribute model the world (the map, the robot and the missions).</p>
+<p>Somme usefull methods: </p>
 <ul>
-<li>Which variables ? For how many states ?</li>
+<li><code>carrierTile()</code> returning the current tile-position of the carrier.</li>
+<li><code>carrierGoal()</code> returning the next tile to reach.</li>
 </ul>
-<p>A better solution consists to model the system from the point of view of the actions. 
-We speak about local versus global models.
-For instance, the goal can be characterized as direction and distance rather than <span class="arithmatex">\((x, y)\)</span> coordinate.</p>
-<p>Propose a state definition based from robot location in a less dependent way to the grid dimension and try again Q-Learning algorithm.</p>
-<p>To notice that local representation would be more suitable with Decision-Tree.</p>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../learning/model-based/" class="btn btn-neutral float-left" title="Model Based"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../hood/api/" class="btn btn-neutral float-right" title="Protocol API">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -204,6 +206,10 @@ For instance, the goal can be characterized as direction and distance rather tha
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
+      <span><a href="../../learning/model-based/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../hood/api/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
