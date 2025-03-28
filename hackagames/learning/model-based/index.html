@@ -171,7 +171,7 @@
 My advice is to keep also a counter <code>experiments</code> over the amount of time the <em>Bot</em> tests the same action into the same state.
 At some point, the <code>updateModel</code> method, the update should be something like:</p>
 <pre><code class="language-python">        # Roling reward average :
-        total= self._counterActions[past_state][action]
+        total= self._counterExperiences[past_state][action]
         oldReward= self._rewards[past_state][action]
         self._rewards[past_state][action]= (oldReward * total + reward) / (total+1)
         # Update counters
