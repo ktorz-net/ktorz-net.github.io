@@ -101,6 +101,10 @@
                 <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
                 </li>
               </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
+                </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -128,13 +132,20 @@
                 <h1 id="pickn-del">Pick'n Del</h1>
 <p>A HackableGame based on tiled-land.</p>
 <h2 id="install">Install</h2>
-<p>In your directory aside of <code>hackagames</code>:</p>
+<p>In your directory we advise to clone side by side <code>hackagames</code> and <code>tiled-land</code>.</p>
+<pre><code class="language-sh">git clone https://github.com/iktorz-net/hackagames
+git clone https://github.com/imt-mobisyst/tiled-land
+</code></pre>
+<p>Make sure you have the last version, and install them with <code>python3 pip</code>:</p>
 <pre><code class="language-sh">git -C hackagames pull
 pip install ./hackagames
-git clone https://github.com/imt-mobisyst/tiled-land
+git -C tiled-land pull
 pip install ./tiled-land
 </code></pre>
-<h2 id="launchfile">Launchfile:</h2>
+<h2 id="get-started">get-started:</h2>
+<p>Everything starts with a launch file.
+It will define a world and test a bot.
+As a first try, we recommend playing directly with the human interface (the <code>player.ShellPlayer</code>).</p>
 <pre><code class="language-python">import tiledland.game.pickndel as pnd
 
 world= pnd.World().initializeGrid([
@@ -144,13 +155,13 @@ world= pnd.World().initializeGrid([
         [00, -1, -1, 00]   #10       13
     ])
 
-master= pnd.GameMaster( world, tic=25 )
+master= pnd.GameMaster( world, tic=12 )
 bot= pnd.player.ShellPlayer()
 
 master.testPlayer( bot, 1 )
 </code></pre>
-<h2 id="first-bot">First Bot:</h2>
-<p>A verry simple first bot:</p>
+<p>The goal is to realize a maximum of pick and delivery missions (cf. market place area).</p>
+<p>then you can replace the <code>ShellPlayer</code> with your own Bot: </p>
 <pre><code class="language-python">import tiledland.game.pickndel as pnd
 
 class FirstBot():
@@ -176,13 +187,26 @@ class FirstBot():
     def sleep(self, result):
         print( f&quot;End on: {result}&quot; )
 </code></pre>
-<p>The <code>_model</code> attribute model the world (the map, the robot and the missions).</p>
-<p>Somme usefull methods: </p>
+<p>We recommend using a <code>_model</code> attributes to model the <em>Pick'n Del</em> world (the map, the robot and the missions).</p>
+<p>Somme useful methods: </p>
 <ul>
-<li><code>carrierTile()</code> returning the current tile-position of the carrier.</li>
-<li><code>carrierMission()</code> returning the cureent mission identifier.</li>
+<li><code>carrierTile()</code> returning the current tile position of the carrier.</li>
+<li><code>carrierMission()</code> returning the current mission identifier.</li>
 <li><code>carrierGoal()</code> returning the next tile to reach.</li>
 </ul>
+<h2 id="more-complexity">More Complexity:</h2>
+<p>The first increase in complexity consists of growing the size of the world. 
+To this effect, it is possible to download a complete launch file that will start a game with different game configuration, each recorded in a <em>json</em> format.</p>
+<ul>
+<li>Archives to download: <a href="../../resources/pickndel.zip">.zip</a></li>
+</ul>
+<p>The <code>pickndel.py</code> launch script will start a game accordingly to the configuration given as command argument:</p>
+<p>For instance </p>
+<pre><code class="language-sh">python3 pickndel.py conf-pnd-medium-02.json
+</code></pre>
+<p>As a first exercise, the goal is to learn, using reinforcement learning how to move in a world knowing that some of the tiles are encumbered.
+There is a probability to be stuck inside a tile when the carrier try a move from that tile.
+The encumbered tile and the associated probabilities are not known, and the smallest path is not necessarily the faster.</p>
               
             </div>
           </div><footer>
