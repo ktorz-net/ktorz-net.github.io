@@ -130,14 +130,15 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="understand-the-notion-of-policy">Understand the notion of Policy</h1>
-<p>Policy is a function <span class="arithmatex">\(\pi\)</span> returning the action to perform regarding a given state.</p>
+<p>A policy is a function <span class="arithmatex">\(\pi\)</span> returning the action to perform regarding a given state.</p>
 <p>To better understand the notion of <em>policy</em> we propose to learn one for <em>Py421</em> game.
-We wan to get a maximum of information about the interest of applying actions in game situation (state)</p>
-<p>We propose to do that by acting randomly, 
-with a <code>RecorderRandBot</code> based on a <code>py421.firstBot</code> <code>Bot</code>.</p>
+We wan to get a maximum of information about the interest of applying actions in game situations (states).
+We propose to do that by acting randomly, 
+with a <code>RecorderRandomBot</code>.
+Then a new <code>PolicyBot</code> will apply the computed policy from random experiences.</p>
 <h3 id="record-experiments">Record experiments</h3>
 <p>The idea consists in recording information required to learn a policy,
-in other world, to evaluate efficiency of visited state and action.</p>
+in other words, to evaluate the efficiency of the visited state and action.</p>
 <p>The evaluation is classically obtained at the end of a game, with the final score.
 The expected file would look like: </p>
 <pre><code>state, action, result
@@ -153,8 +154,8 @@ state, action, result
 5-5-3, roll-keep-keep, 104
 ...
 </code></pre>
-<p>It require to trace the visited state and action.
-The <code>recorderRandBot</code> will lookalike:</p>
+<p>It requires tracing the visited state and action.
+The <code>recorderRandBot</code> will look like:</p>
 <pre><code class="language-python">class Pi421Random():
     def process(self, state):
         return random.choice( [
@@ -178,7 +179,6 @@ class RecoderBot():
     def decide(self):
         state= '-'.join([ str(d) for d in self._dices ])
         action= self._pi.process(state)
-        self._trace.append( {'state': state, 'action': action} )
         return action
 
     def sleep(self, result):
@@ -190,12 +190,13 @@ class RecoderBot():
             logFile.write( f&quot;{xp['state']}, {xp['action']}, {result}\n&quot; )
         logFile.close()
 </code></pre>
-<p><strong>Important:</strong> the recording can only be done at <em>sleep</em> time. The bot need to reach the end of the game to evaluate the succession of actions it performed.</p>
-<p>Tracing the visited state and actions is performed at <em>decide</em>  step, with a <em>trace</em> attribute initialized at <em>wake-up</em> step.</p>
-<p>You can open your <code>log-sav.csv</code> (state, action, value) files to see it content.</p>
+<p><strong>Important:</strong> the recording can only be done at <em>sleep</em> time.
+The bot needs to reach the end of the game to evaluate the succession of actions it performed.</p>
+<p>Tracing the visited state and actions is performed at <em>decide</em>  step, with a <em>traces</em> attribute initialized at <em>wake-up</em> step.</p>
+<p>You can open your <code>log-sav.csv</code> (state, action, value) files to see their content.</p>
 <h3 id="process-the-data">Process the data</h3>
-<p>Processing <code>log-sav.csv</code> file consists of generating a structure matching a coherent policy from brute data.
-Typically, the structure can be simply a dictionnary over possible states.
+<p>Processing the <code>log-sav.csv</code> file consists of generating a structure matching a coherent policy from brute data.
+Typically, the structure can be simply a <em>dictionnary</em> over possible states.
 ie: <code>policy= { 'state1': 'actionInState1', 'state2': 'actionInState2', ... }</code></p>
 <p><strong>Dictionary:</strong>
 - <a href="https://docs.python.org/3.8/tutorial/datastructures.html#dictionaries">Python documentation</a>
@@ -220,7 +221,8 @@ for line in logFile :
         data[state][action].append( value )
 logFile.close()
 
-print( data )
+for state in data :
+    print( state +&quot;: &quot;+ str(data[state]) )
 </code></pre>
 <p>We can now process the data:</p>
 <ul>
@@ -233,24 +235,42 @@ print( data )
 json.dump( computedPolicy, policyFile, sort_keys=True, indent=2 )
 policyFile.close()
 </code></pre>
-<h3 id="exploit">exploit</h3>
+<h3 id="exploit">Exploit</h3>
 <p>Finally, it is possible to exploit the policy with a <code>policyBot</code> player.</p>
-<p>First load the policy, in the player constructor for instance:</p>
-<pre><code class="language-python">def __init__(self, policyFilePath):
-    policyFile= open(policyFilePath)
-    self.policy= json.load( policyFile )
-    policyFile.close()
+<p>First load the policy (in the player constructor, for instance), then apply the policy actions:</p>
+<p>Example of a Bot applyong a the policy: </p>
+<pre><code class="language-python">
+class PolicyBot :
+
+    def __init__(self, policyFilePath= &quot;py421PolicyBot.json&quot;):
+        policyFile= open(policyFilePath)
+        self.policy= json.load( policyFile )
+        policyFile.close()
+
+    # Player interface :
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        pass
+
+    def perceive(self, gameState):
+        self._horizon= gameState.child(1).integer(1)
+        self._dices= gameState.child(2).integers()
+        self._score= gameState.child(2).value(1)
+
+    def decide(self):
+        state= f&quot;{self._dices[0]}-{self._dices[1]}-{self._dices[2]}&quot;
+        action= self.policy[ state ]
+        return Pod(action)
+
+    def sleep(self, result):
+        pass
 </code></pre>
-<p>Then apply the policy actions:</p>
-<pre><code class="language-python">def decide(self):
-    action= self.policy[ '-'.join([ str(d) for d in self._dices ]) ]
-    return action
-</code></pre>
-<p>The policy reaches an average score close up to <span class="arithmatex">\(290\)</span>.</p>
+<p>The policy reaches an average score close up to <span class="arithmatex">\(300\)</span>.</p>
 <h3 id="complete-policy">Complete Policy:</h3>
 <p>You can apply the same method but over the complete state definition.
-By adding the horizon in the state definition (<code>4-2-1h2</code> for instance rather than only <code>4-2-1</code>), it possible to reach average score of more than <span class="arithmatex">\(320\)</span>.</p>
+By adding the horizon in the state definition (<code>4-2-1h2</code> for instance, rather than only <code>4-2-1</code>), it possible to reach an average score of more than <span class="arithmatex">\(320\)</span>.</p>
 <p>It will just require more experiences in the recording phase.</p>
+<p>It is also possible to use the <code>PolicyBot</code> to record new <em>State, Action, result-Values</em> and process the data again. 
+The resulting second version of <code>PolicyBot</code> should be better than the first one. Why?</p>
               
             </div>
           </div><footer>

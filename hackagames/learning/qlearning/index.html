@@ -137,7 +137,7 @@ Accumulating feedback, it will be capable of evaluating the interest of actions 
 <p>In reinforcement Learning family, <strong>Q-Learning</strong> is quite a simple and apply pretty well for learning to play <strong>421</strong>.</p>
 <p>The goal of the tutorial: </p>
 <ol>
-<li>Implement a new <code>qlearnerBot</code> player from random <em>Bot</em>.</li>
+<li>Implement a new <code>qlearnerBot</code> player from <em>RandomBot</em>.</li>
 <li>At initialization <code>qvalues</code> is created empty with the other required variables.</li>
 <li>At perception steps the bot updates its <code>qvalues</code> </li>
 <li>At decision steps it chooses a new action to perform.</li>
@@ -228,6 +228,8 @@ This way we should be capable of visualizing a progression.
 Py421 game is a very chaotic game, <span class="arithmatex">\(500\)</span> games are a minimum to get almost coherent averages.</p>
 <p>To do that, we will first create a new attribute to remember all final results at <em>Bot</em> initialization.
 Then, we will compute and print the average, every <span class="arithmatex">\(500\)</span> games.</p>
+<!--
+
 <pre><code class="language-python">import matplotlib.pyplot as plt
 
 ...
@@ -245,6 +247,10 @@ Class Bot:
             print( f&quot;- results ({self._i*500}): {sum(self._results)/500.0}&quot; )
             self._results= []
 </code></pre>
+
+
+-->
+
 <p>The goal is to find the best learning rate and exploration/exploitation ratio to get a fast and efficient <code>Q-learning</code> process.</p>
               
             </div>

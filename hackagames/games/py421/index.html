@@ -132,8 +132,15 @@
                 <h1 id="py421">Py421</h1>
 <p><strong>Py421</strong> is an <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>play/py421.py</code> script starts the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/py421.py
+<p><em>HackaGames</em> comes with a commant to start and try the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">hacka-py421-play
+</code></pre>
+<p>However, it is also possible to edit and execute a short script launching a game with the interactive interface.</p>
+<pre><code class="language-python">from hackagames.py421 import GameMaster
+from hacka.player import PlayerShell
+
+gameMaster= GameMaster(&quot;Solo&quot;)
+gameMaster.launchLocal( [PlayerShell()], 1 )  
 </code></pre>
 <p><strong>Py421</strong> is a 3-dice game. The player can roll several times to get a combination.
 The player can perform one and only one action on his turn, and the game stops automatically after 2 turns.</p>
@@ -150,9 +157,10 @@ But you can explore other combinations.</p>
 Theire is no information to get from The <em>gameConf</em>.
 The <em>gameState</em> parameter of the <code>perceive</code> includes 2 elements (2 <em>gameState</em> childs).
 First child model the roll-again horizon (one integer value), the second child the dices (<span class="arithmatex">\(3\)</span> intergers and <span class="arithmatex">\(1\)</span> floating point value for the score of the combinaison).</p>
-<pre><code class="language-python">import random
+<pre><code class="language-python">from hacka import Pod
+import random
 
-class Bot :
+class RandomBot :
 
     def actions(self):
         return [ 'keep-keep-keep', 'keep-keep-roll', 'keep-roll-keep', 'keep-roll-roll',
@@ -170,49 +178,46 @@ class Bot :
         self._score= gameState.child(2).value(1)
 
     def decide(self):
-        return random.choice( self.actions() )
+        return Pod( random.choice( self.actions() ) )
 
     def sleep(self, result):
-        print( &quot;&gt; result: &quot;+ str(result) )
+        self._lastResult= result
 </code></pre>
-<p>You can try your Bot AI by importing <em>GameSolo</em> into a launch script: </p>
-<pre><code class="language-python">#!python3 
-# Setup a game:
-from hacka.games.py421 import GameSolo as Game
-from bot421 import Bot
+<p>You can try your Bot AI by importing the GameMaster into a launch script:</p>
+<pre><code class="language-python">from hackagames.py421 import GameMaster
+from py421Bot import RandomBot as Bot
 
+# Instanciate Game-Master and bot
+gameMaster= GameMaster(&quot;Solo&quot;)
 bot= Bot()
 
-# Instanciate and start 100 games
-game= Game()
-results= game.testPlayer( bot, 10 )
-
-# Analyze the result
-print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+# Start 1000 games with your bot:
+results= gameMaster.launchLocal( [bot], 1000 )
+botResults= results[0]
+print( f&quot;Average score: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
-<p>The <code>testPlayer</code> method returns the results of <em>bot</em> player.</p>
 <h2 id="multi-player-version">Multi-player version</h2>
-<p>You can confront <code>2</code> Bot-AIs by importing <em>GameDuo</em> rather than <em>GameSolo</em> into your launch script: </p>
-<pre><code class="language-python">#!python3 
-# Setup a game:
-from hacka.games.py421 import GameDuo as Game
-from py421Bot import Bot as Bot1
-from duo421Bot import Bot as Bot2
+<p>You can confront <code>2</code> Bot-AIs by by configuring the GameMaster on <em>Duo</em> mode into your launch script: </p>
+<pre><code class="language-python">from hackagames.py421 import GameMaster
+from py421Bot import RandomBot as Bot
 
-# Instanciate and start 100 games
-game= Game()
-bot1= Bot1()
-bot2= Bot2()
-results= game.launch( [bot1, bot2], 10 )
+# Instanciate Game-Master and bot
+gameMaster= GameMaster(&quot;Duo&quot;)
+bot1= Bot()
+bot2= Bot()
+
+# Start 1000 games with your bot:
+results= gameMaster.launchLocal( [bot1, bot2], 100 )
 
 # Analyze the result
 print( f&quot;Average scores: &quot; )
-for i in range(1, 3) :
-    pres= results[i-1]
-    print( f&quot;  - Player-{i}: {sum(pres)/len(pres)}&quot; )
+for i in [0, 1] :
+    botResults= results[i]
+    print( f&quot;  - Player-{i+1}: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
-<p>The <code>launch</code> method returns the results for all bots players.
-It supose you have a second <em>Bot</em> class in a new file <code>duo421Bot.py</code>.</p>
+<p>The <code>launch</code> script returns the results for all bots players.
+In duo mode, the game result (<code>sleep</code>) is not longer the combinaition value but 1, -1 or 0, respectivelly if the player win, lose or in case or no winner.
+Ideally the tow bot should be defined diferently, with two different class for instance.</p>
 <h3 id="optimize-a-2-player-bot">Optimize a 2-player Bot :</h3>
 <p>A Bot designed for <em>solo</em> mode of 421 can also play to <em>duo</em> mode.
 However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is incresed in <em>duo</em> mode.
@@ -227,16 +232,23 @@ The <em>gameState</em> also include the conbinaison of your opponent:</p>
     print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score} (VS: {self._oppo_dices} {self._oppo_score})' )
 </code></pre>
 <p>Use this increased state definition to optimize the bot's strategies.</p>
-<h2 id="server-mode">Server Mode</h2>
-<p>It is possible to start <em>421</em> in duo mode. 
-To try this version executes the following commad:</p>
+<!--
+## Server Mode
+
+It is possible to start _421_ in duo mode. 
+To try this version executes the following commad:
+
+
 <pre><code class="language-sh">python3 hackagames/play/py421 duo -n 2
 </code></pre>
-<p>That start a 2 games 4.2.1 where you have to confront the random player. 
+
+
+That start a 2 games 4.2.1 where you have to confront the random player. 
 The first game you play as the first player role.
 You control the number of roll-again. The opponent will not be capable to roll its dice more time than you.
 The second game, you play the second player role.
-You know the combinaision to beat.</p>
+You know the combinaision to beat.
+-->
               
             </div>
           </div><footer>
