@@ -133,35 +133,38 @@
 <p>In this tutorial, we will learn about how the games and the players/bots communicate together. 
 In Hackagames several players can play simultaneously to games. </p>
 <p>That for, the loop control of the program is handled by the game.
-Then, the player bots have to generate the appropriate responses (string formed actions) to situations.</p>
+Then, the player bots have to generate the appropriate responses to situations.</p>
 <h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
-<p>First let implement a simple script, instantiating a game and a player.
-Put the next code into a script file <code>launch-py421.py</code>.</p>
-<pre><code class="language-python"># Import a game and player(s):
-from hacka.games.py421 import GameSolo as Game
-from hacka.games.py421.firstBot import Bot
+<p>First, let implement a simple script, instantiating a game and a player.
+Put the next code into a script file <code>py421-launch.py</code>.</p>
+<pre><code class="language-python">from hackagames.py421 import GameMaster
+from py421Bot import FirstBot as Bot
 
-# Instanciate them:
-game= Game()
+# Instanciate a 421 Game-Master (handle the game and the players):
+gameMaster= GameMaster(&quot;Solo&quot;)
+
+# Instanciate your first bot:
 bot= Bot()
 
-# Start 1000 games on a player to test:
-results= game.testPlayer( bot, 1000)
+# Start 1000 games with your bot:
+results= gameMaster.launchLocal( [bot], 100 )
 
 # And analyze the result:
-print( f&quot;Average score: {sum(results)/len(results)}&quot; )
+botResults= results[0]
+
+print( f&quot;Average score: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
-<p>This script import <code>py421.py</code> game and a <em>bot</em>, then it starts <span class="arithmatex">\(1000\)</span> games with that <em>bot</em> as main player.
-It return the average end game results of <em>bot</em>.</p>
-<p>Test it in a terminal:</p>
-<pre><code class="language-sh">python3 ./launch-py421.py
-</code></pre>
-<h2 id="initialize-a-bot-ie-an-autonomous-player">Initialize a Bot, i.e. an Autonomous Player</h2>
-<p>The idea is to replace <code>from hacka.games.py421.firstBot import Bot</code> with our own <em>Bot</em> implementation.
-An <code>hackagames</code> formated <code>Bot</code> is a class, implementing <span class="arithmatex">\(4\)</span> specific methods <code>wakeUp</code>, <code>perceive</code>,<code>decide</code> and <code>sleep</code>. <code>wakeUp</code> take as parameters the initial configuration of a game, <code>perceive</code> the evolutive game state and <code>sleep</code> the final result of the game.
-The method <code>decide</code> do not take any parameter, but it should return the bot action.</p>
-<p>The minimal <code>Bot</code> implementation can be defined in a file <code>minimalBot</code> aside of <code>launch-py421.py</code>.</p>
-<pre><code class="language-python">class Bot :
+<p>This script imports the <code>py421</code> game and a <em>bot</em>, then it starts <span class="arithmatex">\(100\)</span> games with that <em>bot</em> as main player.
+It returns the average endgame results of <em>bot</em>.</p>
+<p>At this point your script should not work. You need to create your <code>FirstBot</code> bot class in a <code>py421Bot.py</code> file aside of your <code>py421-launch.py</code>.</p>
+<h2 id="initialize-your-first-bot-ie-an-autonomous-player">Initialize your First Bot, i.e. an Autonomous Player</h2>
+<p>A <code>hackagames</code>-formatted <code>Bot</code> is a class, implementing <span class="arithmatex">\(4\)</span> specific methods: <code>wakeUp</code>, <code>perceive</code>,<code>decide</code> and <code>sleep</code>. <code>wakeUp</code> takes as parameters the initial configuration of a game, <code>perceive</code> the evolutive game state, and <code>sleep</code> the final result of the game.
+The method <code>decide</code> does not take any parameter, but it should return the bot action.</p>
+<p>The informations transiting between games and bots are formated as <code>Pod</code> (PieaceOfData), an <em>hackaGames</em> feature.</p>
+<p>So, the minimal <code>Bot</code> implementation in your <code>py421Bot.py</code> file, created aside of <code>py421-launch.py</code> should be:</p>
+<pre><code class="language-python">from hacka import Pod
+
+class FirstBot :
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gameConf):
         pass
@@ -170,20 +173,23 @@ The method <code>decide</code> do not take any parameter, but it should return t
         pass
 
     def decide(self):
-        return 'keep-keep-keep'
+        return Pod('keep-keep-keep')
 
     def sleep(self, result):
         pass
 </code></pre>
-<p>Then it is possible to replace to replace <code>from hacka.games.py421.firstBot import Bot</code> with <code>from minimalBot import Bot</code> in <code>launch-py421.py</code> and execute again the script.</p>
+<p>Now the <code>py421-launch.py</code> should works. In a terminal:</p>
+<pre><code class="language-sh">python3 ./py421-launch.py
+</code></pre>
 <h2 id="understand-bot-methods">Understand Bot methods :</h2>
-<p>Games and Bots rely on <code>hacka</code> library, to exchange information about the game and the player intentions (game configuration, game state and actions).</p>
+<p>Games and Bots rely on the <code>hacka</code> library, to exchange information about the game and the players' intentions (game configuration, game states and decisions).
+The players can be human interfaces or bots.</p>
 <h3 id="game-loop">Game Loop:</h3>
 <p>A game mainly relies on <code>perceive</code> and <code>decide</code> capability for players and bots to update the information about the game and to ask for player action.</p>
-<p>The <code>perceive</code> method has <span class="arithmatex">\(1\)</span> argument: a <code>gameState</code>, the current game state from the point of view of the player.
-In fact <code>gameState</code> can be different from a player to another in multiplayer games with partial observation (typically: card games).</p>
-<p>In the basic configuration of <code>Py421</code> (<em>Solo</em> mode), there is only one player and the <code>gameConf</code> informs about the <span class="arithmatex">\(3\)</span> dice values and the horizon counter (the number of remaining roll again possibilities).
-The <code>gameState</code> can be transformed into instance attributes has follow:</p>
+<p>The <code>perceive</code> method has <span class="arithmatex">\(1\)</span> argument: the <code>gameState</code>, the current configuration of the game from the point of view of the player.
+In fact, <code>gameState</code> can be different from one player to another in multiplayer games with partial observation (typically card games). In our example (421), there is only one player with the full information about the game.</p>
+<p>So the basic configuration of <code>Py421</code> (<em>Solo</em> mode), the <code>gameState informs about the $3$ dice values and the horizon counter (the number of remaining roll-again possibilities).
+The</code>gameState<code>read and associate to the bot instance</code>self` is as follows:</p>
 <pre><code class="language-python">def perceive(self, gameState):
     self._horizon= gameState.child(1).integer(1)
     self._dices= gameState.child(2).integers()
@@ -191,52 +197,36 @@ The <code>gameState</code> can be transformed into instance attributes has follo
 </code></pre>
 <p>The <code>decide</code> method has no argument, but should return the player action. 
 The action is formatted as a string.
-<code>decide</code> is always triggered after one or several <code>perceive</code> calls.
-So it is possible to process updated instance attributes.</p>
-<p>For instance in <code>Py421</code>, we can keep <span class="arithmatex">\(4.2.1\)</span> combinason and roll the others.</p>
+<code>decide</code> is always triggered after at least one <code>perceive</code> call.
+So, the bot instance <code>self</code> as all the required informations to process a decision.</p>
+<p>For instance, in <code>Py421</code>, we can keep the <span class="arithmatex">\(4.2.1\)</span> combination and roll the others.</p>
 <pre><code class="language-python">def decide( self ):
+    stateString= f&quot;{self._horizon} - {self._dices} ({self._score})&quot;
+    action= 'roll-roll-roll'
     if self._dices == [4, 2, 1] :
-        return &quot;keep-keep-keep&quot;
-    return &quot;roll-roll-roll&quot;
+        action= &quot;keep-keep-keep&quot;
+    print( stateString + &quot;: &quot;+ action )
+    return Pod(action)
 </code></pre>
-<p>As a result, this new <code>decide</code> method shoulds increase statistically the obtained scores.</p>
+<p>As a result, this new <code>decide</code> method should statistically increase the obtained scores with <code>py421-launch.py</code>.</p>
 <h3 id="multiple-games">Multiple Games :</h3>
-<p>Furthermore, A Game master can start several games sequentially. 
-That for, the method <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
-There are triggered <code>1000</code> times in our script.
-During a Game's game, players are activated at turn with <code>perceive</code> and <code>decide</code> method </p>
-<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> parameters: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
-At this stage, there is no information to get from <code>gameConf</code> in <em>Py421</em>, into <em>Solo</em> mode.</p>
-<p>Finally, the <code>sleep</code> inform about the obtained score with it parameters <code>result</code>. 
-The score is computed for the player regarding the ending game.</p>
-<h3 id="full-verbose-example">Full Verbose Example:</h3>
-<p>As an example, this next <em>Bot</em> is a verbose version for <em>Solo Py421</em>:</p>
-<pre><code class="language-python">class Bot :
-    # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gameConf):
-        print( f'---\nWake-up player-{playerId} ({numberOfPlayers} players)')
-        print( &quot;configuration &quot; + str(gameConf) )
-
-    def perceive(self, gameState):
-        self._horizon= gameState.child(1).integer(1)
-        self._dices= gameState.child(2).integers()
-        self._score= gameState.child(2).value(1)
-        print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score}' )
-
-    def decide( self ):
-        if self._dices == [4, 2, 1] :
-            self._action= &quot;keep-keep-keep&quot;
-        self._action= &quot;roll-roll-roll&quot;
-        print( f'\t&lt; Action: {self._action}' )
-        return self._action
-
-    def sleep(self, result):
-        print( f'--- Results: {result}' )
-</code></pre>
-<p>To notice that the parameters <code>gameConf</code> and <code>gameState</code> are formated as <em>hacka.Pod</em> (Piece Of Data), a tree data structure.
+<p>Furthermore, A GameMaster can start several games sequentially. 
+Therefore, the methods <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
+They are triggered <code>100</code> times in our script.
+During a game, players are activated at turn with the <code>perceive</code> and the <code>decide</code> methods.</p>
+<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> arguments: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
+At this stage, there is no information to get from  <code>playerId</code>, <code>numberOfPlayers</code> and <code>gameConf</code> in <em>Py421</em>, into <em>Solo</em> mode.</p>
+<p>Finally, the <code>sleep</code> informs about the obtained score with its argument <code>result</code>. 
+The score is computed for the player regarding the ending game. 
+In <em>Py421</em> into <em>Solo</em> mode, the <code>result</code> matches the final combination value.</p>
+<ul>
+<li>You have to try to increase decisions to increase average scores after <span class="arithmatex">\(1000\)</span> games.</li>
+</ul>
+<h3 id="pod-hackas-piece-of-data">Pod - Hacka's Piece-Of-Data :</h3>
+<p>The method arguments <code>gameConf</code> and <code>gameState</code> as the expected return of <code>decide</code> method are formatted as <em>hacka.Pod</em> (Piece Of Data), a tree data structure packing integers, values, and strings data.
 It is not required to understand <em>Pod</em>.
 Examples are always provided to get the game information from <em>Pod</em>.
-However, you can go on <strong>Under the hood - Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p>
+However, you can go to the <strong>Under the hood - Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p>
               
             </div>
           </div><footer>

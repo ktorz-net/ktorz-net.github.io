@@ -130,49 +130,58 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="install-process">Install Process</h1>
-<p>A quick <em>tutorial</em> to make <strong>HackaGames</strong> running on your computer.</p>
-<p><em>Nota bene</em> : </p>
+<p>A quick <em>tutorial</em> to make <strong>HackaGames</strong> run on your computer.</p>
+<p><em>Nota bene</em>: </p>
 <ul>
 <li><strong>HackaGames</strong> is natively developed on <em>Linux</em> systems.
-Documentation is built regarding Ubuntu-like distributions.
-Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntaxe.</li>
-<li><strong>On Windows:</strong> You can use <a href="https://git-scm.com/download/win">git for windows</a> and its <code>git bash</code>.</li>
+    Documentation is built regarding Ubuntu-like distributions.
+    Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntax. But most of the commands work pretty well on <em>Windows</em> <em>PowerShell</em></li>
+<li><strong>IDE</strong> (Integrated Development Environment), it is encouraged to use <em>VisualStudio Code</em> <a href="https://code.visualstudio.com">code.visualstudio.com</a> and to create a project dedicated to <em>HackaGames</em> tutorials.
+    Command should be work on a terminal open in the IDE.</li>
 </ul>
-<h2 id="install">Install</h2>
-<p>Simplely clone the git repository and use <em>python pip</em>.</p>
+<h2 id="getting-started-python">Getting Started (Python)</h2>
+<p>A version restricted to <em>Python</em> resources can be easily installed thanks to the <em>pip</em> package manager: </p>
+<pre><code class="language-sh">pip install hackagames
+</code></pre>
+<p>From that point, for a first contact, you can play with the simplest proposed game: <strong>Py421</strong>, from a shortcut: </p>
+<pre><code class="language-sh">hacka-py421-play
+</code></pre>
+<hr />
+<p><em>Alternatively -</em> it is possible to edit and execute a short script launching a game: </p>
+<pre><code class="language-python">from hackagames.py421 import GameMaster
+from hacka.player import PlayerShell
+
+gameMaster= GameMaster(&quot;Solo&quot;)
+gameMaster.launchLocal( [PlayerShell()], 1 )  
+</code></pre>
+<hr />
+<p>The <strong>Py421</strong> is a three-dice game. The player can roll several times to get the best combination.
+The actions consist of keeping or rolling each of the 3 dice. So there are 8 possible actions:</p>
+<ul>
+<li><code>keep-keep-keep</code>,  <code>keep-keep-roll</code>,  <code>keep-roll-keep</code>,  <code>keep-roll-roll</code>, <code>roll-keep-keep</code>,  <code>roll-keep-roll</code>,  <code>roll-roll-keep</code> and <code>roll-roll-roll</code></li>
+</ul>
+<p>The goal is to optimize the combination of dice before the end of the second turn.
+The best combination ever is <strong>4-2-1</strong>.
+But you can explore other combinations.</p>
+<ul>
+<li>You can then follow the tutorial of <strong>First Bot</strong> to learn how to implement an autonomous player for <strong>Py421</strong> the game.</li>
+</ul>
+<h2 id="installation-from-sources">Installation from sources</h2>
+<p><strong>HackaGames</strong> is shared on <a href="">github</a> under an open-source license. 
+It is possible to install it from sources. </p>
+<p>Simply clone the Git repository, then use <em>Python pip</em> on the local project directory.</p>
 <pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
 pip install ./hackagames
 </code></pre>
 <p>or </p>
 <pre><code class="language-sh">python -m pip install ./hackagames
 </code></pre>
-<p>Thats it.
-You can play to several included games (the ones developed on top of <code>hackapy</code>), and implement some Bots (cf. <strong>First Bot</strong> section).</p>
+<p>That's it; you have the last in-development version.</p>
 <h2 id="dependencies">Dependencies</h2>
-<p>The project is distributed using <em>git</em> solution and relies on <code>Python3</code> language.
-Make sure you have them installed.</p>
-<p><strong>HackaGames</strong> includes <em>python3</em> librairy: <strong>haka.pylib</strong> for making game-servers and player-clients.
-The solution relies on external librairies:</p>
+<p>The project relies on several libs:</p>
 <ul>
-<li><em>zmq</em> for network protocol of <strong>HackaGames</strong></li>
-<li><em>tqdm</em> for process-bars are implemented via </li>
-<li><em>cairo</em> for graphical output.</li>
-</ul>
-<h2 id="getting-started">Getting Started</h2>
-<p>The easiest way is to play with one of the proposed <em>python3</em> games, <strong>Py421</strong> for instance.</p>
-<p>Each python3 game comes with <code>play</code> script permitting to start the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/py421.py
-</code></pre>
-<p>The <strong>Py421</strong> is a tree dice game. The player can roll several times to get the best combination.
-The actions consist in keeping or rolling each of the 3 dices. So there are 8 possible actions:</p>
-<ul>
-<li><code>keep-keep-keep</code>,  <code>keep-keep-roll</code>,  <code>keep-roll-keep</code>,  <code>keep-roll-roll</code>, <code>roll-keep-keep</code>,  <code>roll-keep-roll</code>,  <code>roll-roll-keep</code> and <code>roll-roll-roll</code></li>
-</ul>
-<p>The goal is to optimize the combination of dices before the end of the second turn.
-The best combination ever is <strong>4-2-1</strong>.
-But you can explore other combinations.</p>
-<ul>
-<li>You can then follow the tutorial of <strong>First Bot</strong> to learn how to implement an autonomous player for <strong>Py421</strong> the game.</li>
+<li><em>hackapy</em> itself is based on <em>zmq</em> for the network protocol of <strong>HackaGames</strong></li>
+<li><em>tqdm</em> offers nice but simple process-bars</li>
 </ul>
               
             </div>
