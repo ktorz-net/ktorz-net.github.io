@@ -148,7 +148,7 @@ state, action, result
 state, action, result
 ...
 </code></pre>
-<p>For instance with <em>Py421</em>:</p>
+<p>For instance, with <em>Py421</em>:</p>
 <pre><code>4-2-1, keep-keep-keep, 800
 6-3-1, keep-roll-keep, 184
 5-5-3, roll-keep-keep, 104
@@ -192,7 +192,7 @@ The bot needs to reach the end of the game to evaluate the succession of actions
 <p>You can open your <code>log-sav.csv</code> (state, action, value) files to see their content.</p>
 <h3 id="process-the-data">Process the data</h3>
 <p>Processing the <code>log-sav.csv</code> file consists of generating a structure matching a coherent policy from brute data.
-Typically, the structure can be simply a <em>dictionnary</em> over possible states.
+Typically, the structure can be simply a <em>dictionary</em> over possible states.
 ie: <code>policy= { 'state1': 'actionInState1', 'state2': 'actionInState2', ... }</code></p>
 <p><strong>Dictionary:</strong>
 - <a href="https://docs.python.org/3.8/tutorial/datastructures.html#dictionaries">Python documentation</a>
@@ -231,10 +231,111 @@ for state in data :
 json.dump( computedPolicy, policyFile, sort_keys=True, indent=2 )
 policyFile.close()
 </code></pre>
+<h3 id="process-the-data-correction">Process the data (Correction)</h3>
+<p>For pedagogical purpose it is encouraged to implement the 'Process the data' exercise by yourself.
+Manipulating nested lists and dictionaries is the basic of python programming.</p>
+<p>However, for this exercise, a correction is provided in a simple structure (maybe not the most effective).
+At least, take times to well understand this solution.
+Each line should appear crystal clear to you.</p>
+<pre><code class="language-python">import json
+
+data= {}
+
+# Load data..
+logFile= open(&quot;log-SAV.csv&quot;, &quot;r&quot;)
+for line in logFile :
+    state, action, value= tuple( line.split(', ') )
+    value= float(value)
+    if state not in data :
+        data[state]= {action: [value]}
+    elif action not in data[state]:
+        data[state][action]= [value]
+    else :
+        data[state][action].append( value )
+logFile.close()
+
+computedPolicy= {}
+
+def actionValue( listOFValues ):
+    return sum(listOFValues) / len(listOFValues)
+
+for state in data :
+    # Init a best action:
+    bestAction= &quot;keep-keep-keep&quot;
+    bestValue= actionValue( data[state][bestAction] )
+
+    # Search for a better one:
+    for action in data[state] :
+        value= actionValue( data[state][action] )
+        if value &gt; bestValue:
+            bestValue= value
+            bestAction= action
+
+    # Record:
+    computedPolicy[state]= bestAction
+
+for state in computedPolicy :
+    print( state +&quot; -&gt; &quot;+ computedPolicy[state] )
+
+policyFile= open(&quot;py421PolicyBot.json&quot;, &quot;w&quot;)
+json.dump( computedPolicy, policyFile, sort_keys=True, indent=2 )
+policyFile.close()
+</code></pre>
+<p>By the way, this script begins to be complex, and can be decomposed into atomic function : </p>
+<pre><code class="language-python">import json
+
+# Functions:
+#-----------
+
+def loadData( fileName ):
+  data= {}
+  # Load data..
+  logFile= open(fileName, &quot;r&quot;)
+  for line in logFile :
+      state, action, value= tuple( line.split(', ') )
+      value= float(value)
+      if state not in data :
+          data[state]= {action: [value]}
+      elif action not in data[state]:
+          data[state][action]= [value]
+      else :
+          data[state][action].append( value )
+  logFile.close()
+  return data
+
+def actionValue( listOFValues ):
+    return sum(listOFValues) / len(listOFValues)
+
+def computePolicy( data ):
+  computedPolicy= {}
+  for state in data :
+    # Init a best action:
+    bestAction= &quot;keep-keep-keep&quot;
+    bestValue= actionValue( data[state][bestAction] )
+    # Search for a better one:
+    for action in data[state] :
+        value= actionValue( data[state][action] )
+        if value &gt; bestValue:
+            bestValue= value
+            bestAction= action
+    # Record:
+    computedPolicy[state]= bestAction
+  return computedPolicy
+
+# Script:
+#--------
+
+data= loadData( &quot;log-SAV.csv&quot; )
+computedPolicy= computePolicy( data )
+policyFile= open(&quot;py421PolicyBot.json&quot;, &quot;w&quot;)
+json.dump( computedPolicy, policyFile, sort_keys=True, indent=2 )
+policyFile.close()
+</code></pre>
+<p>Always structure your code into atomic functions (and classes) and why not, put the definitions into a python file aside from your scrips to facilitate reuse...</p>
 <h3 id="exploit">Exploit</h3>
 <p>Finally, it is possible to exploit the policy with a <code>policyBot</code> player.</p>
 <p>First load the policy (in the player constructor, for instance), then apply the policy actions:</p>
-<p>Example of a Bot applyong a the policy: </p>
+<p>Example of a Bot applying a policy loaded from a file: </p>
 <pre><code class="language-python">class PolicyBot :
 
     def __init__(self, policyFilePath= &quot;py421PolicyBot.json&quot;):

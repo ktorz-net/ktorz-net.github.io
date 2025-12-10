@@ -137,14 +137,15 @@
     Documentation is built regarding Ubuntu-like distributions.
     Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntax. But most of the commands work pretty well on <em>Windows</em> <em>PowerShell</em></li>
 <li><strong>IDE</strong> (Integrated Development Environment), it is encouraged to use <em>VisualStudio Code</em> <a href="https://code.visualstudio.com">code.visualstudio.com</a> and to create a project dedicated to <em>HackaGames</em> tutorials.
-    Command should be work on a terminal open in the IDE.</li>
+    Command should be working on a terminal opened in the IDE.</li>
+<li><strong>Jupiter NoteBook</strong> <em>HackaGames</em> tutorials works on web-based python IDE like <a href="https://colab.research.google.com/">Google Colab</a>. In that case shell command (like <code>pip</code>) should start with an exclamation mark (!).</li>
 </ul>
 <h2 id="getting-started-python">Getting Started (Python)</h2>
 <p>A version restricted to <em>Python</em> resources can be easily installed thanks to the <em>pip</em> package manager: </p>
-<pre><code class="language-sh">pip install hackagames
+<pre><code class="language-sh">pip install hackagames # or: !pip install hackagames
 </code></pre>
 <p>From that point, for a first contact, you can play with the simplest proposed game: <strong>Py421</strong>, from a shortcut: </p>
-<pre><code class="language-sh">hacka-py421-play
+<pre><code class="language-sh">hacka-py421-play # or: !hacka-py421-play
 </code></pre>
 <hr />
 <p><em>Alternatively -</em> it is possible to edit and execute a short script launching a game: </p>
@@ -166,8 +167,8 @@ But you can explore other combinations.</p>
 <ul>
 <li>You can then follow the tutorial of <strong>First Bot</strong> to learn how to implement an autonomous player for <strong>Py421</strong> the game.</li>
 </ul>
-<h2 id="installation-from-sources">Installation from sources</h2>
-<p><strong>HackaGames</strong> is shared on <a href="">github</a> under an open-source license. 
+<h2 id="installation-from-sources-optional">Installation from sources (optional)</h2>
+<p><strong>HackaGames</strong> is shared on <a href="https://github.com/ktorz-net/hackagames">github</a> under an open-source license. 
 It is possible to install it from sources. </p>
 <p>Simply clone the Git repository, then use <em>Python pip</em> on the local project directory.</p>
 <pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames

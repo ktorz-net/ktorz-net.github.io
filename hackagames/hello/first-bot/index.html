@@ -135,33 +135,29 @@ In Hackagames several players can play simultaneously to games. </p>
 <p>That for, the loop control of the program is handled by the game.
 Then, the player bots have to generate the appropriate responses to situations.</p>
 <h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
-<p>First, let implement a simple script, instantiating a game and a player.
-Put the next code into a script file <code>py421-launch.py</code>.</p>
+<p>First, let implement a simple script, instantiating a game and a player.</p>
 <pre><code class="language-python">from hackagames.py421 import GameMaster
-from py421Bot import FirstBot as Bot
+from py421bot import FirstBot
 
-# Instanciate a 421 Game-Master (handle the game and the players):
+# Instanciate Game-Master (handling the game and the players) and a bot player
 gameMaster= GameMaster(&quot;Solo&quot;)
-
-# Instanciate your first bot:
-bot= Bot()
+bot= FirstBot()
 
 # Start 1000 games with your bot:
-results= gameMaster.launchLocal( [bot], 100 )
+results= gameMaster.launchLocal( [bot], 1000 )
 
 # And analyze the result:
 botResults= results[0]
-
 print( f&quot;Average score: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
-<p>This script imports the <code>py421</code> game and a <em>bot</em>, then it starts <span class="arithmatex">\(100\)</span> games with that <em>bot</em> as main player.
+<p>This script starts <span class="arithmatex">\(1000\)</span> games with <em>bot</em> an instance of a <code>FirstBot</code> as main player.
 It returns the average endgame results of <em>bot</em>.</p>
-<p>At this point your script should not work. You need to create your <code>FirstBot</code> bot class in a <code>py421Bot.py</code> file aside of your <code>py421-launch.py</code>.</p>
+<p>At this point your script should not work, we need to create our <code>FirstBot</code> bot class, into a <code>py421bot.py</code> file.</p>
 <h2 id="initialize-your-first-bot-ie-an-autonomous-player">Initialize your First Bot, i.e. an Autonomous Player</h2>
 <p>A <code>hackagames</code>-formatted <code>Bot</code> is a class, implementing <span class="arithmatex">\(4\)</span> specific methods: <code>wakeUp</code>, <code>perceive</code>,<code>decide</code> and <code>sleep</code>. <code>wakeUp</code> takes as parameters the initial configuration of a game, <code>perceive</code> the evolutive game state, and <code>sleep</code> the final result of the game.
 The method <code>decide</code> does not take any parameter, but it should return the bot action.</p>
 <p>The informations transiting between games and bots are formated as <code>Pod</code> (PieaceOfData), an <em>hackaGames</em> feature.</p>
-<p>So, the minimal <code>Bot</code> implementation in your <code>py421Bot.py</code> file, created aside of <code>py421-launch.py</code> should be:</p>
+<p>So, the minimal <code>Bot</code> implementation should be (in a new <code>py421bot.py</code> file):</p>
 <pre><code class="language-python">from hacka import Pod
 
 class FirstBot :
@@ -178,9 +174,26 @@ class FirstBot :
     def sleep(self, result):
         pass
 </code></pre>
-<p>Now the <code>py421-launch.py</code> should works. In a terminal:</p>
-<pre><code class="language-sh">python3 ./py421-launch.py
+<h2 id="multi-files-structuration">Multi-Files structuration</h2>
+<p>It is encuraged to work on your own computer with your favoryte <em>Python IDE</em>. 
+As so, you should distribute your code into several files: </p>
+<ul>
+<li><code>py421Bot.py</code>, with the implementation of your Bot classes ( <code>FirstBot</code> as a first class).</li>
+<li><code>py421-launch.py</code>, the script instanciating a game-master and a bot player (and starting with a <code>from py421Bot import FirstBot</code>).</li>
+<li><code>README.md</code>, the simple text description of this directory (in <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a> syntaxe)</li>
+</ul>
+<p>For instance for your <code>README.md</code>: </p>
+<pre><code class="language-markdown"># Tutorial Of HackaGames
+
+This directory regroup my realization by following the tutorial of [hackagames](https://ktorz-net.github.io/hackagames).
+
+## Structuration: 
+
+- `py421Bot.py`, The implementation of my Bot for the 421 game.
+- `py421-launch.py`, the script to test a bot on the 421 game.
 </code></pre>
+<p>Then you can increase your file collection, following the tutorials with a strategy: one file - one functionnality.</p>
+<p>If you are in a web-based Python IDE like <a href="colab.research.google.com">Google Colab</a>, the <code>py421-launch.py</code> matches your jupiter notebook and the other file can be created aside.</p>
 <h2 id="understand-bot-methods">Understand Bot methods :</h2>
 <p>Games and Bots rely on the <code>hacka</code> library, to exchange information about the game and the players' intentions (game configuration, game states and decisions).
 The players can be human interfaces or bots.</p>
@@ -199,16 +212,16 @@ The</code>gameState<code>read and associate to the bot instance</code>self` is a
 The action is formatted as a string.
 <code>decide</code> is always triggered after at least one <code>perceive</code> call.
 So, the bot instance <code>self</code> as all the required informations to process a decision.</p>
-<p>For instance, in <code>Py421</code>, we can keep the <span class="arithmatex">\(4.2.1\)</span> combination and roll the others.</p>
+<p>For instance, in <code>FirstBot</code>, we can keep the <span class="arithmatex">\(4.2.1\)</span> combination and roll the others.</p>
 <pre><code class="language-python">def decide( self ):
     stateString= f&quot;{self._horizon} - {self._dices} ({self._score})&quot;
     action= 'roll-roll-roll'
     if self._dices == [4, 2, 1] :
         action= &quot;keep-keep-keep&quot;
-    print( stateString + &quot;: &quot;+ action )
     return Pod(action)
 </code></pre>
-<p>As a result, this new <code>decide</code> method should statistically increase the obtained scores with <code>py421-launch.py</code>.</p>
+<p>As a result, this new <code>decide</code> method should statistically increase the obtained scores on <span class="arithmatex">\(1000\)</span> games.
+It is possible to add a <code>print( stateString + ": "+ action )</code> to check each decision before the return instruction.</p>
 <h3 id="multiple-games">Multiple Games :</h3>
 <p>Furthermore, A GameMaster can start several games sequentially. 
 Therefore, the methods <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
