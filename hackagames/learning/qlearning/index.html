@@ -61,6 +61,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../games/py421/">Py4.2.1</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../games/zombuilding/">Zomb'Building</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../games/connect4/">Connect4</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../games/tictactoe/">TicTacToe</a>
@@ -174,7 +176,7 @@ So let's start with a method:</p>
 <p>Returning to the <code>updateQvalues</code> method,
 initializing action values for a given state will lookalike</p>
 <pre><code class="language-python"># state= &quot;2|6-3-1&quot; for instance (2 re-rolls from dice: 6, 3 and 1)
-if state not in self.qvalues.keys() :
+if state not in self._qvalues.keys() :
     self._qvalues[state]= {
             &quot;keep-keep-keep&quot;:0.0, &quot;roll-keep-keep&quot;:0.0, &quot;keep-roll-keep&quot;:0.0,
             &quot;roll-roll-keep&quot;:0.0, &quot;keep-keep-roll&quot;:0.0, &quot;roll-keep-roll&quot;:0.0,
@@ -226,9 +228,39 @@ The random chose to explore versus to exploit is weighted by <code>ε</code> and
 To do that we want to compute the average gain for benches of <span class="arithmatex">\(500\)</span> games. 
 This way we should be capable of visualizing a progression.
 Py421 game is a very chaotic game, <span class="arithmatex">\(500\)</span> games are a minimum to get almost coherent averages.</p>
-<p>To do that, we will first create a new attribute to remember all final results at <em>Bot</em> initialization.
-Then, we will compute and print the average, every <span class="arithmatex">\(500\)</span> games.</p>
+<p>To do that we can plot the bot' results whith <code>matplotlib</code> at the end of the launch script.</p>
+<pre><code>from hackagames.py421 import GameMaster
+from py421Bot import QBot
+
+# Instanciate Game-Master and bot
+gameMaster= GameMaster(&quot;Solo&quot;)
+bot= QBot()
+
+# Start xx games with your bot:
+results= gameMaster.launchLocal( [bot], 10000 )
+
+# Analyze the result
+botResults= results[0]
+print( f&quot;Average scores: {sum(botResults)/len(botResults)}&quot; )
+average5000= sum( botResults[-5000:]) / 5000
+print( f&quot;Average last 5k: {average5000}&quot; )
+
+# Plot: 
+import matplotlib.pyplot as plt
+
+scores= []
+size= len(botResults)
+for i in range(0, size, 500) :
+    s= min(i+500, size)
+    scores.append( sum([ x for x in botResults[i:s] ]) / (s-i) )
+plt.plot( [ 500*i for i in range(len(scores)) ], scores )
+plt.plot( [0, len(botResults)-1], [average5000, average5000] )
+plt.show()
+</code></pre>
 <!--
+To do that, we will first create a new attribute to remember all final results at _Bot_ initialization.
+Then, we will compute and print the average, every $500$ games.
+
 
 <pre><code class="language-python">import matplotlib.pyplot as plt
 

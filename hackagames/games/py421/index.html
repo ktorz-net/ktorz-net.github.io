@@ -61,6 +61,8 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Py4.2.1</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../zombuilding/">Zomb'Building</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../connect4/">Connect4</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../tictactoe/">TicTacToe</a>
@@ -130,7 +132,7 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="py421">Py421</h1>
-<p><strong>Py421</strong> is an <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
+<p><strong>Py421</strong> is the first <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
 <h2 id="try-the-game">Try the game:</h2>
 <p><em>HackaGames</em> comes with a commant to start and try the game with an interactive interface in a shell.</p>
 <pre><code class="language-sh">hacka-py421-play
@@ -231,30 +233,30 @@ The <em>gameState</em> also include the conbinaison of your opponent:</p>
     self._oppo_score= gameState.child(3).value(1)
     print( f'\t&gt; H: {self._horizon}, DICES: {self._dices}, SCORE: {self._score} (VS: {self._oppo_dices} {self._oppo_score})' )
 </code></pre>
-<p>Use this increased state definition to optimize the bot's strategies.</p>
-<!--
-## Server Mode
-
-It is possible to start _421_ in duo mode. 
-To try this version executes the following commad:
-
-
-<pre><code class="language-sh">python3 hackagames/play/py421 duo -n 2
+<p>Use this to increase the state definition and to optimize the bot's strategies.</p>
+<h2 id="server-mode">Server Mode</h2>
+<p>It is possible to start <em>421</em> in <em>solo</em> or <em>duo</em> mode. 
+To try this version executes the following command:</p>
+<pre><code class="language-sh">hacka-py421-launch duo -n 1000
 </code></pre>
+<p>That starts 1000 games 4.2.1 where you have to confront 2 players as web-client process. 
+Those players can be started on 2 differences terminal (in the same machine or not). 
+You can add the following lines at the end of your <code>py421Bot.py</code> file before to execute it: </p>
+<pre><code class="language-python">from hacka.interprocess import SeatClient
 
-
-That start a 2 games 4.2.1 where you have to confront the random player. 
-The first game you play as the first player role.
-You control the number of roll-again. The opponent will not be capable to roll its dice more time than you.
-The second game, you play the second player role.
-You know the combinaision to beat.
--->
+if __name__ == &quot;__main__&quot; :
+    print( &quot;Connect...&quot; )
+    client= SeatClient( RandomBot() )
+    results= client.takeASeat( &quot;localhost&quot; )
+    print( f&quot;  - Results : {sum(results)/len(results)}&quot; )
+</code></pre>
+<p>Then in a terminal : <code>python3 ./py421Bot.py</code>. To notice that you have to change <em>'localhost'</em> to the machine name or IP to target the one running the game serve, if the game and players are not on the same.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../../hello/multi-player/" class="btn btn-neutral float-left" title="Multiplayer"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../connect4/" class="btn btn-neutral float-right" title="Connect4">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../zombuilding/" class="btn btn-neutral float-right" title="Zomb'Building">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -280,7 +282,7 @@ You know the combinaision to beat.
       <span><a href="../../hello/multi-player/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../connect4/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../zombuilding/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Scale-Up - HackaGames</title>
+    <title>Deep Reinforcement Learning - HackaGames</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Scale-Up";
-        var mkdocs_page_input_path = "learning/scale-up.md";
+        var mkdocs_page_name = "Deep Reinforcement Learning";
+        var mkdocs_page_input_path = "learning/drl.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -121,7 +121,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Scale-Up</li>
+      <li class="breadcrumb-item active">Deep Reinforcement Learning</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -130,66 +130,98 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="scale-up">Scale-Up</h1>
-<p>The goal of the tutorial is to understand, feel the complexity of addressing a system with combinatorial explosion over the number of states...</p>
-<p>This tutorial relies on <em>MoveIt</em> game. Make sure you clearly understand the game and its API.</p>
-<h2 id="basic-q-learning">Basic Q-Learning:</h2>
-<p>In its basic configuration <em>MoveIt</em> involves a <span class="arithmatex">\(6 \times 4\)</span> grid with randomly generated obstacles.
-Has a first exercise you can apply basic <em>Q-Learning</em> with a fixed configuration by fixing the random seed at game creation (<code>game= GameMoveIt( seed=128 )</code>).</p>
-<p>In this case the system state 'only' involve the positions of the robot and of the humans.
-Something as <span class="arithmatex">\(3\)</span> variables into <span class="arithmatex">\(6 \times 4\)</span> possibilities.
-We also require the robot target, but will only record the directions (<span class="arithmatex">\(\in [0, 6]\)</span>)...</p>
-<pre><code class="language-python">def state(self):
-    robot, human1, human2 = tuple(self._mobiles)
-    # Path to the goal:
-    pathGoal= self._board.path( robot.x(), robot.y(), robot.goalx(), robot.goaly() )
-    state= f&quot;{robot.x()}-{robot.y()}-{pathGoal[0]}&quot;
-    state+= f&quot;-{human1.x()}-{human1.y()}&quot;
-    state+= f&quot;-{human2.x()}-{human2.y()}&quot;
-    return state
+                <h1 id="deep-reinforcement-learning">Deep Reinforcement Learning</h1>
+<p><code>/!\</code> UNDER CONSTRUCTION - Create a simple Deep RL approach (Not PPO)</p>
+<p>Reinforcement Learning <span class="arithmatex">\(\rightarrow\)</span> What if the structure object to learn is a Deep Neural Network...</p>
+<h2 id="binary-image-421-game">Binary Image 421 Game</h2>
+<p>To do that we propose play a different version of 421 game. 
+As we see with <code>py421</code> game, the game itself is quit simple, using deep reinforcement learning on this game is overkill. 
+The hacka game <code>bi421</code> is a forks of <code>py421</code> limited to <em>Solo</em> mode but with a perceived game state presented as a binary image, a black and with drawing of the 3 dices.
+Exept of that it is exacly the same game, you can try it with the associated <em>play</em> commands :</p>
+<pre><code class="language-sh">hacka-bi421-play
 </code></pre>
-<p>At this point the system is modeled with <span class="arithmatex">\((6 \times 4)^3*6\)</span> states.
-Lucky for us, the reward can be easily computed at each time steps (in the perception method).</p>
-<pre><code class="language-python">    newScore= statePod.value(1)
-    reward= newScore - self._score
-    self._score= newScore
+<p>Here an samples of possible perceived states (in shell format): </p>
+<pre><code>┌───────────────────────────────────┐
+│ ▀     █     ▄▄▄▄▄▄▄▄▄             │
+│   ▀   █     █ ▄   ▄ █             │
+│     ▀ █     █ ▄   ▄ █   █▀▀▀▀▀▀▀█ │
+│▀▀▀▀▀▀▀▀     █ ▄   ▄ █   █ ▀   ▀ █ │
+│             █▄▄▄▄▄▄▄█   █   ▀   █ │
+│                         █ ▀   ▀ █ │
+└───────────────────────────────────┘
+┌───────────────────────────────────┐
+│                          █       █│
+│             █▀▀▀▀▀▀▀█    █   ▀   █│
+│▄▄▄▄▄▄▄▄     █       █    █       █│
+│       █     █   ▀   █    ▀▀▀▀▀▀▀▀▀│
+│   ▄   █     █       █             │
+│       █     ▀▀▀▀▀▀▀▀▀             │
+└───────────────────────────────────┘
+┌───────────────────────────────────┐
+│    █▀▀▀▀▀▀▀█                      │
+│    █ ▀     █         █▀▀▀▀▀▀▀█    │
+│    █       █ █▀▀▀▀▀▀▀█ ▀     █    │
+│    █     ▀ █ █ ▀   ▀ █   ▀   █    │
+│    ▀▀▀▀▀▀▀▀▀ █       █     ▀ █    │
+│              █ ▀   ▀ █▀▀▀▀▀▀▀▀    │
+└───────────────────────────────────┘
+┌───────────────────────────────────┐
+│▄▄▄▄▄▄▄▄            █ ▄     █      │
+│ ▄   ▄ █       ▄▄▄▄▄█       █      │
+│ ▄   ▄ █       █    █     ▄ █      │
+│ ▄   ▄ █       █   ▄█▄▄▄▄▄▄▄█      │
+│▄▄▄▄▄▄▄█       █       █           │
+│               █▄▄▄▄▄▄▄█           │
+└───────────────────────────────────┘
 </code></pre>
-<p>You can now apply basic <em>Q-Learning</em> as experimented on <em>4.2.1</em>.</p>
-<h2 id="expert-heuristic-optimizations">Expert Heuristic Optimizations:</h2>
-<p>A Basic <code>Q-Learning</code> learning is slow and will be blocked at something like <span class="arithmatex">\(-100\)</span> meaning that the robot continues to generate collision.
-A first optimization of the approach consists of including expert knowledge to limit the bad actions and to speed up the learning process.</p>
-<h3 id="remove-forbidden-actions">Remove forbidden actions:</h3>
-<p>At decision time, it is possible to remove from the pool of available actions, the actions driving the robot on an obstacle or on a human.</p>
-<h3 id="speed-up-learning-process">Speed-up Learning process</h3>
-<p>Each time a new state is visited and recorded on <em>Q</em> dictionary, it is possible to associate the action identified by the path to the robot target with a positive value.</p>
-<h3 id="still-negative">Still negative ?</h3>
-<p>In fact, the state space does not integrate the trajectory of the humans.
-The humans generally move toward their own goal (with error exception).
-The human’s goals are hidden to the robot, but the human trajectory into the bot state to better anticipate the next human's moves.</p>
-<h2 id="scale-up_1">Scale-up:</h2>
-<p>Mission on a <span class="arithmatex">\(4 \times 6\)</span> grid with <span class="arithmatex">\(2\)</span> humans remains a very limited scenario.
-At launch time, it is possible to change the game configuration:</p>
-<pre><code class="language-python">game= GameMoveIt(
-    seed=128,              # Grid seed for generations...
-    sizeHeight=4,          # size of the grid: number of lines  
-    sizeLine= 6,           # size of the grid: number of cells in a line 
-    numberOfObstacles= 6,  # number of obstacles
-    numberOfHuman= 3       # number of humans
-)
+<p>The goal is to create an AI learning to play 421 directly from the image.
+Because we have a clear understanding of the <em>421</em> game, it whould be easy to appresiate if our AI is fast enouf to learn and if it reached a effecient policy of actions.</p>
+<h2 id="bi421-player">Bi421 Player</h2>
+<p>The player perceive methods should be adapted to reccord a image of the dice state. </p>
+<pre><code class="language-python">    def perceive(self, gameState):
+        imgSize= gameState.integer(1)
+        self._horizon= gameState.child(1).integer(1)
+        self._score= gameState.child(1).value(1)
+        self._dicesImage= [
+            line.integers() for line in gameState.children()[1:2+imgSize]
+        ]
+        #print( d6.shell( self._dicesImage ) )
 </code></pre>
-<p>The provided solution should be capable of learning rapidly, new behavior on new environment.</p>
-<h2 id="local-vs-global-states">Local vs Global States</h2>
-<p>The real problem consists in removing the limitation of learning behairio on a unique environment settings,
-but to be capable of using the learned policy in all situations.</p>
-<p>By integrating map configuration into the state variables, the state space will grow exponentially.</p>
-<ul>
-<li>Which variables ? For how many states ?</li>
-</ul>
-<p>A better solution consists to model the system from the point of view of the actions. 
-We speak about local versus global models.
-For instance, the goal can be characterized as direction and distance rather than <span class="arithmatex">\((x, y)\)</span> coordinate.</p>
-<p>Propose a state definition based from robot location in a less dependent way to the grid dimension and try again Q-Learning algorithm.</p>
-<p>To notice that local representation would be more suitable with Decision-Tree.</p>
+<p>The <em>diceImage</em> attributs is a matrice of <code>0</code> and <code>1</code> for the 2 possible pixel color.
+If necessary, the game provide a tool to render the image into the shell</p>
+<pre><code class="language-python">from hackagames.bi421 import d6
+# ...
+    print( d6.shell( aDicesImage ) )
+</code></pre>
+<p>There are, still 8 actions : <code>["keep-keep-keep", "roll-keep-keep", ... "roll-roll-roll"]</code></p>
+<p>The <a href="https://github.com/ktorz-net/hackagames/blob/master/src/hackagames/bi421/firstBot.py">firstBot.py</a> file provide a complete example of a first bot, playing randomly to <em>bi421</em>.
+Then, the next launch script should works prety find, by considering that your <code>FirstBot</code> is implemented in a <code>bi421Bot.py</code> file : </p>
+<pre><code class="language-python">from hackagames.bi421 import GameMaster
+from bi421Bot import FirstBot as Bot
+
+# Instanciate Game-Master and bot
+gameMaster= GameMaster(&quot;Solo&quot;)
+bot= Bot()
+
+# Start 1000 games with your bot:
+results= gameMaster.launchLocal( [bot], 10000 )
+
+# Analyze the result
+botResults= results[0]
+print( f&quot;Average scores: {sum(botResults)/len(botResults)}&quot; )
+</code></pre>
+<h2 id="instanciate-deep-rl">Instanciate Deep RL</h2>
+<pre><code class="language-sh">pip install torchrl
+</code></pre>
+<h2 id="going-further-proximal-policy-optimization">Going Further : Proximal Policy Optimization</h2>
+<p>The <em>diceImage</em> is a <span class="arithmatex">\(35 \times 12\)</span> image of <span class="arithmatex">\(2\)</span> possible values (so <em>1 180 591 620 717 411 303 424</em> possible images).
+The game itself is not more complexe, only the difficulty to read the information from the game state is increased.
+But we dont care about analizing the game state to extract its core, we want an AI to learn the policy of actions, based this state definition.</p>
+<p>To do that with deep neural network, the <a href="https://en.wikipedia.org/wiki/Proximal_policy_optimization">Proximal Policy Optimization</a>(PPO) is one of well established approach.
+<em>PPO</em> is impletemented into <em>torch</em> librairy and accessible in python with <a href="https://docs.pytorch.org/rl/stable/index.html">PyTorch</a>.</p>
+<pre><code class="language-sh">pip install torchrl
+</code></pre>
+<p>https://docs.pytorch.org/tutorials/intermediate/reinforcement_ppo.html</p>
               
             </div>
           </div><footer>
