@@ -61,8 +61,6 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../py421/">Py4.2.1</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../zombuilding/">Zomb'Building</a>
-                  </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Connect4</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../tictactoe/">TicTacToe</a>
@@ -133,10 +131,9 @@
               
                 <h1 id="connect4">Connect4</h1>
 <p><strong>Connect4</strong> is a <em>HackaGames</em> game, A simple two-player game where each player tries to align 4 of their pieces.</p>
-<p><strong>ATTENTION HACKAGAMES CHANGES MAKE THIS TUTORIAL BROKEN AS IT IS</strong></p>
 <h2 id="try-the-game">Try the game:</h2>
-<p>The <code>play/connect4.py</code> script starts the game with an interactive interface in a shell.</p>
-<pre><code class="language-sh">python3 hackagames/play/connect4.py
+<p><em>HackaGames</em> comes with a command to start and try the game with an interactive interface in a shell.</p>
+<pre><code class="language-sh">hacka-connect4-play
 </code></pre>
 <p>The player can perform one and only one action at its turn, and the game stops automatically with a winner or when no more pieces can be set on the grid.</p>
 <p>The actions consist of positioning a player's piece on one of the grid columns.
@@ -154,52 +151,56 @@ you: O
 </code></pre>
 <p>First player play 'O' and the second 'X'.
 The first player aligning 4 of its pieces, in any direction win the game.</p>
-<h2 id="initialize-an-autonomous-player">Initialize an Autonomous Player</h2>
-<p>If you are implementing your first bot, please follow the <a href="../hello/first-bot">first bot</a> tutorial on Py421 game.</p>
-<p>The <code>wakeUp</code> method informs about the mode of the game, the <code>perception</code> of the status of the grid and the possibilities of actions.
+<p>However, it is also possible to edit and execute a short script launching a game with the interactive shell-interface, and a very simple opponent.</p>
+<pre><code class="language-python">from hackagames.connect4 import Connect4Master
+from hackagames.connect4.shell import PlayerShell
+from hackagames.connect4.firstBot import Bot
+
+gameMaster= Connect4Master()
+gameMaster.launchLocal( [PlayerShell(), Bot()], 1 )
+</code></pre>
+<h2 id="initialize-a-bot">Initialize a Bot</h2>
+<p>If you are implementing your first bot, please follow the <a href="../../hello/first-bot">first bot</a> tutorial on <em>Py421</em> game.</p>
+<p>The <code>wakeUp</code> method informs essentially on the player identifier (<span class="arithmatex">\(1\)</span> or <span class="arithmatex">\(2\)</span>, <span class="arithmatex">\(1\)</span> play first), the <code>perception</code> of the status of the grid.
 The hackagames <em>Connect4</em> package includes a very useful <em>Grid</em> class to manipulate the game state.</p>
 <p>A minimal random <em>Bot</em> can be implemented in a few lines: </p>
 <pre><code class="language-python">from hacka.games.connect4.grid import Grid
 import random
 
-class Bot :
+class MyBot :
+    def __init__(self):
+        super().__init__()
+        self.grid= Grid()
+        self.playerId= 0
+        self.results= []
+
     # Player interface :
     def wakeUp(self, playerId, numberOfPlayers, gamePod):
-        assert( gamePod.family() == 'Connect4')
-        self._playerId= playerId
-        self._grid= Grid()
+        self.playerId= playerId
+        assert( gamePod.label() == 'Connect4')
 
     def perceive(self, gameState):
         # update the game state:
-        self._grid.fromPod( gameState )
+        self.grid.initializeFrom( gameState )
+        # print(self.grid)
 
     def decide(self):
-        options = self._grid.possibilities()
-        return random.choice( options )
+        options = self.grid.possibilities()
+        action = random.choice( options )
+        return hacka.Pod(action)
 
     def sleep(self, result):
-        pass
+        self.results.append(result)
 </code></pre>
-<p>And can be tested thanks to a very simple launcher script:</p>
-<pre><code class="language-python"># Setup a game:
-from hacka.games.connect4 import GameConnect4 as Game
-from hacka.games.connect4.firstBot import Bot as Opponent
-
-# Setup your bot:
-from myRandomBot import Bot
-
-bot= Bot()
-oppo= Opponent()
-
-# Instanciate and start 100 games
-game= Game()
-results= game.test2Players( bot, oppo, 1000 )
-
-# Analyze the result
-print( f&quot;Average score: {sum(results[0])/len(results[0])} vs {sum(results[1])/len(results[1])}&quot; )
+<p>And can be tested by replacing the <em>PlayerShell</em> or the opponent bot in the launch script. 
+To notice that, the number of games can be increased mainly when 2 bots are competing:</p>
+<pre><code class="language-python">gameMaster= Connect4Master()
+gameMaster.launchLocal( [MyBot(), Bot()], 1000 )
 </code></pre>
 <p>At this point, the results comparing the 2 Bot would be very close. The 2 bots have the same behavior.
-To notice that, the list of actions do not filter positions already taken. However in case of wrong actions, the game will ask the player for a second call.</p>
+To notice that, the list of actions do not filter positions already taken. 
+To notice that, in case of wrong actions, the game will ask the player for a second call.
+By providing the same answer, the master and the bot can enter in an infinite loop.</p>
 <h2 id="customaize-your-bot">Customaize your Bot:</h2>
 <p>You can explore the grid to select the best action possible.
 Some useful <em>Gird</em> methods:</p>
@@ -210,7 +211,7 @@ Some useful <em>Gird</em> methods:</p>
 <li><code>column(self, iColumn)</code>: a list of integers modeling the <em>iColumn</em> column pieces (<em>0</em> no player, <em>1</em> player <em>1</em> and <em>2</em> player <em>2</em>)</li>
 <li><code>position(self, c, h)</code>: The value at column <em>c</em> height <em>h</em> (<em>0</em>, <em>1</em> or <em>2</em>).</li>
 </ul>
-<p>To test a move you will need:</p>
+<p>To test a move you will need</p>
 <ul>
 <li><code>copy(self)</code>: returning a deep copy of the grid (before to make some changes)</li>
 <li><code>playerPlay(self, iPlayer, aLetter)</code>: to alter the grid considering that player <em>iPlayer</em> play on the <em>aLetter</em> column.</li>
@@ -222,12 +223,12 @@ For instance:</p>
 <pre><code class="language-python">iColumn= ord(aLetter)-ord('A')
 aLetter= chr( ord('A')+iColumn )
 </code></pre>
-<hr />
+<p>The source code is provided on <a href="https://github.com/ktorz-net/hackagames/tree/master/src/hackagames/connect4">github.com</a>.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../zombuilding/" class="btn btn-neutral float-left" title="Zomb'Building"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../py421/" class="btn btn-neutral float-left" title="Py4.2.1"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../tictactoe/" class="btn btn-neutral float-right" title="TicTacToe">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -251,7 +252,7 @@ aLetter= chr( ord('A')+iColumn )
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../zombuilding/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../py421/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../tictactoe/" style="color: #fcfcfc">Next &raquo;</a></span>
