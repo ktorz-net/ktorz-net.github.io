@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../hood/pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../hood/datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -138,11 +121,14 @@
     Commands are given in <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">bash</a> syntax. But most of the commands work pretty well on <em>Windows</em> <em>PowerShell</em></li>
 <li><strong>IDE</strong> (Integrated Development Environment), it is encouraged to use <em>VisualStudio Code</em> <a href="https://code.visualstudio.com">code.visualstudio.com</a> and to create a project dedicated to <em>HackaGames</em> tutorials.
     Command should be working on a terminal opened in the IDE.</li>
-<li><strong>Jupiter NoteBook</strong> <em>HackaGames</em> tutorials works on web-based python IDE like <a href="https://colab.research.google.com/">Google Colab</a>. In that case shell command (like <code>pip</code>) should start with an exclamation mark (!).</li>
+<li><strong>Jupiter NoteBook</strong> <em>HackaGames</em> tutorials works on web-based python IDE like <a href="https://colab.research.google.com/">Google Colab</a>. In that case, shell commands (like <code>pip</code>) should start with an exclamation mark (!).</li>
 </ul>
 <h2 id="getting-started-python">Getting Started (Python)</h2>
 <p>A version restricted to <em>Python</em> resources can be easily installed thanks to the <em>pip</em> package manager: </p>
 <pre><code class="language-sh">pip install hackagames # or: !pip install hackagames
+</code></pre>
+<p>On few systems you will have to use explicitly your <em>Python</em> interpreter to use the module pip :</p>
+<pre><code class="language-sh">python -m pip install ./hackagames
 </code></pre>
 <p>From that point, for a first contact, you can play with the simplest proposed game: <strong>Py421</strong>, from a shortcut: </p>
 <pre><code class="language-sh">hacka-py421-play # or: !hacka-py421-play
@@ -173,9 +159,6 @@ It is possible to install it from sources. </p>
 <p>Simply clone the Git repository, then use <em>Python pip</em> on the local project directory.</p>
 <pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
 pip install ./hackagames
-</code></pre>
-<p>or </p>
-<pre><code class="language-sh">python -m pip install ./hackagames
 </code></pre>
 <p>That's it; you have the last in-development version.</p>
 <h2 id="dependencies">Dependencies</h2>

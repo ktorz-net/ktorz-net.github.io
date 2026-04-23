@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../hood/pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../hood/datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -157,9 +140,9 @@ This score feeds appropriately the reward computation.</p>
             army= self._game.armyOn(ic)
             if army :
                 if self._playerId == army.status() :
-                    myArmy+= army.integer(2)
+                    myArmy+= army.digit(2)
                 else :
-                    opponentArmy+= army.integer(2)
+                    opponentArmy+= army.digit(2)
         return myArmy, opponentArmy
 </code></pre>
 <p><strong>4.</strong> Speed-up the learning process by reducing the state definition (for instance by considering only player armies (ignoring opponent details).</p>

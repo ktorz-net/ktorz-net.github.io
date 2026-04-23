@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../hood/pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../hood/datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -196,8 +179,8 @@ Do not forget to initialize state and action in <code>wakeUp</code> method.</p>
         self._score= 0
 
     def perceive(self, gameState):
-        self._horizon= gameState.child(1).integer(1)
-        self._dices= gameState.child(2).integers()
+        self._horizon= gameState.child(1).digit(1)
+        self._dices= gameState.child(2).digits()
         newScore= gameState.child(2).value(1)
         # Learn:
         newState= f&quot;{self._horizon}|{self._dices[0]}-{self._dices[1]}-{self._dices[2]}&quot;

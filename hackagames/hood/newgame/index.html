@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -305,8 +288,8 @@ import gameHello.gameEngine as ge
 def test_gameMethod():
     game= ge.GameHello()
 
-    assert( type( game.initialize().asPod() ) is hg.Pod  )
-    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
+    assert( type( game.initialize().asDataTree() ) is hg.Pod  )
+    assert( type( game.playerHand(1).asDataTree() ) is hg.Pod )
     assert( game.applyPlayerAction( 1, &quot;sleep&quot; )  )
     game.tic()
     assert( not game.isEnded() )
@@ -317,7 +300,7 @@ def test_gameMethod():
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../pod/" class="btn btn-neutral float-left" title="Pod Class"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../datatree/" class="btn btn-neutral float-left" title="DataTree"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../testdriven/" class="btn btn-neutral float-right" title="Test-Driven">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -341,7 +324,7 @@ def test_gameMethod():
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../pod/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../datatree/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../testdriven/" style="color: #fcfcfc">Next &raquo;</a></span>

@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../hood/pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../hood/datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -131,11 +114,11 @@
               
                 <h1 id="first-bot">First Bot</h1>
 <p>In this tutorial, we will learn about how the games and the players/bots communicate together. 
-In Hackagames several players can play simultaneously to games. </p>
-<p>That for, the loop control of the program is handled by the game.
+In <em>Hackagames</em>, several players can play simultaneously in games. </p>
+<p>Therefore, the loop control of the program is handled by the game.
 Then, the player bots have to generate the appropriate responses to situations.</p>
-<h2 id="initialize-a-bot-environment">Initialize a Bot environment</h2>
-<p>First, let implement a simple script, instantiating a game and a player.</p>
+<h2 id="initialize-a-bot-environment">Initialize a bot environment</h2>
+<p>First, let's implement a simple script, instantiating a game and a player.</p>
 <pre><code class="language-python">from hackagames.py421 import GameMaster
 from py421bot import FirstBot
 
@@ -150,15 +133,15 @@ results= gameMaster.launchLocal( [bot], 1000 )
 botResults= results[0]
 print( f&quot;Average score: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
-<p>This script starts <span class="arithmatex">\(1000\)</span> games with <em>bot</em> an instance of a <code>FirstBot</code> as main player.
-It returns the average endgame results of <em>bot</em>.</p>
-<p>At this point your script should not work, we need to create our <code>FirstBot</code> bot class, into a <code>py421bot.py</code> file.</p>
-<h2 id="initialize-your-first-bot-ie-an-autonomous-player">Initialize your First Bot, i.e. an Autonomous Player</h2>
+<p>This script starts <span class="arithmatex">\(1000\)</span> games with a <em>bot</em> instance of a <code>FirstBot</code> as the player.
+It returns the average endgame results of the <em>bot</em>.</p>
+<p>At this point your script should not work. We need to create our <code>FirstBot</code> bot class, into a <code>py421bot.py</code> file.</p>
+<h2 id="initialize-your-firstbot-ie-an-autonomous-player">Initialize your FirstBot, i.e. an Autonomous Player</h2>
 <p>A <code>hackagames</code>-formatted <code>Bot</code> is a class, implementing <span class="arithmatex">\(4\)</span> specific methods: <code>wakeUp</code>, <code>perceive</code>,<code>decide</code> and <code>sleep</code>. <code>wakeUp</code> takes as parameters the initial configuration of a game, <code>perceive</code> the evolutive game state, and <code>sleep</code> the final result of the game.
 The method <code>decide</code> does not take any parameter, but it should return the bot action.</p>
-<p>The informations transiting between games and bots are formated as <code>Pod</code> (PieaceOfData), an <em>hackaGames</em> feature.</p>
+<p>The information transiting between games and bots is formatted as <code>DataTree</code>, a <em>HackaGames</em> feature. </p>
 <p>So, the minimal <code>Bot</code> implementation should be (in a new <code>py421bot.py</code> file):</p>
-<pre><code class="language-python">from hacka import Pod
+<pre><code class="language-python">from hacka import DataTree
 
 class FirstBot :
     # Player interface :
@@ -169,33 +152,37 @@ class FirstBot :
         pass
 
     def decide(self):
-        return Pod('keep-keep-keep')
+        return DataTree('keep-keep-keep')
 
     def sleep(self, result):
         pass
 </code></pre>
+<p>This implementation relies on Object-Oriented-Programming in Python which is a strong requirement for all this tutorials...
+Some resources: 
+- <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP in Wikipedia</a> - <a href="https://docs.python.org/3/tutorial/classes.html">Classes in Python3</a>
+- The <em>w3schools</em> proposes an entire section dedicated to <a href="https://www.w3schools.com/python/python_oop.asp">classes in <em>Python</em></a> </p>
 <h2 id="multi-files-structuration">Multi-Files structuration</h2>
-<p>It is encuraged to work on your own computer with your favoryte <em>Python IDE</em>. 
-As so, you should distribute your code into several files: </p>
+<p>It is encouraged to work on your own computer with your favorite <em>Python IDE</em>. 
+As such, you should distribute your code into several files: </p>
 <ul>
 <li><code>py421Bot.py</code>, with the implementation of your Bot classes ( <code>FirstBot</code> as a first class).</li>
-<li><code>py421-launch.py</code>, the script instanciating a game-master and a bot player (and starting with a <code>from py421Bot import FirstBot</code>).</li>
-<li><code>README.md</code>, the simple text description of this directory (in <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a> syntaxe)</li>
+<li><code>py421-launch.py</code>, the script instantiating a game-master and a bot player (and starting with a <code>from py421Bot import FirstBot</code>).</li>
+<li><code>README.md</code>, the simple text description of this directory (in <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a> syntax)</li>
 </ul>
-<p>For instance for your <code>README.md</code>: </p>
+<p>For instance, your <code>README.md</code> can be initialized as : </p>
 <pre><code class="language-markdown"># Tutorial Of HackaGames
 
 This directory regroup my realization by following the tutorial of [hackagames](https://ktorz-net.github.io/hackagames).
 
 ## Structuration: 
 
-- `py421Bot.py`, The implementation of my Bot for the 421 game.
+- `py421Bot.py`, The implementation of my Bots for the 421 game.
 - `py421-launch.py`, the script to test a bot on the 421 game.
 </code></pre>
-<p>Then you can increase your file collection, following the tutorials with a strategy: one file - one functionnality.</p>
-<p>If you are in a web-based Python IDE like <a href="colab.research.google.com">Google Colab</a>, the <code>py421-launch.py</code> matches your jupiter notebook and the other file can be created aside.</p>
-<h2 id="understand-bot-methods">Understand Bot methods :</h2>
-<p>Games and Bots rely on the <code>hacka</code> library, to exchange information about the game and the players' intentions (game configuration, game states and decisions).
+<p>Then you can increase your file collection, following the tutorials with a strategy: one file—one functionality.
+If you are in a web-based Python IDE like <a href="colab.research.google.com">Google Colab</a>, the <code>py421-launch.py</code> matches your Jupyter Notebook, and the other file can be created aside.</p>
+<h2 id="understand-bot-methods">Understand bot methods :</h2>
+<p>Games and bots rely on the <code>hacka</code> library, to exchange information about the game and the players' intentions (game configuration, game states, and decisions).
 The players can be human interfaces or bots.</p>
 <h3 id="game-loop">Game Loop:</h3>
 <p>A game mainly relies on <code>perceive</code> and <code>decide</code> capability for players and bots to update the information about the game and to ask for player action.</p>
@@ -204,8 +191,8 @@ In fact, <code>gameState</code> can be different from one player to another in m
 <p>So the basic configuration of <code>Py421</code> (<em>Solo</em> mode), the <code>gameState informs about the $3$ dice values and the horizon counter (the number of remaining roll-again possibilities).
 The</code>gameState<code>read and associate to the bot instance</code>self` is as follows:</p>
 <pre><code class="language-python">def perceive(self, gameState):
-    self._horizon= gameState.child(1).integer(1)
-    self._dices= gameState.child(2).integers()
+    self._horizon= gameState.child(1).digit(1)
+    self._dices= gameState.child(2).digits()
     self._score= gameState.child(2).value(1)
 </code></pre>
 <p>The <code>decide</code> method has no argument, but should return the player action. 
@@ -218,28 +205,29 @@ So, the bot instance <code>self</code> as all the required informations to proce
     action= 'roll-roll-roll'
     if self._dices == [4, 2, 1] :
         action= &quot;keep-keep-keep&quot;
-    return Pod(action)
+    return DataTree(action)
 </code></pre>
 <p>As a result, this new <code>decide</code> method should statistically increase the obtained scores on <span class="arithmatex">\(1000\)</span> games.
 It is possible to add a <code>print( stateString + ": "+ action )</code> to check each decision before the return instruction.</p>
 <h3 id="multiple-games">Multiple Games :</h3>
 <p>Furthermore, A GameMaster can start several games sequentially. 
 Therefore, the methods <code>wakeUp</code> and <code>sleep</code> are triggered respectively when a new game is started and stopped. 
-They are triggered <code>100</code> times in our script.
-During a game, players are activated at turn with the <code>perceive</code> and the <code>decide</code> methods.</p>
-<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> arguments: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing in the place of the player in the game, the number of players and the initial configuration.
+They are triggered <code>1000</code> times in our script.
+During a game, players are activated at turn with the <code>perceive</code> and the <code>decide</code> methods 
+(There is only one player in this version of py421 game).</p>
+<p>The <code>wakeUp</code> has <span class="arithmatex">\(3\)</span> arguments: <code>playerId</code>, <code>numberOfPlayers</code>, <code>gameConf</code> informing the place of the player in the game, the number of players, and the initial configuration of the game
 At this stage, there is no information to get from  <code>playerId</code>, <code>numberOfPlayers</code> and <code>gameConf</code> in <em>Py421</em>, into <em>Solo</em> mode.</p>
 <p>Finally, the <code>sleep</code> informs about the obtained score with its argument <code>result</code>. 
 The score is computed for the player regarding the ending game. 
 In <em>Py421</em> into <em>Solo</em> mode, the <code>result</code> matches the final combination value.</p>
 <ul>
-<li>You have to try to increase decisions to increase average scores after <span class="arithmatex">\(1000\)</span> games.</li>
+<li>You goal is to optimize the decision making process to increase the average scores after <span class="arithmatex">\(1000\)</span> games.</li>
 </ul>
-<h3 id="pod-hackas-piece-of-data">Pod - Hacka's Piece-Of-Data :</h3>
-<p>The method arguments <code>gameConf</code> and <code>gameState</code> as the expected return of <code>decide</code> method are formatted as <em>hacka.Pod</em> (Piece Of Data), a tree data structure packing integers, values, and strings data.
-It is not required to understand <em>Pod</em>.
-Examples are always provided to get the game information from <em>Pod</em>.
-However, you can go to the <strong>Under the hood - Pod</strong> page for more detail on this core element of <em>HackaGames</em>.</p>
+<h3 id="datatree-hackas-data-structure">DataTree - Hacka's data structure :</h3>
+<p>The method arguments <code>gameConf</code> and <code>gameState</code> as the expected return of <code>decide</code> method are formatted as <em>hacka.DataTree</em>, a tree data structure packing integers (<code>digits</code>), floating point  (<code>values</code>), and strings (<code>label</code>) attributs.
+At this point, it is not required to understand <em>DataTree</em>.
+Examples are always provided to get the game information from a <em>DataTree</em>.
+However, you can go to the <strong>Under the hood - DataTree</strong> page for more detail on this core element of <em>HackaGames</em>.</p>
               
             </div>
           </div><footer>

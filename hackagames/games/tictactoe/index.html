@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../hood/pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../hood/datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../hood/testdriven/">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -160,7 +143,8 @@ The first player aligning 3 of its pieces win the game.</p>
 <p>The <code>wakeUp</code> method informs about the mode of the game, the <code>perception</code> of the status of the grid and the possibilities of actions.
 The hackagames <em>Tictactoe</em> package includes a very useful <em>Grid</em> class to manipulate the game state.</p>
 <p>A minimal random <em>Bot</em> can be implemented in a few lines: </p>
-<pre><code class="language-python">import random, hacka
+<pre><code class="language-python">import random
+from hacka import DataTree
 from hackagames.tictactoe.grid import Grid
 
 class MyBot() :
@@ -171,23 +155,23 @@ class MyBot() :
         self.results= []
 
     # Player interface :
-    def wakeUp(self, playerId, numberOfPlayers, gamePod ):
-        assert( gamePod.label() in ['TicTacToe-Classic', 'TicTacToe-Ultimate'] )
+    def wakeUp(self, playerId, numberOfPlayers, gameConf ):
+        assert( gameConf.label() in ['TicTacToe-Classic', 'TicTacToe-Ultimate'] )
         self.playerId= playerId
         # Initialize the grid Classic or Ultimate
-        self.grid= Grid( gamePod.label().split('-')[1] )
+        self.grid= Grid( gameConf.label().split('-')[1] )
         self.possibilities= [1]
 
     def perceive(self, gameState):
         # Update the grid:
         self.grid.update( gameState.children()[:-1] )
-        self.possibilities= gameState.children()[-1].integers()
+        self.possibilities= gameState.children()[-1].digits()
 
     def decide(self):
         # Get all actions
         actions= self.grid.possibleActions( self.possibilities )
         # Select one 
-        return hacka.Pod( random.choice( actions ) )
+        return DataTree( random.choice( actions ) )
 
     def sleep(self, result):
         self.results.append(result)

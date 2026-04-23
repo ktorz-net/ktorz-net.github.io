@@ -77,33 +77,16 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tiled Game</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../tiled-land/pickndel/">Pick'n Del</a>
-                  </li>
-              </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../pod/">Pod Class</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../datatree/">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../newgame/">New Game</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Test-Driven</a>
                   </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/policy.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/learning.zip"></a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../../resources/pickndel.zip"></a>
-                </li>
               </ul>
       </div>
     </div>
@@ -164,8 +147,8 @@ import gameHello.gameEngine as ge
 def test_gameMethod():
     game= ge.GameConnect4()
 
-    assert( type( game.initialize().asPod() ) is hg.Pod  )
-    assert( type( game.playerHand(1).asPod() ) is hg.Pod )
+    assert( type( game.initialize().asDataTree() ) is hg.Pod  )
+    assert( type( game.playerHand(1).asDataTree() ) is hg.Pod )
     game.applyPlayerAction( 1, &quot;test&quot; )
     game.tic()
     assert( not game.isEnded() )
@@ -174,27 +157,27 @@ def test_gameMethod():
 def test_initialize():
     game= ge.GameConnect4()
 
-    wakeUpPod= game.initialize().asPod()
+    wakeUpPod= game.initialize().asDataTree()
 
     assert( str(wakeUpPod) == &quot;hello:&quot; )
 
-    assert( wakeUpPod.family() == &quot;hello&quot; )
+    assert( wakeUpPod.label() == &quot;hello&quot; )
     assert( wakeUpPod.status() == &quot;&quot; )
-    assert( wakeUpPod.integers() == [] )
+    assert( wakeUpPod.digits() == [] )
     assert( wakeUpPod.values() == [] )
     assert( len( wakeUpPod.children() ) == 0 )
 
 def test_playerHand():
     game= ge.GameConnect4()
 
-    game.initialize().asPod()
-    handPod= game.playerHand(1).asPod()
+    game.initialize().asDataTree()
+    handPod= game.playerHand(1).asDataTree()
 
     assert( str(handPod) == 'hi: [0]' )
 
-    assert( handPod.family() == &quot;hi&quot; )
+    assert( handPod.label() == &quot;hi&quot; )
     assert( handPod.status() == &quot;&quot; )
-    assert( handPod.integers() == [0] )
+    assert( handPod.digits() == [0] )
     assert( handPod.values() == [] )
     assert( len( handPod.children() ) == 0 )
 </code></pre>
@@ -204,7 +187,6 @@ def test_playerHand():
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../newgame/" class="btn btn-neutral float-left" title="New Game"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../resources/policy.zip" class="btn btn-neutral float-right" title="">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -229,8 +211,6 @@ def test_playerHand():
     
       <span><a href="../newgame/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../../resources/policy.zip" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
