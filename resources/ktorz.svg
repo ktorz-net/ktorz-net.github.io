@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="3743.7366"
+   height="1672.7811"
+   viewBox="0 0 3743.7366 1672.7811"
+   sodipodi:docname="ktorz.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.23148908"
+     inkscape:cx="1889.938"
+     inkscape:cy="1321.8766"
+     inkscape:window-width="1920"
+     inkscape:window-height="1055"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g8"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g8"
+     transform="translate(-103.09101,-1507.6835)">
+    <path
+       style="fill:none;stroke:#703020;stroke-width:30;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 399.67871,2043.2518 186.09595,-206.4815 798.25004,32.3511 176.737,258.8466 -5.9131,461.2906 -566.43334,461.0896 -588.82679,-519.7709 z"
+       id="path860"
+       sodipodi:nodetypes="cccccccc" />
+    <path
+       style="fill:#aa4030;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 508.26485,1770.6067 47.46934,1190.4828 241.71965,-15.8823 7.86995,-649.49 -35.87006,-382.8932 -58.29666,-149.5401 z"
+       id="path1361" />
+    <path
+       style="fill:#aa4030;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1261.0763,1777.5927 -597.78421,532.0277 454.71411,295.3016 159.7165,0.021 -42.142,355.1776 177.8378,-9.9619 34.282,-336.9556 163.8421,3.614 -7.8209,-203.6894 -137.419,0.7428 5.495,-51.6706 -170.0924,8.7357 -4.0492,40.2561 -134.5123,0.1098 -89.4037,-128.6102 368.3082,-225.6134 z"
+       id="path1363"
+       sodipodi:nodetypes="ccccccccccccccccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:533.333px;line-height:1.25;font-family:'Gillius ADF No2';-inkscape-font-specification:'Gillius ADF No2 Bold';text-align:start;letter-spacing:0px;text-anchor:start;fill:#703020;fill-opacity:1"
+       x="1651.6364"
+       y="2819.8181"
+       id="text6765-7"><tspan
+         sodipodi:role="line"
+         x="1651.6364"
+         y="2819.8181"
+         id="tspan50009">ORZ<tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:266.667px;font-family:'Gillius ADF No2';-inkscape-font-specification:'Gillius ADF No2 Bold';text-align:start;text-anchor:start;fill:#703020;fill-opacity:1"
+   id="tspan50011" /></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:533.333px;line-height:1.25;font-family:'Gillius ADF No2';-inkscape-font-specification:'Gillius ADF No2 Bold';text-align:end;letter-spacing:0px;text-anchor:end;fill:#703020;fill-opacity:1"
+       x="2734.835"
+       y="3045.5911"
+       id="text6765-7-3"><tspan
+         sodipodi:role="line"
+         x="2734.835"
+         y="3045.5911"
+         id="tspan50009-5"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:266.667px;font-family:'Gillius ADF No2';-inkscape-font-specification:'Gillius ADF No2 Bold';text-align:end;text-anchor:end;fill:#703020;fill-opacity:1"
+           id="tspan50011-6">.net</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#703020;stroke-width:50;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2105.0693,1532.634 129.35186,1657.1102 207.90504,3155.4646 H 3846.8275"
+       id="path44887"
+       sodipodi:nodetypes="cccc" />
+  </g>
+</svg>
