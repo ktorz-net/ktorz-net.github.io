@@ -59,22 +59,30 @@
               </ul>
               <p class="caption"><span class="caption-text">Games</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Py4.2.1</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Py4.2.1</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../connect4/">Connect4</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -115,7 +123,7 @@
                 <h1 id="py421">Py421</h1>
 <p><strong>Py421</strong> is the first <em>HackaGames</em> game, a simple dice game where players try to optimize their dices combination after a maximum of 2 roll dice steps.</p>
 <h2 id="try-the-game">Try the game:</h2>
-<p><em>HackaGames</em> comes with a commant to start and try the game with an interactive interface in a shell.</p>
+<p><em>HackaGames</em> comes with a command to start and try the game with an interactive interface in a shell.</p>
 <pre><code class="language-sh">hacka-py421-play
 </code></pre>
 <p>However, it is also possible to edit and execute a short script launching a game with the interactive interface.</p>
@@ -137,9 +145,9 @@ But you can explore other combinations.</p>
 <h2 id="initialize-a-bot">Initialize a Bot</h2>
 <p>If you are implementing your first bot, please follow the <a href="../../hello/first-bot">first bot</a> tutorial.</p>
 <p>As for any Hackagames bots, a <em>Py421</em> bot implements the the <code>4</code> player/bot methods <code>wakeUp</code>, <code>perceive</code>, <code>decide</code> and <code>sleep</code>. 
-Theire is no information to get from The <em>gameConf</em>.
+There is no information to get from The <em>gameConf</em>.
 The <em>gameState</em> parameter of the <code>perceive</code> includes 2 elements (2 <em>gameState</em> childs).
-First child model the roll-again horizon (one integer value), the second child the dices (<span class="arithmatex">\(3\)</span> intergers and <span class="arithmatex">\(1\)</span> floating point value for the score of the combinaison).</p>
+First child model the roll-again horizon (one integer value), the second child the dices (<span class="arithmatex">\(3\)</span> integers and <span class="arithmatex">\(1\)</span> floating point value for the score of the combinaison).</p>
 <pre><code class="language-python">from hacka import DataTree
 import random
 
@@ -200,12 +208,12 @@ for i in [0, 1] :
 </code></pre>
 <p>The <code>launch</code> script returns the results for all bots players.
 In duo mode, the game result (<code>sleep</code>) is not longer the combinaition value but 1, -1 or 0, respectivelly if the player win, lose or in case or no winner.
-Ideally the tow bot should be defined diferently, with two different class for instance.</p>
+Ideally the two bots should be defined differently, with two different class for instance.</p>
 <h3 id="optimize-a-2-player-bot">Optimize a 2-player Bot :</h3>
 <p>A Bot designed for <em>solo</em> mode of 421 can also play to <em>duo</em> mode.
-However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is incresed in <em>duo</em> mode.
+However, the <code>wakeUp</code> methods informative and the <code>perception</code> method is increased in <em>duo</em> mode.
 The player identifier of the <code>wakeUp</code> inform if the bot is the first or the second player.
-The <em>gameState</em> also include the conbinaison of your opponent:</p>
+The <em>gameState</em> also include the combination of your opponent:</p>
 <pre><code class="language-python">def perceive(self, gameState):
     self._horizon= gameState.child(1).digit(1)
     self._dices= gameState.child(2).digits()

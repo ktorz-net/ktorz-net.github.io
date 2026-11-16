@@ -66,20 +66,28 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../games/tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Protocol API</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Protocol API</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../datatree/">DataTree</a>
                   </li>
@@ -119,10 +127,10 @@ For that we choose to use a high-level messaging library.</p>
 <p>We do not require to address directly the TCP protocol while our need for network usage is very classical.
 A game process acts as a server, accepts and manages client-player processes.
 Then the game and players exchange game states and action description.</p>
-<p>For that purpose tree solution was considered: <a href="https://mosquitto.org">MQTT - Mosquitto</a>, <a href="http://czmq.zeromq.org">ZeroMQ</a> and <a href="https://docs.ros.org/en/foxy/index.html">ROS2</a></p>
+<p>For that purpose three solutions was considered: <a href="https://mosquitto.org">MQTT - Mosquitto</a>, <a href="http://czmq.zeromq.org">ZeroMQ</a> and <a href="https://docs.ros.org/en/foxy/index.html">ROS2</a></p>
 <ul>
 <li><strong>Mosquitto</strong> is a light implementation of the <strong>MQTT</strong> standard. MQTT defines protocols for process interconnection. a Broker server serves as a central point to connect all the other nodes. Topics are defined as pipes of data flow. Any process can subscribe (i.e. reads) or publish (i.e. write) in the topics. <a href="https://en.wikipedia.org/wiki/MQTT">Wikipedia</a> is a good entrance point for more details.</li>
-<li><strong>ZeroMQ</strong> follows its own protocols and propose a high-level interface to interprocess communication via difference communication architecture and different low-level protocols including in-procecus communication. </li>
+<li><strong>ZeroMQ</strong> follows its own protocols and propose a high-level interface to interprocess communication via difference communication architecture and different low-level protocols including in-process communication. </li>
 <li><strong>ROS2</strong> is developed for robotic purpose. It is very similar to <strong>MQTT</strong> in its communication architecture. However, in <strong>ROS</strong>, messages in topics are typed and several types and algorithms are already developed to exchange, manipulate and visualize geometrical and temporal data. Also in <strong>ROS2</strong> the broker process is removed.</li>
 </ul>
 <p>For HackaGames use, <strong>ZeroMQ</strong> present the best compromise. 
@@ -147,7 +155,7 @@ Those elements can be running without any difference with a <strong>Dealer</stro
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../../learning/model-based/" class="btn btn-neutral float-left" title="Model Based"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../model-based/mdp/" class="btn btn-neutral float-left" title="Markov Decision Process"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../datatree/" class="btn btn-neutral float-right" title="DataTree">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -171,7 +179,7 @@ Those elements can be running without any difference with a <strong>Dealer</stro
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../../learning/model-based/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../model-based/mdp/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../datatree/" style="color: #fcfcfc">Next &raquo;</a></span>

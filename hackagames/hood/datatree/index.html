@@ -66,22 +66,30 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../games/tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../api/">Protocol API</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">DataTree</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">DataTree</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../newgame/">New Game</a>
                   </li>
@@ -116,16 +124,16 @@
 <p>In the interoperable process between a game and players, information transits.
 Games send what players can perceive and players send action description in return.</p>
 <p>That information is structured as <em>DataTree</em> to be serialized, transmitted and rebuilt.
-a <em>DataTree</em> includes contents (sequence of characters, intergers, floating points values) and cand be a part of a tree structure of information.</p>
+a <em>DataTree</em> includes contents (sequence of characters, integers, floating points values) and cand be a part of a tree structure of information.</p>
 <p>Implementation: </p>
 <ul>
 <li><em>hackapy:</em> <a href="https://github.com/ktorz-net/hacka-py/blob/master/src/hacka/datatree.py">datatree.py</a></li>
 </ul>
-<p>The example here is presented accordingly to the Python implementation (hackapy).</p>
+<p>The example here is presented according to the Python implementation (hackapy).</p>
 <h2 id="datatree-components">DataTree Components</h2>
 <p><em>DataTree</em> is composed of <em>4</em> elements of almost fixed type: </p>
 <ul>
-<li><em>label:</em> a string descrition.</li>
+<li><em>label:</em> a string description.</li>
 <li><em>digits:</em> a vector of integer values.</li>
 <li><em>values:</em> a vector of floating points values.</li>
 <li><em>children:</em> a vector of other DataTree elements, sub-part of the DataTree. </li>
@@ -135,12 +143,12 @@ It is also possible to get a specific element is the lists with: <code>aDataTree
 To notice that, in <em>HackaGames</em> conventions element in list are indexed starting from <code>1</code>.
 The first element is accessed with index <code>1</code>: (<code>aDataTree.digit(1)</code> for instance).</p>
 <h2 id="tree-structure">Tree Structure</h2>
-<p><em>Children</em> componnents of a <em>DataTree</em> permits to defines complexe information structured as trees.
+<p><em>Children</em> components of a <em>DataTree</em> permits to defines complex information structured as trees.
 For more information about tree data structure, <a href="https://en.wikipedia.org/wiki/Tree_(data_structure)">Wikipedia</a> is a good entrance point.
 Trees are very famous in Web technoligies for instance through formats: <code>HTML</code>, <code>XML</code>, <code>Json</code>, <code>Yaml</code>, ...</p>
 <p>In <strong>HackaGames</strong> most of the game states perceived by players (one <em>DataTree</em>) are composed by several elements each one modeled by child <em>DataTree</em>.
 For instance, a <em>Board</em> would be composed with <em>Cells</em> and <em>Cells</em> would welcome <em>Pieces</em>.
-The pieces would be the childrens of a <em>Cell</em>, <em>Cells</em> the children of a <em>Board</em> etc.</p>
+The pieces would be the children of a <em>Cell</em>, <em>Cells</em> the children of a <em>Board</em> etc.</p>
 <h2 id="interface-versus-inheritance">Interface versus Inheritance</h2>
 <p><strong>HackaGames</strong> conventions prefer a separation of game elements in the implementations from <em>DataTree</em>.
 A DataTree imposes specific structuration of elements (flags, values, ...).

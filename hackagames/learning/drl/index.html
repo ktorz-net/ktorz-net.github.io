@@ -66,15 +66,23 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../games/tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -196,7 +204,7 @@ print( f&quot;Average scores: {sum(botResults)/len(botResults)}&quot; )
 </code></pre>
 <h2 id="going-further-proximal-policy-optimization">Going Further : Proximal Policy Optimization</h2>
 <p>The <em>diceImage</em> is a <span class="arithmatex">\(35 \times 12\)</span> image of <span class="arithmatex">\(2\)</span> possible values (so <em>1 180 591 620 717 411 303 424</em> possible images).
-The game itself is not more complexe, only the difficulty to read the information from the game state is increased.
+The game itself is not more complex, only the difficulty to read the information from the game state is increased.
 But we dont care about analizing the game state to extract its core, we want an AI to learn the policy of actions, based this state definition.</p>
 <p>To do that with deep neural network, the <a href="https://en.wikipedia.org/wiki/Proximal_policy_optimization">Proximal Policy Optimization</a>(PPO) is one of well established approach.
 <em>PPO</em> is impletemented into <em>torch</em> librairy and accessible in python with <a href="https://docs.pytorch.org/rl/stable/index.html">PyTorch</a>.</p>

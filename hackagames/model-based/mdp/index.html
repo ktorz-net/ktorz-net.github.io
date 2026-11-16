@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Model Based - HackaGames</title>
+    <title>Markov Decision Process - HackaGames</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Model Based";
-        var mkdocs_page_input_path = "learning/model-based.md";
+        var mkdocs_page_name = "Markov Decision Process";
+        var mkdocs_page_input_path = "model-based/mdp.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -66,15 +66,23 @@
                   <li class="toctree-l1"><a class="reference internal" href="../../games/tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../policy/">Policy</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../qlearning/">Q-Learning</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Model Based</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -102,8 +110,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Tuto: Learning</li>
-      <li class="breadcrumb-item active">Model Based</li>
+          <li class="breadcrumb-item">Tuto: Model Based</li>
+      <li class="breadcrumb-item active">Markov Decision Process</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -196,7 +204,7 @@ A random exporation ratio need to be design as for <em>Q-Learning</em>.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../speed-up/" class="btn btn-neutral float-left" title="Speed-up"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../learning/qlearning/" class="btn btn-neutral float-left" title="Q-Learning"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../../hood/api/" class="btn btn-neutral float-right" title="Protocol API">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -220,7 +228,7 @@ A random exporation ratio need to be design as for <em>Q-Learning</em>.</p>
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../speed-up/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../learning/qlearning/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../../hood/api/" style="color: #fcfcfc">Next &raquo;</a></span>

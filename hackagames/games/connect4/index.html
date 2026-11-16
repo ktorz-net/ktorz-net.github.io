@@ -61,20 +61,28 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../py421/">Py4.2.1</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Connect4</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Connect4</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -185,7 +193,7 @@ gameMaster.launchLocal( [MyBot(), Bot()], 1000 )
 To notice that, the list of actions do not filter positions already taken. 
 To notice that, in case of wrong actions, the game will ask the player for a second call.
 By providing the same answer, the master and the bot can enter in an infinite loop.</p>
-<h2 id="customaize-your-bot">Customaize your Bot:</h2>
+<h2 id="customize-your-bot">Customize your Bot:</h2>
 <p>You can explore the grid to select the best action possible.
 Some useful <em>Gird</em> methods:</p>
 <ul>

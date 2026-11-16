@@ -66,15 +66,23 @@
                   <li class="toctree-l1"><a class="reference internal" href="../tictactoe/">TicTacToe</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">Tuto: Learning</span></p>
+              <p class="caption"><span class="caption-text">Tuto: Policy</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/policy/">Policy</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/basic/">Basic Computation</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/llm-based/">LLM Based</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../policy/decision-tree/">Decision Tree</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/speed-up/">Speed-up</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../learning/model-based/">Model Based</a>
+              </ul>
+              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -115,7 +123,7 @@
 <p>A HackableGame based on tiled-land.</p>
 <h2 id="install">Install</h2>
 <p>In your directory we advise to clone side by side <code>hackagames</code> and <code>tiled-land</code>.</p>
-<pre><code class="language-sh">git clone https://github.com/iktorz-net/hackagames
+<pre><code class="language-sh">git clone https://github.com/ktorz-net/hackagames
 git clone https://github.com/imt-mobisyst/tiled-land
 </code></pre>
 <p>Make sure you have the last version, and install them with <code>python3 pip</code>:</p>
@@ -170,7 +178,7 @@ class FirstBot():
         print( f&quot;End on: {result}&quot; )
 </code></pre>
 <p>We recommend using a <code>_model</code> attributes to model the <em>Pick'n Del</em> world (the map, the robot and the missions).</p>
-<p>Somme useful methods: </p>
+<p>Some useful methods: </p>
 <ul>
 <li><code>carrierTile()</code> returning the current tile position of the carrier.</li>
 <li><code>carrierMission()</code> returning the current mission identifier.</li>
@@ -182,7 +190,7 @@ To this effect, it is possible to download a complete launch file that will star
 <ul>
 <li>Archives to download: <a href="../../resources/pickndel.zip">.zip</a></li>
 </ul>
-<p>The <code>pickndel.py</code> launch script will start a game accordingly to the configuration given as command argument:</p>
+<p>The <code>pickndel.py</code> launch script will start a game according to the configuration given as command argument:</p>
 <p>For instance </p>
 <pre><code class="language-sh">python3 pickndel.py conf-pnd-medium-02.json
 </code></pre>
