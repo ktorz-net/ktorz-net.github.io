@@ -70,19 +70,16 @@
               <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../basic/">Basic Computation</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">LLM Based</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../model-based/">Model Based</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../decision-tree/">Decision Tree</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">LLM Based</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Tuto: Reinforcement Learning</span></p>
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../learning/qlearning/">Q-Learning</a>
                   </li>
-              </ul>
-              <p class="caption"><span class="caption-text">Tuto: Model Based</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../model-based/mdp/">Markov Decision Process</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../learning/decision-tree/">Decision Tree</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Under the hood</span></p>
@@ -120,13 +117,382 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="using-text-generation-to-decide">Using Text Generation to Decide</h1>
+<p>This tutorial takes a side step: instead of learning a policy from rewards, you let a
+<strong>Large Language Model (LLM)</strong> — a neural network trained on huge text corpora to
+predict and generate text
+(<a href="https://en.wikipedia.org/wiki/Large_language_model">Wikipedia, 2026</a>) — read the current
+game state and decide which action to take.</p>
+<p>The same pipeline is reused throughout:</p>
+<ol>
+<li>A <em>prompt</em> describes the state.</li>
+<li>The model replies with text.</li>
+<li>A small parser turns that text into a valid game action.</li>
+</ol>
+<hr />
+<h2 id="ollama-an-llm-api-tool">Ollama, an LLM API Tool</h2>
+<p>A pre-trained LLM already encodes common-sense knowledge and some strategic patterns for
+well-known problems, so you can expect a working policy with almost no training data.</p>
+<p>We use <a href="https://ollama.com/">Ollama</a>, a local runner for open-weight models.
+This tutorial requires:</p>
+<ol>
+<li>Creation of a free account on <em>Ollama</em>.</li>
+<li>A local installation: <a href="https://ollama.com/download">macOS / Linux / Windows instructions</a>.</li>
+</ol>
+<p><em>Ollama</em> is a terminal-based solution. Here are some <em>ollama</em> commands:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ollama -v</code></td>
+<td>Print the Ollama version.</td>
+</tr>
+<tr>
+<td><code>ollama serve</code></td>
+<td>Start the local Ollama daemon/server.</td>
+</tr>
+<tr>
+<td><code>ollama run &lt;model&gt;</code></td>
+<td>Run a model interactively (downloads it if missing).</td>
+</tr>
+<tr>
+<td><code>ollama run &lt;model&gt; "prompt"</code></td>
+<td>One-shot prompt, useful in scripts.</td>
+</tr>
+<tr>
+<td><code>ollama pull &lt;model&gt;</code></td>
+<td>Download a model's weights.</td>
+</tr>
+<tr>
+<td><code>ollama ls</code></td>
+<td>List locally downloaded models.</td>
+</tr>
+<tr>
+<td><code>ollama ps</code></td>
+<td>Show running models and their GPU/CPU placement.</td>
+</tr>
+<tr>
+<td><code>ollama stop &lt;model&gt;</code></td>
+<td>Unload a running model from memory.</td>
+</tr>
+<tr>
+<td><code>ollama rm &lt;model&gt;</code></td>
+<td>Delete a downloaded model.</td>
+</tr>
+<tr>
+<td><code>ollama show &lt;model&gt;</code></td>
+<td>Display model metadata and parameters.</td>
+</tr>
+<tr>
+<td><code>ollama signin</code></td>
+<td>Authenticate with your Ollama account.</td>
+</tr>
+<tr>
+<td><code>ollama launch &lt;harness&gt; --model &lt;model&gt;</code></td>
+<td>Start a harness backed by a model.</td>
+</tr>
+<tr>
+<td><code>/bye</code> (in session)</td>
+<td>Exit the interactive chat.</td>
+</tr>
+<tr>
+<td><code>/set parameter &lt;name&gt; &lt;value&gt;</code> (in session)</td>
+<td>Tune sampling/context at runtime.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="run-a-model-locally">Run a Model Locally</h3>
+<p>A <em>local model</em> runs entirely on your own machine: no network, no account, no cost per
+call. Ollama downloads the weights once (<code>ollama pull</code>) and keeps them in a local store
+(default <code>~/.ollama/models</code>). The first <code>run</code> may download the model if it is not
+already present.</p>
+<p>Start an interactive session with the smallest recent Llama (~2GB model):</p>
+<pre><code class="language-bash">ollama run llama3.2
+</code></pre>
+<p>You are now in a chat loop. Type a prompt and press Enter; the model streams its
+answer back in the terminal. Type <code>/bye</code> to exit.</p>
+<p>For a one-shot call (useful in scripts or to test a prompt):</p>
+<pre><code class="language-bash">ollama run llama3.2 &quot;Hello, world&quot;
+</code></pre>
+<p>On the first prompt the model has to be loaded; afterwards the response latency is
+considerably reduced. <em>Ollama</em> keeps the model loaded for a few minutes. The command
+<code>ollama ps</code> lets you list those ready-to-use models and how they are loaded (CPU vs.
+GPU).</p>
+<p>Example output:</p>
+<pre><code class="language-sh">NAME          ID            SIZE    PROCESSOR    UNTIL
+llama3:70b    bcfb190...    42 GB   100% GPU     4 minutes from now
+</code></pre>
+<p><em>Ollama</em> gives you access to a large variety of open-weight models:
+<a href="https://ollama.com/search">ollama.com/search</a>.</p>
+<h3 id="run-a-cloud-model">Run a Cloud Model</h3>
+<p>It is also possible to use <em>Ollama</em> with cloud models. Cloud models use the exact same
+CLI and API as local ones, so your code does not change — only the model name. With
+this architecture all your requests — and only your requests — go to a server somewhere
+on Earth.</p>
+<p>Let us play, for instance, with <a href="https://ollama.com/library/gemma4">gemma4</a>:</p>
+<pre><code class="language-bash">ollama run gemma4:cloud
+</code></pre>
+<p>You will be asked to link your local <em>Ollama</em> to your <em>ollama.com</em> account.</p>
+<p>The run environment lets users interact with the Ollama harness and the model
+configuration using <code>\commands</code>. For instance:</p>
+<ul>
+<li><code>/?</code> or <code>/help</code> — list the main commands.</li>
+<li><code>/set parameter temperature 0.1</code> — tune sampling (see "Tune the Model").</li>
+<li><code>/set parameter num_ctx 4096</code> — enlarge the context window.</li>
+<li><code>/show info</code> — inspect the model's metadata.</li>
+<li><code>/bye</code> — quit.</li>
+</ul>
+<p>Example prompt:</p>
+<pre><code class="language-bash">ollama run gemma4:cloud &quot;Explain Markov decision processes in one sentence.&quot;
+</code></pre>
+<p>First, we notice that most recent models include thinking mechanisms. Second, we can
+trace the consumption of <em>tokens</em> on the remote service:
+<a href="https://ollama.com/dashboard">ollama.com/dashboard</a>.</p>
+<h3 id="tune-the-model-with-ollama">Tune the Model with Ollama</h3>
+<p>LLM models, including thinking mechanisms, can be controlled with parameters. They
+modify the possible responses in terms of quality, inventiveness, and the way they are
+produced, directly impacting latency.</p>
+<p>Typically, inventiveness is controlled by <strong>temperature</strong> (and related sampling
+parameters). A low temperature (<code>0.0</code>–<code>0.2</code>) makes the model deterministic and
+repeatable; a high temperature makes it creative but erratic — bad for a game bot.</p>
+<p>Other classical parameters relate to context definition, token selection hazards, etc.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Effect</th>
+<th>Typical value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td>Creativity vs. determinism.</td>
+<td><code>0.0</code>–<code>0.2</code> for a bot</td>
+</tr>
+<tr>
+<td><code>num_ctx</code></td>
+<td>Context window size (input + output tokens).</td>
+<td><code>2048</code>–<code>8192</code></td>
+</tr>
+<tr>
+<td><code>top_p</code> (nucleus)</td>
+<td>Keep tokens whose cumulative probability reaches <code>p</code>.</td>
+<td><code>0.8</code>–<code>0.95</code></td>
+</tr>
+<tr>
+<td><code>top_k</code></td>
+<td>Keep only the <code>k</code> most likely next tokens.</td>
+<td><code>20</code>–<code>50</code></td>
+</tr>
+<tr>
+<td><code>repeat_penalty</code></td>
+<td>Penalize tokens already generated (reduces loops).</td>
+<td><code>1.0</code>–<code>1.2</code></td>
+</tr>
+<tr>
+<td><code>presence_penalty</code> / <code>frequency_penalty</code></td>
+<td>Penalize reuse of tokens (less common in Ollama).</td>
+<td><code>0.0</code>–<code>1.0</code></td>
+</tr>
+<tr>
+<td><code>mirostat</code></td>
+<td>Adaptive sampling for stable perplexity.</td>
+<td><code>0</code> (off) or <code>2</code></td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>Fixed RNG seed for reproducible runs.</td>
+<td>any integer</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>Strings that end generation early (e.g. <code>"\n"</code>).</td>
+<td>list of strings</td>
+</tr>
+<tr>
+<td><code>num_predict</code></td>
+<td>Max number of tokens to generate.</td>
+<td><code>-1</code> (unlimited) or a cap</td>
+</tr>
+</tbody>
+</table>
+<p>The cleanest way to keep these settings is to bake them into a <code>Modelfile.conf</code>
+(Ollama's config file) and create a tuned model. It also lets you record some context
+elements via the <code>SYSTEM</code> parameter.</p>
+<pre><code class="language-text"># Modelfile
+FROM llama3.2
+PARAMETER temperature 0.1
+PARAMETER num_ctx 4096
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+PARAMETER repeat_penalty 1.1
+PARAMETER seed 42
+SYSTEM &quot;You are a game player seeking the appropriate action to perform in a particular situation.&quot;
+</code></pre>
+<p>This way it is possible to build and use the tuned model:</p>
+<pre><code class="language-bash">ollama create player-llama -f Modelfile.conf
+ollama run player-llama
+</code></pre>
+<hr />
+<h2 id="search-a-421-prompt">Search a 421 Prompt</h2>
+<p>We identified and learned how to use an LLM toolbox. Let us now apply it to <em>Py421</em>.</p>
+<p>The goal is to define a prompt that makes the model output a value you can parse
+directly — typically an action formatted as <code>keep-keep-roll</code> for the three dice of
+<em>Py421</em>. Try a few variants across several models with <code>ollama run</code> to identify an
+appropriate combination.</p>
+<p><strong>Prompt engineering</strong> is the practice of wording prompts so the model reliably
+produces the desired format
+(<a href="https://en.wikipedia.org/wiki/Prompt_engineering">Wikipedia, 2026</a>).</p>
+<p>Compare: does it follow the format? Does it add explanations? Does it change with
+temperature? Write down the variant that works best and reuse it in code.</p>
+<blockquote>
+<p><strong>Tips</strong>
+- Be explicit about the output format and give one example.
+- Ask for "only" the answer, and nothing else.
+- Prefer short, structured prompts over long prose.</p>
+</blockquote>
+<p>To notice that, some models are dedicated to <a href="https://ollama.com/search?c=decision">decision</a>, but exploring those solutions are out of the scope of this first tutorial. 
+Also, not all cloud models are availlable in free subscription some interresting candidates are <em>gemma4</em>, <em>beam</em>. </p>
+<hr />
+<h2 id="agent-harness">Agent Harness</h2>
+<p>"An agent harness, also known as agent scaffolding, is the software infrastructure
+surrounding a large language model (LLM) that enables it to operate as an AI agent."
+<a href="https://en.wikipedia.org/wiki/Agent_harness">Wikipedia, 2026</a>.</p>
+<p>In practice this means: code that calls the model, parses its answer, and feeds the
+result back to the game loop. Building this wrapper ("harness") is the core of this
+tutorial.</p>
+<p>Typically it consists of using the Ollama Python API:</p>
+<pre><code class="language-python">import ollama
+
+prompt = &quot;My beautiful tuned prompt&quot;
+response = ollama.generate(model=&quot;llama3.2&quot;, prompt=prompt)
+print(response[&quot;response&quot;])
+</code></pre>
+<p>Note that Ollama provides a <code>chat()</code> option in place of <code>generate()</code>:</p>
+<ul>
+<li><strong><code>chat()</code> (chat completion)</strong> — takes a list of messages with roles (<code>system</code>,
+  <code>user</code>, <code>assistant</code>) and maintains a conversation context. Use it when you want
+  multi-turn dialogue, role conditioning, or when the model is instruction-tuned to
+  follow chat templates. The reply is <code>response["message"]["content"]</code>.</li>
+<li><strong><code>generate()</code> (non-chat completion, raw completion)</strong> — takes a single prompt
+  string and continues it as plain text, with no implicit chat template. Use it for
+  free-form text continuation, or when you format the whole prompt yourself. The reply
+  is <code>response["response"]</code>.</li>
+</ul>
+<p>In practice, prefer <code>chat()</code> with a clear system/user split; fall back to <code>generate()</code>
+if you control the full prompt text.</p>
+<p>For a chat completion:</p>
+<pre><code class="language-python">response = ollama.chat(
+    model=&quot;llama3.2&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+)
+print(response[&quot;message&quot;][&quot;content&quot;])
+</code></pre>
+<p>We now need to extract the core component (the action to perform, in our case) from
+potentially verbose responses. For that we need <strong>regular expressions</strong> — patterns
+describing a set of strings
+(<a href="https://en.wikipedia.org/wiki/Regular_expression">Wikipedia</a>). The <em>re</em> module in
+Python provides regular expression matching operations:
+<a href="https://docs.python.org/3/library/re.html">docs.python.org</a>.</p>
+<p>In our case the code looks like:</p>
+<pre><code class="language-python">import re
+
+def parse_action(text):
+    match = re.search(r&quot;(keep|roll)-(keep|roll)-(keep|roll)&quot;, text.lower())
+    if match:
+        return match.group(0)
+    # Fallback when the model misbehaves:
+    return &quot;keep-keep-keep&quot;
+</code></pre>
+<p>Test it on both clean and noisy outputs:</p>
+<pre><code class="language-python">parse_action(&quot;keep-roll-roll&quot;)                       # -&gt; &quot;keep-roll-roll&quot;
+parse_action(&quot;I think you should keep-roll-roll.&quot;)  # -&gt; &quot;keep-roll-roll&quot;
+parse_action(&quot;no idea&quot;)                             # -&gt; &quot;keep-keep-keep&quot;
+</code></pre>
+<hr />
+<h2 id="create-a-bot-for-py421">Create a Bot for Py421</h2>
+<p>Last step: wrap the previous pieces in a Py421 player. The player stores the horizon
+and dice, builds a prompt from <code>perceive</code>, calls the model in <code>decide</code>, and parses the
+result.</p>
+<p><strong>Resource conception:</strong> an LLM-based bot needs more CPU/GPU and RAM than a classic
+policy table. Size your machine for the chosen model (see the
+<a href="https://docs.ollama.com/gpu">Ollama GPU documentation</a> and the
+<a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md">GPU support notes</a>) and budget
+latency headroom so the game loop never starves.</p>
+<pre><code class="language-python">class LLMBot:
+    def __init__(self, model=&quot;player-llama&quot;):
+        self._model = model
+        self._horizon = None
+        self._dice = None
+
+    def wakeUp(self, playerId, numberOfPlayers, gameConf):
+        self._state = &quot;3-4-2-1&quot;   # placeholder
+        self._action = &quot;keep-keep-keep&quot;
+
+    def perceive(self, gameState):
+        self._horizon = gameState.child(1).digit(1)
+        self._dice = gameState.child(2).digits()
+
+    def decide(self):
+        prompt = (
+            f&quot;Py421 state: horizon={self._horizon}, dice={self._dice}. &quot;
+            f&quot;Choose keep or roll for each die. Answer ONLY as three words &quot;
+            f&quot;joined by dashes, e.g. keep-roll-roll.&quot;
+        )
+        resp = ollama.chat(
+            model=self._model,
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+            options={&quot;temperature&quot;: 0.1},
+        )
+        text = resp[&quot;message&quot;][&quot;content&quot;]
+        return parse_action(text)
+
+    def sleep(self, finalState):
+        pass
+</code></pre>
+<p>Try the solution in a few games, but not too many (or only with a local model): LLM
+-based AIs are not fast enough, and more importantly your tokens are precious.</p>
+<hr />
+<h2 id="go-further-open-source-harnesses">Go Further — Open-Source Harnesses</h2>
+<p><em>Ollama</em> comes with several open-source harnesses to connect with open-weight models.</p>
+<ul>
+<li><strong>OpenCode</strong> — a coding-focused harness you can drive from the terminal. It reads
+  your repository, edits files, and runs commands, all backed by a chosen model. Useful
+  here to generate and iterate on the Py421 bot, regression tests, and evaluation
+  scripts.</li>
+<li><strong>Hermes</strong> — a general-purpose autonomous harness (the one this environment runs
+  on). It keeps a long-lived agent loop, can delegate sub-tasks, and persists
+  memory/skills across sessions. Useful for longer experiments that need state and
+  reproducibility.</li>
+<li><strong>OpenClaw</strong> — an open-source harness exposing an OpenAI-compatible interface,
+  handy for swapping providers without changing client code.</li>
+</ul>
+<p>With <code>ollama launch</code> you can control which model a harness uses (and which backend it
+talks to):</p>
+<pre><code class="language-bash">ollama launch opencode --model gemma4:cloud
+</code></pre>
+<p>With <em>OpenCode</em>, you can ask for a test bench that validates decisions on obvious states
+are as expected. With the appropriate prompt, <em>OpenCode</em> generates a
+<code>test_llm_decision.py</code> file that you can process with <code>pytest</code>:</p>
+<pre><code class="language-bash">pytest test_llm_decision.py
+# or
+python -m pytest test_llm_decision.py
+</code></pre>
+<blockquote>
+<p>As an example, this tutorial was written with the help of Hermes coupled to a tuned gemma4:cloud model.</p>
+</blockquote>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../basic/" class="btn btn-neutral float-left" title="Basic Computation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../decision-tree/" class="btn btn-neutral float-right" title="Decision Tree">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../model-based/" class="btn btn-neutral float-left" title="Model Based"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../learning/qlearning/" class="btn btn-neutral float-right" title="Q-Learning">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -149,10 +515,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../basic/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../model-based/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../decision-tree/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../learning/qlearning/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
