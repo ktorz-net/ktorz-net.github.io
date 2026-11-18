@@ -360,7 +360,7 @@ temperature? Write down the variant that works best and reuse it in code.</p>
 <p>To notice that, some models are dedicated to <a href="https://ollama.com/search?c=decision">decision</a>, but exploring those solutions are out of the scope of this first tutorial. 
 Also, not all cloud models are availlable in free subscription some interresting candidates are <em>gemma4</em>, <em>beam</em>. </p>
 <hr />
-<h2 id="agent-harness">Agent Harness</h2>
+<h2 id="agent-harness-ollama">Agent Harness Ollama</h2>
 <p>"An agent harness, also known as agent scaffolding, is the software infrastructure
 surrounding a large language model (LLM) that enables it to operate as an AI agent."
 <a href="https://en.wikipedia.org/wiki/Agent_harness">Wikipedia, 2026</a>.</p>
@@ -394,6 +394,30 @@ if you control the full prompt text.</p>
 )
 print(response[&quot;message&quot;][&quot;content&quot;])
 </code></pre>
+<hr />
+<h2 id="agent-harness-openai">Agent Harness OpenAI</h2>
+<p>Alternatively to ollama, and mostly to access cloud model. It is possible to rely on the <code>openai</code> SDK to get access to any model trough any provider. </p>
+<p>Using <em>OpenRouter</em> provider with a free model provided by NVidia the code will be : </p>
+<pre><code class="language-python">from openai import OpenAI
+
+# 1. Initialiser le client en remplaçant base_url
+client = OpenAI(
+    base_url=&quot;https://openrouter.ai/api/v1&quot;,
+    api_key=&quot;sk-or-v1-5fyour-sdk-keyc7ac&quot;
+)
+
+# 2. Appeler le modèle en utilisant le format &quot;fournisseur/modèle&quot;
+completion = client.chat.completions.create(
+    model=&quot;nvidia/nemotron-3-ultra-550b-a55b:free&quot;,  # Peut également être remplacé par d'autres modèles comme &quot;mistralai/mistral-large&quot;
+    messages=[
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explique-moi en une phrase ce qu'est l'informatique quantique.&quot;}
+    ]
+)
+
+print(completion.choices[0].message.content)
+</code></pre>
+<hr />
+<h2 id="agent-harness-next-step">Agent Harness - Next-Step</h2>
 <p>We now need to extract the core component (the action to perform, in our case) from
 potentially verbose responses. For that we need <strong>regular expressions</strong> — patterns
 describing a set of strings
