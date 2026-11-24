@@ -1,13 +1,25 @@
 :root {
---color-white: rgb(255,255,250);
---color-main: rgb(121, 197, 186);
---color-alt1: rgb(109, 155, 148);
---color-alt2: rgb(192, 237, 230);
---color-dark: rgb(13,5,77);
---color-contrast: rgb(160, 102, 131);
---color-grey: rgb(220,220,220);
-
 --color-black: rgb(0,0,0);
+--color-white: rgb(255,255,250);
+--color-main0: rgb(255, 224, 192);
+--color-main0-6: rgba(255, 224, 192, 0.64);
+--color-main0-0: rgba(96, 48, 32, 0.08);
+--color-main1: rgb(176, 64, 48);
+--color-main2: rgb(96, 48, 32);
+--color-main2-5: rgba(96, 48, 32, 0.56);
+--color-main2-2: rgba(96, 48, 32, 0.22);
+--color-main3: rgb(40, 18, 8);
+--color-main3-9: rgba(40, 18, 8, 0.94);
+--color-main3-6: rgba(40, 18, 8, 0.64);
+--color-main3-2: rgba(40, 18, 8, 0.22);
+--color-alt0: rgb(208, 240, 224);
+--color-alt0-0: rgba(208, 240, 224, 0.08);
+--color-alt0-6: rgba(208, 240, 224, 0.64);
+--color-alt1: rgb(64, 192, 160);
+--color-alt2: rgb(48, 128, 112);
+--color-alt3: rgb(16,64,48);
+--color-grey1: rgb(220,220,220);
+--color-grey2: rgb(112,112,112);
 }
 
 body {
@@ -22,7 +34,7 @@ background-color: var(--color-white);
 
 article {
 font-size: 12pt;
-/*border-left: solid 8pt var(--color-grey);*/
+/*border-left: solid 8pt var(--color-grey1);*/
 padding-bottom: 80pt;
 }
 
@@ -33,7 +45,7 @@ padding: 10pt 0pt;
 
 h2 {
 margin: 20pt 0pt 12pt 0pt;
-color: var(--color-dark);
+color: var(--color-grey2);
 font-size: 16pt;
 }
 
@@ -48,18 +60,18 @@ text-align: justify;
 }
 
 a {
-color: var(--color-dark);
+color: var(--color-alt3);
 }
 
 a:hover {
-color: var(--color-main);
+color: var(--color-main1);
 }
 
 /* Header */
 header{
 min-height: 80pt;
 padding: 10pt 10pt;
-background-color: var(--color-grey);
+background-color: var(--color-grey1);
 }
 
 header img {
@@ -80,37 +92,156 @@ font-variant: small-caps;
 margin: 0pt;
 margin-top: 10pt;
 text-align: right;
+color: var(--color-main3);
 }
 
 header p {
 margin: 0pt;
 text-align: right;
 }
-/* Boxes */
+
+/* Selectors : project vignettes */
+.selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240pt), 1fr));
+    gap: 18pt;
+}
+
 .box {
-display: block;
-float: left;
-width: 260pt;
-height: 140pt;
-padding: 10pt;
-background-color: var(--color-main);
-text-decoration: none;
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 180pt;
+    padding: 20pt;
+    overflow: hidden;
+    border: 1pt solid var(--color-main3-2);
+    border-radius: 10pt;
+    background-color: var(--color-alt3);
+    box-shadow: 0 3pt 8pt var(--color-grey1);
+    color: var(--color-white);
+    transform: translateY(0);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
-.box:nth-child(2n){
-background-color: var(--color-alt1);
+
+.box-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
-.box:nth-child(3n+3){
-background-color: var(--color-alt2);
+
+.box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(120deg, var(--color-main3-9), var(--color-main3-6), var(--color-main2-5), var(--color-main2-2), var(--color-main0-0));
+    pointer-events: none;
 }
-.box:nth-child(5n+2){
-background-color: var(--color-contrast);
+
+.box > :not(.box-image) {
+    position: relative;
+    z-index: 2;
 }
-.box:hover {
-background-color: var(--color-grey);
+
+.box:hover,
+.box:focus-within {
+    border-color: var(--color-main3);
+    box-shadow: 0 12pt 28pt var(--color-main2-5);
+    color: var(--color-white);
+    transform: translateY(-4pt);
 }
-.box h3{
-color: var(--color-black);
+
+.box h3 {
+    margin: 0 0 10pt;
+    color: var(--color-white);
+    font-size: 18pt;
 }
-.box p{
-color: var(--color-black);
+
+.box p {
+    margin: 0 0 20pt;
+    color: var(--color-white);
+    line-height: 1.5;
+    text-align: left;
+}
+
+.box-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8pt;
+    margin-top: auto;
+    opacity: 0;
+    transform: translateY(6pt);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.box-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7pt;
+    padding: 7pt 11pt;
+    border: 1pt solid transparent;
+    border-radius: 5pt;
+    font-size: 10pt;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+}
+
+.read-more {
+    background-color: var(--color-alt1);
+    color: var(--color-alt3);
+}
+
+.github-link {
+    border-color: var(--color-alt0-6);
+    background-color: var(--color-alt0-0);
+    color: var(--color-white);
+}
+
+.box .read-more:hover {
+    background-color: var(--color-alt2);
+    color: var(--color-alt3);
+}
+
+.box .github-link:hover {
+    background-color: var(--color-white);
+    color: var(--color-alt3);
+}
+
+.box-button:focus-visible {
+    outline: 3pt solid var(--color-alt2);
+    outline-offset: 2pt;
+}
+
+.box:hover .box-actions,
+.box:focus-within .box-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Buttons stay visible when hover is unavailable (touch screens). */
+@media (hover: none) {
+    .box-actions {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .box,
+    .box-actions,
+    .box-button {
+        transition: none;
+    }
+
+    .box:hover,
+    .box:focus-within {
+        transform: none;
+    }
 }
